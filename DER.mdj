@@ -404,6 +404,21 @@
 									"subViews": [
 										{
 											"_type": "ERDColumnView",
+											"_id": "AAAAAAFtbx7AmkmZSCM=",
+											"_parent": {
+												"$ref": "AAAAAAFtZOp7dxGG5IA="
+											},
+											"model": {
+												"$ref": "AAAAAAFtbx7AREmWH30="
+											},
+											"font": "Arial;13;0",
+											"left": 509,
+											"top": 508,
+											"width": 144.40087890625,
+											"height": 13
+										},
+										{
+											"_type": "ERDColumnView",
 											"_id": "AAAAAAFtZOqWwBGT88g=",
 											"_parent": {
 												"$ref": "AAAAAAFtZOp7dxGG5IA="
@@ -413,7 +428,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 509,
-											"top": 508,
+											"top": 523,
 											"width": 144.40087890625,
 											"height": 13
 										},
@@ -428,7 +443,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 509,
-											"top": 523,
+											"top": 538,
 											"width": 144.40087890625,
 											"height": 13
 										},
@@ -443,7 +458,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 509,
-											"top": 538,
+											"top": 553,
 											"width": 144.40087890625,
 											"height": 13
 										}
@@ -452,14 +467,14 @@
 									"left": 504,
 									"top": 503,
 									"width": 154.40087890625,
-									"height": 53
+									"height": 68
 								}
 							],
 							"font": "Arial;13;0",
 							"left": 504,
 							"top": 480,
 							"width": 154.40087890625,
-							"height": 76,
+							"height": 91,
 							"nameLabel": {
 								"$ref": "AAAAAAFtZOp7dxGFozI="
 							},
@@ -2067,7 +2082,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFtZOD+zxDcfok="
 							},
-							"name": "NombreUsuario",
+							"name": "Usuario_ID",
 							"tags": [
 								{
 									"_type": "Tag",
@@ -2292,13 +2307,22 @@
 					"columns": [
 						{
 							"_type": "ERDColumn",
+							"_id": "AAAAAAFtbx7AREmWH30=",
+							"_parent": {
+								"$ref": "AAAAAAFtZOp7dhGCe00="
+							},
+							"name": "Usuario_ID",
+							"length": 0,
+							"primaryKey": true
+						},
+						{
+							"_type": "ERDColumn",
 							"_id": "AAAAAAFtZOqWnxGQk2A=",
 							"_parent": {
 								"$ref": "AAAAAAFtZOp7dhGCe00="
 							},
 							"name": "NombreUsuario",
-							"length": 0,
-							"primaryKey": true
+							"length": 0
 						},
 						{
 							"_type": "ERDColumn",
