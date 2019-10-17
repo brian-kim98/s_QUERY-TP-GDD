@@ -16,5 +16,10 @@ namespace FrbaOfertas.RegistroUsuario.AbmCliente
         {
             InitializeComponent();
         }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }

@@ -92,10 +92,10 @@
     <Compile Include="ComprarOferta\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="CragaCredito\Form1.cs">
+    <Compile Include="CargaCredito\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CragaCredito\Form1.Designer.cs">
+    <Compile Include="CargaCredito\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="CrearOferta\Form1.cs">
@@ -166,6 +166,9 @@
     <EmbeddedResource Include="AbmRol\ListadoSeleccionRol.resx">
       <DependentUpon>ListadoSeleccionRol.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="CargaCredito\Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LoginYSeguridad\Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>
@@ -181,8 +184,14 @@
     <EmbeddedResource Include="RegistroUsuario\AbmCliente\AltaCliente.resx">
       <DependentUpon>AltaCliente.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="RegistroUsuario\AbmCliente\ListadoClientes.resx">
+      <DependentUpon>ListadoClientes.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="RegistroUsuario\AbmProveedor\AltaProveedor.resx">
       <DependentUpon>AltaProveedor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RegistroUsuario\AbmProveedor\ListadoProveedores.resx">
+      <DependentUpon>ListadoProveedores.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RegistroUsuario\RegistroUsuario.resx">
       <DependentUpon>RegistroUsuario.cs</DependentUpon>
