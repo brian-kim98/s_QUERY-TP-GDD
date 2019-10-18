@@ -32,6 +32,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Microsoft.VisualBasic.PowerPacks.Vs, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -62,12 +64,6 @@
     <Compile Include="RegistroUsuario\AbmCliente\ListadoClientes.Designer.cs">
       <DependentUpon>ListadoClientes.cs</DependentUpon>
     </Compile>
-    <Compile Include="RegistroUsuario\AbmProveedor\Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="RegistroUsuario\AbmProveedor\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
     <Compile Include="AbmRol\AltaRol.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -92,23 +88,23 @@
     <Compile Include="AbmRol\ListadoSeleccionRol.Designer.cs">
       <DependentUpon>ListadoSeleccionRol.cs</DependentUpon>
     </Compile>
-    <Compile Include="ComprarOferta\Form1.cs">
+    <Compile Include="ComprarOferta\ComprarOferta.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ComprarOferta\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="ComprarOferta\ComprarOferta.Designer.cs">
+      <DependentUpon>ComprarOferta.cs</DependentUpon>
     </Compile>
-    <Compile Include="CargaCredito\Form1.cs">
+    <Compile Include="CargaCredito\CargaCredito.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CargaCredito\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="CargaCredito\CargaCredito.Designer.cs">
+      <DependentUpon>CargaCredito.cs</DependentUpon>
     </Compile>
-    <Compile Include="CrearOferta\Form1.cs">
+    <Compile Include="CrearOferta\CrearOferta.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CrearOferta\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="CrearOferta\CrearOferta.Designer.cs">
+      <DependentUpon>CrearOferta.cs</DependentUpon>
     </Compile>
     <Compile Include="Facturar\Form1.cs">
       <SubType>Form</SubType>
@@ -172,8 +168,14 @@
     <EmbeddedResource Include="AbmRol\ListadoSeleccionRol.resx">
       <DependentUpon>ListadoSeleccionRol.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CargaCredito\Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="CargaCredito\CargaCredito.resx">
+      <DependentUpon>CargaCredito.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ComprarOferta\ComprarOferta.resx">
+      <DependentUpon>ComprarOferta.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrearOferta\CrearOferta.resx">
+      <DependentUpon>CrearOferta.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ComprarOferta\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

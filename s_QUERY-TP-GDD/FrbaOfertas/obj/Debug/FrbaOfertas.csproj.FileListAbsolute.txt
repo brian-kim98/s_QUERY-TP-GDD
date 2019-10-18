@@ -1,3 +1,7 @@
 C:\Users\Matias\Desktop\Groupon2019\src\FrbaOfertas\FrbaOfertas\bin\Debug\FrbaOfertas.exe.config
 D:\UTN\Gestión de Datos\TP\TP Frba Cupon 1.0 - 2C 2019 -Actualizado\Aplicacion\FrbaOfertas\FrbaOfertas\bin\Debug\FrbaOfertas.exe.config
+<<<<<<< HEAD
 D:\UTN\Gestión de Datos\s_QUERY-TP-GDD\s_QUERY-TP-GDD\FrbaOfertas\bin\Debug\FrbaOfertas.exe.config
+=======
+C:\Users\Dell\Documents\UTN\3er año\Gestion de Datos\s_QUERY-TP-GDD\s_QUERY-TP-GDD\FrbaOfertas\bin\Debug\FrbaOfertas.exe.config
+>>>>>>> a42e05993d99ad2d0e623ac7557679ac2abd4326
