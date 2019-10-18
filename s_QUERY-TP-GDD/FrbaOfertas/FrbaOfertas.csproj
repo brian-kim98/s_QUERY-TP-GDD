@@ -44,6 +44,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EntregaOferta\Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EntregaOferta\Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
     <Compile Include="RegistroUsuario\AbmCliente\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -167,6 +173,15 @@
       <DependentUpon>ListadoSeleccionRol.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CargaCredito\Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ComprarOferta\Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrearOferta\Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EntregaOferta\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LoginYSeguridad\Login.resx">
