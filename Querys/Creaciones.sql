@@ -37,13 +37,13 @@ CREATE TABLE [GD2C2019].[S_QUERY].Tipo_Pago(
 GO
 
 CREATE TABLE [GD2C2019].[S_QUERY].Cliente(
-	clie_codigo INT PRIMARY KEY,
-	clie_nombre VARCHAR(20) NOT NULL,
-	clie_apellido VARCHAR(20) NOT NULL,
-	clie_dni CHAR(8) NOT NULL, /*unique?*/
-	clie_mail VARCHAR(64),
-	clie_telefono BIGINT,
-	clie_fecha_nacimiento DATE NOT NULL,
+	clie_codigo INT IDENTITY(1,1) PRIMARY KEY,
+	clie_nombre NVARCHAR(255) NOT NULL,
+	clie_apellido NVARCHAR(255) NOT NULL,
+	clie_dni NUMERIC(18,0) NOT NULL, /*unique?*/
+	clie_mail NVARCHAR(255),
+	clie_telefono NUMERIC(18, 0 ),
+	clie_fecha_nacimiento DATETIME NOT NULL,
 	clie_saldo FLOAT,
 	direc_codigo INT,
 	usuario_codigo INT,
@@ -52,15 +52,16 @@ CREATE TABLE [GD2C2019].[S_QUERY].Cliente(
 )
 GO
 
-CREATE TABLE [GD2C2019].[S_QUERY].Proovedor(
-	prov_codigo INT PRIMARY KEY,
-	prov_razon_social VARCHAR(255) NOT NULL,
-	prov_cuit CHAR(11), /*unique?*/
-	prov_mail VARCHAR(64),
+CREATE TABLE [GD2C2019].[S_QUERY].Proveedor(
+	prov_codigo INT IDENTITY(1,1) PRIMARY KEY,
+	prov_razon_social NVARCHAR(255) NOT NULL,
+	prov_cuit NVARCHAR(20), /*unique?*/
+	prov_mail NVARCHAR(255),
 	prov_ciudad VARCHAR(64) NOT NULL,
-	prov_telefono BIGINT,
+	prov_telefono NUMERIC(18,0),
 	prov_nombre_contacto VARCHAR(64),
-	prov_habilitado CHAR(1) NOT NULL,
+	prov_habilitado BIT NOT NULL,
+	prov_rubro NVARCHAR(100),
 	direc_codigo INT,
 	usuario_codigo INT,
 	FOREIGN KEY (direc_codigo) REFERENCES S_QUERY.Direccion(direc_codigo),
