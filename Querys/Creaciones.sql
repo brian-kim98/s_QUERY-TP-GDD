@@ -1,21 +1,27 @@
-
+BEGIN TRANSACTION
 CREATE TABLE [GD2C2019].[S_QUERY].Usuario(
-	usuario_codigo INT PRIMARY KEY,
+	usuario_codigo INT IDENTITY(1,1) PRIMARY KEY,
 	usuario_nombre VARCHAR(20) NOT NULL,  
 	usuario_contraseña VARCHAR(256) NOT NULL,
 
 )
 GO
 
+CREATE TABLE [GD2C2019].[S_QUERY].Rubro(
+	rubro_codigo INT IDENTITY(1,1) PRIMARY KEY,
+	rubro_nombre NVARCHAR(100) NOT NULL
+)
+GO
+
 CREATE TABLE [GD2C2019].[S_QUERY].Rol(
-	rol_codigo INT PRIMARY KEY,
+	rol_codigo INT IDENTITY(1,1) PRIMARY KEY,
 	rol_nombre VARCHAR(20) NOT NULL,
 	rol_estado CHAR(1) NOT NULL
 )
 GO
 
 CREATE TABLE [GD2C2019].[S_QUERY].Direccion(	
-	direc_codigo INT PRIMARY KEY,
+	direc_codigo INT IDENTITY(1,1) PRIMARY KEY,
 	direc_localidad VARCHAR(255) NOT NULL,
 	direc_calle VARCHAR(255) NOT NULL,
 	direc_nro INT NOT NULL,
@@ -25,13 +31,13 @@ CREATE TABLE [GD2C2019].[S_QUERY].Direccion(
 GO
 
 CREATE TABLE [GD2C2019].[S_QUERY].Funcionalidad(
-	func_codigo INT PRIMARY KEY,
+	func_codigo INT IDENTITY(1,1) PRIMARY KEY,
 	func_nombre VARCHAR(32) NOT NULL
 )
 GO
 
 CREATE TABLE [GD2C2019].[S_QUERY].Tipo_Pago(
-	tipo_pago_codigo INT PRIMARY KEY,
+	tipo_pago_codigo INT IDENTITY(1,1) PRIMARY KEY,
 	tipo_pago_nombre VARCHAR(20) NOT NULL
 )
 GO
@@ -61,11 +67,12 @@ CREATE TABLE [GD2C2019].[S_QUERY].Proveedor(
 	prov_telefono NUMERIC(18,0),
 	prov_nombre_contacto VARCHAR(64),
 	prov_habilitado BIT NOT NULL,
-	prov_rubro NVARCHAR(100),
+	rubro_codigo INT,
 	direc_codigo INT,
 	usuario_codigo INT,
 	FOREIGN KEY (direc_codigo) REFERENCES S_QUERY.Direccion(direc_codigo),
-	FOREIGN KEY (usuario_codigo) REFERENCES S_QUERY.Usuario(usuario_codigo)
+	FOREIGN KEY (usuario_codigo) REFERENCES S_QUERY.Usuario(usuario_codigo),
+	FOREIGN KEY (rubro_codigo) REFERENCES S_QUERY.Rubro(rubro_codigo)
 )
 GO
 
@@ -91,7 +98,7 @@ CREATE TABLE [GD2C2019].[S_QUERY].Carga(
 GO
 
 CREATE TABLE [GD2C2019].[S_QUERY].Oferta(
-	oferta_codigo INT PRIMARY KEY,
+	oferta_codigo INT IDENTITY(1,1) PRIMARY KEY,
 	oferta_numero INT NOT NULL, 
 	oferta_descripcion VARCHAR(255) NOT NULL,
 	oferta_fecha DATE NOT NULL,
@@ -101,40 +108,40 @@ CREATE TABLE [GD2C2019].[S_QUERY].Oferta(
 	oferta_cantidad_disponible INT NOT NULL,
 	oferta_maximo_compra INT NOT NULL,
 	prov_codigo INT,
-	FOREIGN KEY (prov_codigo) REFERENCES S_QUERY.Proovedor(prov_codigo)
-)
-GO
-
-CREATE TABLE [GD2C2019].[S_QUERY].Entrega(	
-	entrega_codigo INT PRIMARY KEY,
-	entrega_fecha DATE NOT NULL,
-	cupon_codigo INT,
-	FOREIGN KEY (cupon_codigo) REFERENCES S_QUERY.Cupon(cupon_codigo)
+	FOREIGN KEY (prov_codigo) REFERENCES S_QUERY.Proveedor(prov_codigo)
 )
 GO
 
 CREATE TABLE [GD2C2019].[S_QUERY].Factura(	
-	fact_tipo CHAR(1),
-	fact_numero BIGINT NOT NULL,
+	fact_tipo CHAR(1), --me parece que no va--
+	fact_numero BIGINT IDENTITY(1,1) NOT NULL,
 	fact_fecha DATE NOT NULL,
 	fact_periodo_inicio DATE NOT NULL,
 	fact_periodo_fin DATE NOT NULL,
 	fact_total FLOAT NOT NULL,
 	prov_codigo INT,
 	PRIMARY KEY(fact_tipo, fact_numero),
-	FOREIGN KEY (prov_codigo) REFERENCES S_QUERY.Proovedor(prov_codigo)
+	FOREIGN KEY (prov_codigo) REFERENCES S_QUERY.Proveedor(prov_codigo)
 
 )
 GO
 
 CREATE TABLE [GD2C2019].[S_QUERY].Cupon(
-	cupon_codigo INT PRIMARY KEY,
+	cupon_codigo INT IDENTITY(1,1) PRIMARY KEY,
 	cupon_cantidad INT NOT NULL,
 	cupon_fecha DATE NOT NULL,
 	oferta_codigo INT,
 	clie_codigo INT,
 	FOREIGN KEY (oferta_codigo) REFERENCES S_QUERY.Oferta(oferta_codigo),
 	FOREIGN KEY (clie_codigo) REFERENCES S_QUERY.Cliente(clie_codigo)
+)
+GO
+
+CREATE TABLE [GD2C2019].[S_QUERY].Entrega(	
+	entrega_codigo INT IDENTITY(1,1) PRIMARY KEY,
+	entrega_fecha DATE NOT NULL,
+	cupon_codigo INT,
+	FOREIGN KEY (cupon_codigo) REFERENCES S_QUERY.Cupon(cupon_codigo)
 )
 GO
 
@@ -155,3 +162,5 @@ CREATE TABLE [GD2C2019].[S_QUERY].RolXUsuario(
 	FOREIGN KEY (usuario_codigo) REFERENCES S_QUERY.Usuario(usuario_codigo)
 )
 GO
+
+COMMIT
