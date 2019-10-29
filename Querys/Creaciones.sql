@@ -38,7 +38,7 @@ GO
 
 CREATE TABLE [GD2C2019].[S_QUERY].Tipo_Pago(
 	tipo_pago_codigo INT IDENTITY(1,1) PRIMARY KEY,
-	tipo_pago_nombre VARCHAR(20) NOT NULL
+	tipo_pago_nombre NVARCHAR(100) NOT NULL
 )
 GO
 
@@ -84,9 +84,9 @@ CREATE TABLE [GD2C2019].[S_QUERY].Tarjeta(
 GO
 
 CREATE TABLE [GD2C2019].[S_QUERY].Carga(
-	carga_codigo INT PRIMARY KEY,
+	carga_codigo INT IDENTITY(1,1) PRIMARY KEY,
 	carga_fecha DATE,
-	carga_monto FLOAT,
+	carga_monto numeric(18,2),
 	clie_codigo INT,
 	tarjeta_numero INT,
 	tipo_pago_codigo INT,
@@ -98,8 +98,7 @@ CREATE TABLE [GD2C2019].[S_QUERY].Carga(
 GO
 
 CREATE TABLE [GD2C2019].[S_QUERY].Oferta(
-	oferta_codigo INT IDENTITY(1,1) PRIMARY KEY,
-	oferta_numero INT NOT NULL, 
+	oferta_codigo INT IDENTITY(1, 1) PRIMARY KEY,
 	oferta_descripcion VARCHAR(255) NOT NULL,
 	oferta_fecha DATE NOT NULL,
 	oferta_fecha_vencimiento DATE NOT NULL,

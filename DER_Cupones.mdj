@@ -897,21 +897,6 @@
 										},
 										{
 											"_type": "ERDColumnView",
-											"_id": "AAAAAAFty6MG9C0/npo=",
-											"_parent": {
-												"$ref": "AAAAAAFtZPXMfRJWmK0="
-											},
-											"model": {
-												"$ref": "AAAAAAFty6MGii082KI="
-											},
-											"font": "Arial;13;0",
-											"left": 317,
-											"top": 443,
-											"width": 207.0908203125,
-											"height": 13
-										},
-										{
-											"_type": "ERDColumnView",
 											"_id": "AAAAAAFtZPX6nRJjKxE=",
 											"_parent": {
 												"$ref": "AAAAAAFtZPXMfRJWmK0="
@@ -921,7 +906,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 317,
-											"top": 458,
+											"top": 443,
 											"width": 207.0908203125,
 											"height": 13
 										},
@@ -936,7 +921,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 317,
-											"top": 473,
+											"top": 458,
 											"width": 207.0908203125,
 											"height": 13
 										},
@@ -951,7 +936,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 317,
-											"top": 488,
+											"top": 473,
 											"width": 207.0908203125,
 											"height": 13
 										},
@@ -966,7 +951,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 317,
-											"top": 503,
+											"top": 488,
 											"width": 207.0908203125,
 											"height": 13
 										},
@@ -981,7 +966,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 317,
-											"top": 518,
+											"top": 503,
 											"width": 207.0908203125,
 											"height": 13
 										},
@@ -996,7 +981,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 317,
-											"top": 533,
+											"top": 518,
 											"width": 207.0908203125,
 											"height": 13
 										},
@@ -1011,7 +996,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 317,
-											"top": 548,
+											"top": 533,
 											"width": 207.0908203125,
 											"height": 13
 										},
@@ -1026,7 +1011,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 317,
-											"top": 563,
+											"top": 548,
 											"width": 207.0908203125,
 											"height": 13
 										}
@@ -1035,7 +1020,7 @@
 									"left": 312,
 									"top": 423,
 									"width": 217.0908203125,
-									"height": 158
+									"height": 143
 								}
 							],
 							"font": "Arial;13;0",
@@ -4486,14 +4471,6 @@
 							"name": "oferta_codigo",
 							"length": 0,
 							"primaryKey": true
-						},
-						{
-							"_type": "ERDColumn",
-							"_id": "AAAAAAFty6MGii082KI=",
-							"_parent": {
-								"$ref": "AAAAAAFtZPXMfBJS93U="
-							},
-							"name": "oferta_numero"
 						},
 						{
 							"_type": "ERDColumn",
