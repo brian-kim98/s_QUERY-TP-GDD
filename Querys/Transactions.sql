@@ -115,6 +115,22 @@ BEGIN TRANSACTION
 			FROM gd_esquema.Maestra v
 			WHERE Factura_Nro IS NOT NULL
 
+		/*Funcionalidad*/
+		INSERT INTO S_QUERY.Funcionalidad(func_nombre)
+			VALUES ('Login y Seguridad'), 
+			('ABM de Rol'),
+			('Registro de Usuario'),
+			('ABM de Cliente'),
+			('ABM de Proveedor'),
+			('Cargar Credito'),
+			('Comprar Oferta'),
+			('Confeccion y publicacion de Ofertas'),
+			('Facturacion a Proveedor'),
+			('Listado Estadistico')
+		
+
+			
+
 
 			
 COMMIT
@@ -164,3 +180,4 @@ GROUP BY Factura_Nro,Factura_Fecha
 ORDER BY Factura_Nro
 
 
+SELECT * FROM S_QUERY.Funcionalidad

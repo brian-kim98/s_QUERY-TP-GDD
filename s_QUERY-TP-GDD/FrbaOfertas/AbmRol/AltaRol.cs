@@ -37,7 +37,18 @@ namespace FrbaOfertas.AbmRol
 
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void button_Añadir_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void AltaRol_Load(object sender, EventArgs e)
+        {
+
+        }
+       
+
+        private void label1_Click(object sender, EventArgs e)
         {
 
         }

@@ -32,7 +32,7 @@ GO
 
 CREATE TABLE [GD2C2019].[S_QUERY].Funcionalidad(
 	func_codigo INT IDENTITY(1,1) PRIMARY KEY,
-	func_nombre VARCHAR(32) NOT NULL
+	func_nombre VARCHAR(40) NOT NULL
 )
 GO
 

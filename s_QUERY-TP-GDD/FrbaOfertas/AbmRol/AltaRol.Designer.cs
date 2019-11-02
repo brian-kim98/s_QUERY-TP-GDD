@@ -28,24 +28,25 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
+            this.label_nombre = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
+            this.label_funcionalidades = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.button1 = new System.Windows.Forms.Button();
             this.vacio = new System.Windows.Forms.ListBox();
-            this.Añadir = new System.Windows.Forms.Button();
+            this.button_Añadir = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // label1
+            // label_nombre
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(76, 62);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(58, 17);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Nombre";
+            this.label_nombre.AutoSize = true;
+            this.label_nombre.Location = new System.Drawing.Point(76, 62);
+            this.label_nombre.Name = "label_nombre";
+            this.label_nombre.Size = new System.Drawing.Size(58, 17);
+            this.label_nombre.TabIndex = 0;
+            this.label_nombre.Text = "Nombre";
+            this.label_nombre.Click += new System.EventHandler(this.label1_Click);
             // 
             // textBox1
             // 
@@ -55,15 +56,15 @@
             this.textBox1.TabIndex = 1;
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
-            // label2
+            // label_funcionalidades
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(76, 111);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(111, 17);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Funcionalidades";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
+            this.label_funcionalidades.AutoSize = true;
+            this.label_funcionalidades.Location = new System.Drawing.Point(76, 111);
+            this.label_funcionalidades.Name = "label_funcionalidades";
+            this.label_funcionalidades.Size = new System.Drawing.Size(111, 17);
+            this.label_funcionalidades.TabIndex = 2;
+            this.label_funcionalidades.Text = "Funcionalidades";
+            this.label_funcionalidades.Click += new System.EventHandler(this.label2_Click);
             // 
             // comboBox1
             // 
@@ -93,15 +94,15 @@
             this.vacio.Size = new System.Drawing.Size(203, 164);
             this.vacio.TabIndex = 6;
             // 
-            // Añadir
+            // button_Añadir
             // 
-            this.Añadir.Location = new System.Drawing.Point(79, 361);
-            this.Añadir.Name = "Añadir";
-            this.Añadir.Size = new System.Drawing.Size(75, 23);
-            this.Añadir.TabIndex = 8;
-            this.Añadir.Text = "Añadir";
-            this.Añadir.UseVisualStyleBackColor = true;
-            this.Añadir.Click += new System.EventHandler(this.button2_Click);
+            this.button_Añadir.Location = new System.Drawing.Point(79, 361);
+            this.button_Añadir.Name = "button_Añadir";
+            this.button_Añadir.Size = new System.Drawing.Size(75, 23);
+            this.button_Añadir.TabIndex = 8;
+            this.button_Añadir.Text = "Añadir";
+            this.button_Añadir.UseVisualStyleBackColor = true;
+            this.button_Añadir.Click += new System.EventHandler(this.button_Añadir_Click);
             // 
             // label3
             // 
@@ -118,15 +119,16 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(463, 545);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.Añadir);
+            this.Controls.Add(this.button_Añadir);
             this.Controls.Add(this.vacio);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.comboBox1);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label_funcionalidades);
             this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.label_nombre);
             this.Name = "AltaRol";
             this.Text = "Alta del Rol";
+            this.Load += new System.EventHandler(this.AltaRol_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -134,13 +136,13 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label_nombre;
         private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label_funcionalidades;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ListBox vacio;
-        private System.Windows.Forms.Button Añadir;
+        private System.Windows.Forms.Button button_Añadir;
         private System.Windows.Forms.Label label3;
     }
 }

@@ -1,0 +1,9 @@
+D:\UTN\Gestión de Datos\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\bin\Debug\FrbaOfertas2.exe.config
+D:\UTN\Gestión de Datos\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\bin\Debug\FrbaOfertas2.exe
+D:\UTN\Gestión de Datos\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\bin\Debug\FrbaOfertas2.pdb
+D:\UTN\Gestión de Datos\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.Properties.Resources.resources
+D:\UTN\Gestión de Datos\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.csproj.GenerateResource.Cache
+D:\UTN\Gestión de Datos\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.exe
+D:\UTN\Gestión de Datos\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.pdb
+D:\UTN\Gestión de Datos\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.AltaRol_Form.resources
+D:\UTN\Gestión de Datos\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.csprojResolveAssemblyReference.cache

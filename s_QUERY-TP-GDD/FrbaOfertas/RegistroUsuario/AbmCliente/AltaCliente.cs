@@ -26,5 +26,22 @@ namespace FrbaOfertas.RegistroUsuario
         {
 
         }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            TextBox textBox_nombreCliente = (TextBox)sender;
+            string string_nombreCliente = textBox_nombreCliente.Text;
+            Console.WriteLine(string_nombreCliente);
+        }
+
+        private void textBox6_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox5_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
