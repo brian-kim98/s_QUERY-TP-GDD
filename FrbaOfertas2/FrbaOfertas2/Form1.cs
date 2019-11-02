@@ -71,7 +71,9 @@ namespace FrbaOfertas2
 
         private void button_crear_rol_Click(object sender, EventArgs e)
         {
-
+            SqlConnection connection = ConnectionWithDatabase();
+            String insert_rol_string = "INSERT INTO S_QUERY.Rol(rol_nombre, rol_estado) VALUES(textBox_nombre.Text, 1)";
+            String insert_rol_x_funcionalidad_string = "INSERT INTO S_QUERY.FuncionalidadxRol";
         }
 
         private void listBox_funcionalidades_para_rol_SelectedIndexChanged(object sender, EventArgs e)
