@@ -15,6 +15,7 @@ namespace FrbaOfertas2
     {
 
         SqlDataAdapter generico = new SqlDataAdapter();
+        SqlDataAdapter generico2 = new SqlDataAdapter();
         private DataTable tabla_funcionalidades = new DataTable();
         private List<int> func_codigo_aux = new List<int>();
 
@@ -77,14 +78,17 @@ namespace FrbaOfertas2
         {
             SqlConnection connection = ConnectionWithDatabase();
             connection.Open();
-            //NO ANDA, INTERNET MENTIROSO
-            //String query_insert_rol = "INSERT INTO S_QUERY.Rol(rol_nombre, rol_estado) VALUES(textBox_nombre.Text, 1)";
-            //voy a probar con esto
             String query_insert_rol_nuevo = "INSERT INTO S_QUERY.Rol(rol_nombre, rol_estado) VALUES('" + textBox_nombre.Text.ToString() + "', 1)";
             //SqlDataAdapter sda_insert = new SqlDataAdapter(query_insert_rol, connection);
             generico.InsertCommand = new SqlCommand(query_insert_rol_nuevo, connection);
-            generico.InsertCommand.ExecuteNonQuery();
+            MessageBox.Show("llega");
+             int a = generico.InsertCommand.ExecuteNonQuery();
+            if (a == -1)
+            {
 
+                generico.InsertCommand.Cancel();
+            } 
+            generico.InsertCommand.Dispose();
 
             String query_select_rol = "SELECT rol_codigo FROM S_QUERY.Rol WHERE rol_nombre = '" + textBox_nombre.Text.ToString() + "'";
             SqlDataAdapter sda_select = new SqlDataAdapter(query_select_rol, connection);
@@ -92,16 +96,19 @@ namespace FrbaOfertas2
 
             sda_select.Fill(data_rol);
 
-
             for (int i = 0; i < listBox_funcionalidades_para_rol.Items.Count; i++)
             {
                 String insert_rol_x_funcionalidad =
                     "INSERT INTO S_QUERY.FuncionalidadxRol(func_codigo, rol_codigo) VALUES(" +
                     func_codigo_aux[i] + ", " +
-                    data_rol.Rows[0] + ")";
+                    data_rol.Rows[0].ItemArray[0] + ")";
+
+                MessageBox.Show("Codigo de la funcion = " + func_codigo_aux[i]);
+                MessageBox.Show("Codigo del rol buscado = " + data_rol.Rows[0].ItemArray[0]);
 
                 generico.InsertCommand = new SqlCommand(insert_rol_x_funcionalidad, connection);
                 generico.InsertCommand.ExecuteNonQuery();
+                generico.InsertCommand.Dispose();
                 MessageBox.Show("Se inserto una fila");
             }
 
@@ -124,6 +131,11 @@ namespace FrbaOfertas2
             connection = new SqlConnection(connectionString);
 
             return connection;
+
+        }
+
+        private void AltaRol_Form_Load(object sender, EventArgs e)
+        {
 
         }
 

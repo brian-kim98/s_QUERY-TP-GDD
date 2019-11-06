@@ -7,3 +7,12 @@ D:\UTN\Gestión de Datos\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\Frba
 D:\UTN\Gestión de Datos\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.pdb
 D:\UTN\Gestión de Datos\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.AltaRol_Form.resources
 D:\UTN\Gestión de Datos\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.csprojResolveAssemblyReference.cache
+C:\Users\Dell\Documents\UTN\3er año\Gestion de Datos\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\bin\Debug\FrbaOfertas2.exe.config
+C:\Users\Dell\Documents\UTN\3er año\Gestion de Datos\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.exe
+C:\Users\Dell\Documents\UTN\3er año\Gestion de Datos\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.pdb
+C:\Users\Dell\Documents\UTN\3er año\Gestion de Datos\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\bin\Debug\FrbaOfertas2.exe
+C:\Users\Dell\Documents\UTN\3er año\Gestion de Datos\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\bin\Debug\FrbaOfertas2.pdb
+C:\Users\Dell\Documents\UTN\3er año\Gestion de Datos\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.csprojResolveAssemblyReference.cache
+C:\Users\Dell\Documents\UTN\3er año\Gestion de Datos\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.AltaRol_Form.resources
+C:\Users\Dell\Documents\UTN\3er año\Gestion de Datos\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.Properties.Resources.resources
+C:\Users\Dell\Documents\UTN\3er año\Gestion de Datos\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.csproj.GenerateResource.Cache

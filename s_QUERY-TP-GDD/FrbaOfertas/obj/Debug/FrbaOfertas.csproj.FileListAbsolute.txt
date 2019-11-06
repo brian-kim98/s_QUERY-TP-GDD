@@ -20,3 +20,6 @@ D:\UTN\Gestión de Datos\s_QUERY-TP-GDD\s_QUERY-TP-GDD\FrbaOfertas\obj\Debug\Frb
 D:\UTN\Gestión de Datos\s_QUERY-TP-GDD\s_QUERY-TP-GDD\FrbaOfertas\obj\Debug\FrbaOfertas.exe
 D:\UTN\Gestión de Datos\s_QUERY-TP-GDD\s_QUERY-TP-GDD\FrbaOfertas\obj\Debug\FrbaOfertas.pdb
 D:\UTN\Gestión de Datos\s_QUERY-TP-GDD\s_QUERY-TP-GDD\FrbaOfertas\obj\Debug\FrbaOfertas.csprojResolveAssemblyReference.cache
+C:\Users\Dell\Documents\UTN\3er año\Gestion de Datos\s_QUERY-TP-GDD\s_QUERY-TP-GDD\FrbaOfertas\bin\Debug\FrbaOfertas.exe.config
+C:\Users\Dell\Documents\UTN\3er año\Gestion de Datos\s_QUERY-TP-GDD\s_QUERY-TP-GDD\FrbaOfertas\obj\Debug\FrbaOfertas.exe
+C:\Users\Dell\Documents\UTN\3er año\Gestion de Datos\s_QUERY-TP-GDD\s_QUERY-TP-GDD\FrbaOfertas\obj\Debug\FrbaOfertas.pdb
