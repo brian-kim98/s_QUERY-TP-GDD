@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FrbaOfertas2.RegistroUsuario.AbmCliente;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,6 +18,9 @@ namespace FrbaOfertas2
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new AltaRol_Form());
+            Application.Run(new RegistrarUsuario());
+          //  Application.Run(new AltaCliente());
+
         }
     }
 }
