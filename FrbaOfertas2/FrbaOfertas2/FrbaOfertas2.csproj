@@ -58,6 +58,12 @@
     <Compile Include="RegistroUsuario\AbmCliente\AltaCliente.Designer.cs">
       <DependentUpon>AltaCliente.cs</DependentUpon>
     </Compile>
+    <Compile Include="RegistroUsuario\AbmProveedor\AltaProveedor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RegistroUsuario\AbmProveedor\AltaProveedor.Designer.cs">
+      <DependentUpon>AltaProveedor.cs</DependentUpon>
+    </Compile>
     <Compile Include="RegistroUsuario\RegistrarUsuario.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -78,6 +84,9 @@
     </Compile>
     <EmbeddedResource Include="RegistroUsuario\AbmCliente\AltaCliente.resx">
       <DependentUpon>AltaCliente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RegistroUsuario\AbmProveedor\AltaProveedor.resx">
+      <DependentUpon>AltaProveedor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RegistroUsuario\RegistrarUsuario.resx">
       <DependentUpon>RegistrarUsuario.cs</DependentUpon>
@@ -103,7 +112,6 @@
     <Folder Include="Facturar\" />
     <Folder Include="ListadoEstadistico\" />
     <Folder Include="LoginYSeguridad\" />
-    <Folder Include="RegistroUsuario\AbmProveedor\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

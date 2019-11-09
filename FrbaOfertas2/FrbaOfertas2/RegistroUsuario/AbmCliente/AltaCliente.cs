@@ -54,21 +54,18 @@ namespace FrbaOfertas2.RegistroUsuario.AbmCliente
             this.crear_direccion();
     
             int id_usuario = this.obtener_usuario(registrarUsuario_TextBox_username);
-            int id_direccion = this.obtener_direccion(//falta pasar parametros aca);
+            int id_direccion = this.obtener_direccion(textBox_localidad.Text.ToString(), textBox_calle.Text.ToString(), int.Parse(textBox_numero.Text), Int16.Parse(textBox_numero_piso.Text), Int16.Parse(textBox_departamento.Text));
 
             SqlConnection connection = ConnectionWithDatabase();
             connection.Open();
-            String query_insert_rol_nuevo = "INSERT INTO S_QUERY.Cliente(clie_nombre, clie_apellido, clie_dni, clie_mail, clie_telefono, clie_fecha_nacimiento, clie_saldo, direc_codigo, usuario_codigo) VALUES('" + textBox_nombre.Text.ToString() +
-                "', '" + textBox_nombre + "', '" +
-                "', '" + textBox_apellido + "', '" +
-                "', '" + textBox_dni + "', '" +
-                "', '" + textBox_mail + "', '" +
-                "', '" + textBox_telefono + "', '" +
-                "', '" + dateTimePicker_fecha_nacimiento + "', '" +
-                "', '200', '" +
-                "', '" + id_direccion + "', '" +
-                "', '" + id_usuario.ToString() + "')";
-            //SqlDataAdapter sda_insert = new SqlDataAdapter(query_insert_rol, connection);
+            String query_insert_rol_nuevo = "INSERT INTO S_QUERY.Cliente(clie_nombre, clie_apellido, clie_dni, clie_mail, clie_telefono, clie_fecha_nacimiento, clie_saldo, direc_codigo, usuario_codigo)" +  
+                " VALUES('" + textBox_nombre.Text.ToString() +
+                "', '" + textBox_apellido.Text.ToString() +
+                "', " + int.Parse(textBox_dni.Text) +
+                ", '" + textBox_mail.Text.ToString() +
+                "', " + int.Parse(textBox_telefono.Text) +
+                ", '" + dateTimePicker_fecha_nacimiento.Value.ToString() +
+                "', 200, " + id_direccion + ", " + id_usuario + ")";
             generico.InsertCommand = new SqlCommand(query_insert_rol_nuevo, connection);
             MessageBox.Show("llega");
             int a = generico.InsertCommand.ExecuteNonQuery();
@@ -80,27 +77,6 @@ namespace FrbaOfertas2.RegistroUsuario.AbmCliente
         }
 
         /// //////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        private int obtener_direccion(String calle, String numero , String localidad, String piso , String)
-        {
-            SqlConnection connection = ConnectionWithDatabase();
-            connection.Open();
-
-            String query_select_usuario_id = "SELECT usuario_codigo FROM S_QUERY.Usuario WHERE direc_localidad = '" + localidad + "' ,";
-            SqlDataAdapter sda_select = new SqlDataAdapter(query_select_usuario_id, connection);
-            DataTable data_usuario = new DataTable();
-
-            sda_select.Fill(data_usuario);
-
-            connection.Close();
-
-
-
-            return (int)data_usuario.Rows[0].ItemArray[0];
-
-        }
-
-        /// //////////////////////////////////////////////////////////////////////////////////////////////////////
         /// 
 
         private void crear_direccion()
@@ -109,10 +85,10 @@ namespace FrbaOfertas2.RegistroUsuario.AbmCliente
             connection.Open();
 
             String query_insert_direccion_nuevo = "INSERT INTO S_QUERY.Direccion(direc_localidad, direc_calle , direc_nro, direc_piso, direc_depto) VALUES('" + textBox_localidad.Text.ToString() + "', '"
-                + textBox_calle.Text.ToString() + "', '"
-                + textBox_numero.Text.ToString() + "', '"
-                + textBox_numero_piso.Text.ToString() + "', '" 
-                + textBox_departamento + "')"; //despues cambiar la contra a encriptacion
+                + textBox_calle.Text.ToString() + "', "
+                + int.Parse(textBox_numero.Text) + ", "
+                + Int16.Parse(textBox_numero_piso.Text) + ", " 
+                + Int16.Parse(textBox_departamento.Text) + ")"; //despues cambiar la contra a encriptacion
             //SqlDataAdapter sda_insert = new SqlDataAdapter(query_insert_rol, connection);
             generico.InsertCommand = new SqlCommand(query_insert_direccion_nuevo, connection);
 
@@ -147,6 +123,27 @@ namespace FrbaOfertas2.RegistroUsuario.AbmCliente
 
         }
 
+        private int obtener_direccion(String localidad, String calle, int numero, Int16 piso, Int16 depto)
+        {
+            SqlConnection connection = ConnectionWithDatabase();
+            connection.Open();
+
+            String query_select_direccion_id = "SELECT direc_codigo FROM S_QUERY.Direccion WHERE " + 
+            "direc_localidad = '" + localidad + "' AND " +
+            "direc_calle = '" + calle + "' AND " +
+            "direc_nro = " + numero + " AND " +
+            "direc_piso = " + piso + " AND " +
+            "direc_depto = " + depto;
+            SqlDataAdapter sda_select = new SqlDataAdapter(query_select_direccion_id, connection);
+            DataTable data_direccion = new DataTable();
+
+            sda_select.Fill(data_direccion);
+
+            connection.Close();
+
+            return (int) data_direccion.Rows[0].ItemArray[0];
+        }
+
         /// //////////////////////////////////////////////////////////////////////////////////////////////////////
 
         private SqlConnection ConnectionWithDatabase()
@@ -168,6 +165,11 @@ namespace FrbaOfertas2.RegistroUsuario.AbmCliente
         }
 
         private void label12_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox_codigo_postal_TextChanged(object sender, EventArgs e)
         {
 
         }
