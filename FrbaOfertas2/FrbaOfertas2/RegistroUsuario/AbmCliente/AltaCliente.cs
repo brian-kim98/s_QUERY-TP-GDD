@@ -29,6 +29,11 @@ namespace FrbaOfertas2.RegistroUsuario.AbmCliente
 
         }
 
+        public AltaCliente()
+        {
+            InitializeComponent();
+        }
+
         private void AltaCliente_Load(object sender, EventArgs e)
         {
 
@@ -58,14 +63,14 @@ namespace FrbaOfertas2.RegistroUsuario.AbmCliente
 
             SqlConnection connection = ConnectionWithDatabase();
             connection.Open();
-            String query_insert_rol_nuevo = "INSERT INTO S_QUERY.Cliente(clie_nombre, clie_apellido, clie_dni, clie_mail, clie_telefono, clie_fecha_nacimiento, clie_saldo, direc_codigo, usuario_codigo)" +  
+            String query_insert_rol_nuevo = "INSERT INTO S_QUERY.Cliente(clie_nombre, clie_apellido, clie_dni, clie_mail, clie_telefono, clie_fecha_nacimiento, clie_saldo, clie_habilitado, direc_codigo, usuario_codigo)" +  
                 " VALUES('" + textBox_nombre.Text.ToString() +
                 "', '" + textBox_apellido.Text.ToString() +
                 "', " + int.Parse(textBox_dni.Text) +
                 ", '" + textBox_mail.Text.ToString() +
                 "', " + int.Parse(textBox_telefono.Text) +
                 ", '" + dateTimePicker_fecha_nacimiento.Value.ToString() +
-                "', 200, " + id_direccion + ", " + id_usuario + ")";
+                "', 200, 1," + id_direccion + ", " + id_usuario + ")";
             generico.InsertCommand = new SqlCommand(query_insert_rol_nuevo, connection);
             MessageBox.Show("llega");
             int a = generico.InsertCommand.ExecuteNonQuery();

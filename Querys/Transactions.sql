@@ -24,6 +24,13 @@ BEGIN TRANSACTION
 		SELECT DISTINCT Provee_Rubro FROM gd_esquema.Maestra WHERE
 		Provee_Rubro IS NOT NULL
 
+		INSERT INTO S_QUERY.Rol(rol_nombre, rol_estado)
+		VALUES 
+		('Cliente', 1),
+		('Proveedor', 1),
+		('Administrativo', 1)
+		
+
 		/*Proveedor*/
 		INSERT INTO S_QUERY.Proveedor (prov_razon_social , prov_telefono, prov_cuit, rubro_codigo, prov_ciudad, prov_habilitado)
 			SELECT DISTINCT Provee_RS, 

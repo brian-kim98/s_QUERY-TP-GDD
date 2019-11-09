@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using FrbaOfertas2.RegistroUsuario.AbmCliente;
+using FrbaOfertas2.RegistroUsuario.AbmProveedor;
 
 namespace FrbaOfertas2
 {
@@ -98,7 +99,7 @@ namespace FrbaOfertas2
 
             String password_encriptado = this.encriptacion_password(textBox_password.Text.ToString());
 
-            String query_insert_usuario_nuevo = "INSERT INTO S_QUERY.Usuario(usuario_nombre, usuario_contraseña) VALUES('" + textBox_username.Text.ToString() + "', '" + password_encriptado  +  "')"; //despues cambiar la contra a encriptacion
+            String query_insert_usuario_nuevo = "INSERT INTO S_QUERY.Usuario(usuario_nombre, usuario_contraseña, usuario_habilitado) VALUES('" + textBox_username.Text.ToString() + "', '" + password_encriptado  +  "', 1)"; //despues cambiar la contra a encriptacion
             //SqlDataAdapter sda_insert = new SqlDataAdapter(query_insert_rol, connection);
             generico.InsertCommand = new SqlCommand(query_insert_usuario_nuevo, connection);
 
@@ -111,8 +112,20 @@ namespace FrbaOfertas2
 
             generico.InsertCommand.Dispose();
 
-            AltaCliente alta = new AltaCliente( textBox_username.Text );
-            alta.Show();
+            if (comboBox_rol_asignado.SelectedValue.ToString() == "Cliente")
+            {
+                AltaCliente alta = new AltaCliente(textBox_username.Text);
+                alta.Show();
+            }
+
+            if (comboBox_rol_asignado.SelectedValue.ToString() == "Proveedor")
+            {
+                AltaProveedor alta = new AltaProveedor(textBox_username.Text);
+                alta.Show();
+            }
+
+
+            
         } 
 
         /// //////////////////////////////////////////////////////////////////////////////////////////////////////

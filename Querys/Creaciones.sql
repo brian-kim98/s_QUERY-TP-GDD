@@ -3,7 +3,7 @@ CREATE TABLE [GD2C2019].[S_QUERY].Usuario(
 	usuario_codigo INT IDENTITY(1,1) PRIMARY KEY,
 	usuario_nombre VARCHAR(20) NOT NULL,  
 	usuario_contraseña VARCHAR(256) NOT NULL,
-
+	usuario_habilitado BIT NOT NULL
 )
 GO
 
@@ -51,6 +51,7 @@ CREATE TABLE [GD2C2019].[S_QUERY].Cliente(
 	clie_telefono NUMERIC(18, 0 ),
 	clie_fecha_nacimiento DATETIME NOT NULL,
 	clie_saldo FLOAT,
+	clie_habilitado BIT NOT NULL,
 	direc_codigo INT,
 	usuario_codigo INT,
 	FOREIGN KEY (direc_codigo) REFERENCES S_QUERY.Direccion(direc_codigo),

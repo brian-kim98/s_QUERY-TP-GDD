@@ -26,13 +26,18 @@ namespace FrbaOfertas2.RegistroUsuario.AbmProveedor
             MessageBox.Show(prueba.ToString());
         }
 
+        public AltaProveedor()
+        {
+            InitializeComponent();
+        }
+
         private void button_crear_Click(object sender, EventArgs e)
         {
             this.crear_direccion();
 
             int id_usuario = this.obtener_usuario(registrarUsuario_TextBox_username);
             int id_direccion = this.obtener_direccion(textBox_localidad.Text.ToString(), textBox_calle.Text.ToString(), int.Parse(textBox_numero.Text), Int16.Parse(textBox_numero_piso.Text), Int16.Parse(textBox_departamento.Text));
-
+            int id_rubro = this.obtener_rubro(textBox_rubro.Text.ToString());
             SqlConnection connection = ConnectionWithDatabase();
             connection.Open();
             String query_insert_rol_nuevo = "INSERT INTO S_QUERY.Proveedor(prov_razon_social, prov_cuit, prov_mail, prov_ciudad, prov_telefono, prov_nombre_contacto, prov_habilitado, rubro_codigo, direc_codigo, usuario_codigo)" +
@@ -42,16 +47,16 @@ namespace FrbaOfertas2.RegistroUsuario.AbmProveedor
                 "', '" + textBox_ciudad.Text.ToString() +
                 "', " + int.Parse(textBox_telefono.Text) +
                 ", '" + textBox_nombreContacto.Text.ToString() +
-                "', '" + dateTimePicker_fecha_nacimiento.Value.ToString() +
-                "', 1, " + id_direccion + ", " + id_usuario + ")";
+                "', 1, " + id_rubro + ", " + id_direccion + ", " + id_usuario + ")";
             generico.InsertCommand = new SqlCommand(query_insert_rol_nuevo, connection);
-            MessageBox.Show("llega");
             int a = generico.InsertCommand.ExecuteNonQuery();
             if (a == -1)
             {
                 generico.InsertCommand.Cancel();
             }
             generico.InsertCommand.Dispose();
+
+            MessageBox.Show("Creado con exito");
         }
 
         /// ////////////////////////////////////////////////////////////////////////////////
@@ -132,9 +137,23 @@ namespace FrbaOfertas2.RegistroUsuario.AbmProveedor
             return (int)data_direccion.Rows[0].ItemArray[0];
         }
 
-        private int obtener_rubro()
+        private int obtener_rubro(String rubro_nombre)
         {
-            return 0;
+            SqlConnection connection = ConnectionWithDatabase();
+            connection.Open();
+
+            String query_select_rubro_id = "SELECT rubro_nombre FROM S_QUERY.Rubro WHERE rubro_nombre = '"
+                + rubro_nombre + "'";
+
+            SqlDataAdapter sda_select = new SqlDataAdapter(query_select_rubro_id, connection);
+            DataTable data_rubro = new DataTable();
+
+            sda_select.Fill(data_rubro);
+
+            connection.Close();
+
+            return (int)data_rubro.Rows[0].ItemArray[0];
+
         }
 
         /// ////////////////////////////////////////////////////////////////////////////////
