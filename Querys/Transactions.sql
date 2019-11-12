@@ -45,9 +45,10 @@ BEGIN TRANSACTION
 			AND Provee_Ciudad IS NOT NULL
 
 		/*Cliente*/
-		INSERT INTO S_QUERY.Cliente (clie_nombre, clie_apellido, clie_dni, clie_mail, clie_telefono, clie_fecha_nacimiento, clie_saldo)
+		INSERT INTO S_QUERY.Cliente (clie_nombre, clie_apellido, clie_dni, clie_mail, clie_telefono, clie_fecha_nacimiento, clie_saldo,
+									 clie_habilitado)
 			SELECT DISTINCT cli_nombre, 
-				cli_apellido,cli_dni, cli_mail, Cli_Telefono, Cli_Fecha_Nac, 200.0 FROM gd_esquema.Maestra
+				cli_apellido,cli_dni, cli_mail, Cli_Telefono, Cli_Fecha_Nac, 200.0, 1 FROM gd_esquema.Maestra
 
 		/*Tipo_Pago*/
 		INSERT INTO S_QUERY.Tipo_Pago (tipo_pago_nombre)
@@ -67,45 +68,31 @@ BEGIN TRANSACTION
 		/*Ofertas*/
 		INSERT INTO S_QUERY.Oferta(oferta_codigo_viejo, oferta_descripcion, oferta_fecha, oferta_fecha_vencimiento, oferta_precio,
 									oferta_precio_lista, oferta_cantidad_disponible, oferta_maximo_compra, prov_codigo)
-			SELECT codigo,t.Oferta_Descripcion, t.Oferta_Fecha, t.Oferta_Fecha_Venc, t.Oferta_Precio, t.Oferta_Precio_Ficticio,0,t.Oferta_Cantidad,
-				   (SELECT prov_codigo FROM S_QUERY.Proveedor WHERE prov_cuit = t.Provee_CUIT)
-			FROM 
-				(SELECT DISTINCT SUBSTRING(Oferta_Codigo,1,10) as codigo,
-						Provee_CUIT,Oferta_Descripcion,Oferta_Fecha,Oferta_Fecha_Venc,Oferta_Precio,Oferta_Precio_Ficticio,Oferta_Cantidad
-				 FROM gd_esquema.Maestra
-				 WHERE Oferta_Codigo IS NOT NULL AND Oferta_Descripcion IS NOT NULL AND Oferta_Fecha IS NOT NULL AND
-					   Oferta_Fecha_Venc IS NOT NULL AND Oferta_Precio IS NOT NULL AND Oferta_Precio_Ficticio IS NOT NULL AND Oferta_Cantidad IS NOT NULL	
-				) t
+			SELECT DISTINCT Oferta_Codigo, Oferta_Descripcion, Oferta_Fecha, Oferta_Fecha_Venc, Oferta_Precio,
+							Oferta_Precio_Ficticio, 0, Oferta_Cantidad,
+							(SELECT prov_codigo FROM S_QUERY.Proveedor
+							 WHERE prov_cuit = Provee_CUIT)
+			FROM gd_esquema.Maestra
+			WHERE Oferta_Entregado_Fecha IS NULL
+			AND Factura_Nro IS NULL
+			AND Oferta_Codigo IS NOT NULL
+			ORDER BY Oferta_Codigo ASC
 
 		/*Cupones*/
 		INSERT INTO S_QUERY.Cupon(cupon_cantidad, cupon_fecha, oferta_codigo, clie_codigo)
-			SELECT CONVERT(INT,SUBSTRING(v.Oferta_codigo, 11,LEN(v.Oferta_codigo))),
-				   v.Oferta_Fecha_Compra,
-				   (SELECT nueva.oferta_codigo 
-				    FROM S_QUERY.Oferta nueva
-				    WHERE nueva.oferta_codigo_viejo = SUBSTRING(v.Oferta_Codigo, 1, 10)
-			       ) as 'nuevo codigo',
-			       (SELECT nueva.clie_codigo FROM S_QUERY.Cliente nueva WHERE nueva.clie_dni = v.Cli_Dni) as 'codigo cliente'
-			FROM gd_esquema.Maestra v
-			WHERE v.Oferta_Codigo IS NOT NULL AND v.Oferta_Fecha_Compra IS NOT NULL  AND v.Oferta_Entregado_Fecha IS NULL AND
-				  v.Factura_Nro IS NULL AND v.Factura_Fecha IS NULL
+					SELECT 1, compras.fecha,
+						 (SELECT oferta_codigo FROM S_QUERY.Oferta WHERE oferta_codigo_viejo = compras.codigo), 
+						(SELECT clie_codigo FROM S_QUERY.Cliente WHERE clie_dni = compras.dni)
+					FROM (SELECT DISTINCT Oferta_Codigo as codigo, Oferta_Fecha_Compra as fecha, Cli_Dni  as dni
+							FROM gd_esquema.Maestra
+							WHERE Oferta_Entregado_Fecha IS NULL
+							AND Factura_Nro IS NULL
+							AND Oferta_Codigo IS NOT NULL
+						) compras
 
 		/*Entregas*/
 		INSERT INTO S_QUERY.Entrega(entrega_fecha,cupon_codigo)
-			SELECT v.Oferta_Entregado_Fecha,
-				   (SELECT c.cupon_codigo
-				    FROM S_QUERY.Cupon c 
-					JOIN S_QUERY.Oferta o ON c.oferta_codigo = o.oferta_codigo
-					JOIN S_QUERY.Cliente clie ON clie.clie_codigo = c.clie_codigo
-					WHERE SUBSTRING(v.Oferta_Codigo,1,10) = o.oferta_codigo_viejo AND 
-						  c.cupon_fecha = v.Oferta_Fecha_Compra AND
-						  clie.clie_dni = v.Cli_Dni AND
-						  v.Oferta_Fecha = o.oferta_fecha AND
-						  CONVERT(INT,SUBSTRING(v.Oferta_codigo, 11,LEN(v.Oferta_codigo))) = c.cupon_cantidad
-					)
-			FROM gd_esquema.Maestra v
-			WHERE v.Oferta_Entregado_Fecha IS NOT NULL AND v.Factura_Nro IS NULL
-			ORDER BY 1 ASC
+			SELECT
 
 		/*Facturas*/
 		INSERT INTO S_QUERY.Factura(fact_numero, fact_fecha)
@@ -142,49 +129,60 @@ BEGIN TRANSACTION
 			
 COMMIT
 
-SELECT DISTINCT Provee_CUIT FROM gd_esquema.Maestra
-WHERE Provee_CUIT IS NOT NULL
+/*Ofertas GDD_MAESTRA*/
 
-SELECT * FROM S_QUERY.Cliente;
+SELECT DISTINCT Oferta_Codigo, Oferta_Descripcion, Oferta_Fecha, Oferta_Fecha_Venc, Oferta_Precio,
+							Oferta_Precio_Ficticio, 0, Oferta_Cantidad,
+							(SELECT prov_codigo FROM S_QUERY.Proveedor
+							 WHERE prov_cuit = Provee_CUIT)
+			FROM gd_esquema.Maestra
+			WHERE Oferta_Entregado_Fecha IS NULL
+			AND Factura_Nro IS NULL
+			AND Oferta_Codigo IS NOT NULL
+			ORDER BY Oferta_Codigo ASC
 
-SELECT * FROM S_QUERY.Proveedor;
+/*Compras GDD_MAESTRA*/
+SELECT * FROM gd_esquema.Maestra
+WHERE Oferta_Codigo IS NOT NULL
+AND Oferta_Entregado_Fecha IS NULL
+AND Factura_Nro IS NULL
+ORDER BY Cli_Dni, Oferta_Codigo ASC
 
-SELECT * FROM S_QUERY.Rubro;
-
-SELECT * FROM S_QUERY.Tipo_Pago
-
-SELECT * FROM S_QUERY.Carga
-
-SELECT Oferta_codigo, Oferta_Entregado_Fecha FROM gd_esquema.Maestra
-WHERE Oferta_Entregado_Fecha IS NOT NULL
-ORDER BY Oferta_Codigo ASC
+/*Entregas GDD_MAESTRA*/
 
 SELECT * FROM gd_esquema.Maestra
+WHERE Oferta_Codigo IS NOT NULL
+AND Factura_Nro IS NULL
+ORDER BY Oferta_Codigo,Oferta_Entregado_Fecha
+
+/*CANTIDAD ENTREGAS POR CODIGO*/
+SELECT Oferta_Codigo, Oferta_Entregado_Fecha FROM gd_esquema.Maestra
+WHERE Oferta_Codigo IS NOT NULL
+AND Factura_Nro IS NULL
+GROUP BY Oferta_Codigo, Oferta_Entregado_Fecha
+ORDER BY Oferta_Codigo, Oferta_Entregado_Fecha
+
+/*CANTIDAD DE ENTREGAS*/
+SELECT COUNT(Oferta_Entregado_Fecha) FROM gd_esquema.Maestra
 WHERE Oferta_Entregado_Fecha IS NOT NULL
-ORDER BY Oferta_Entregado_Fecha ASC
 
-/*entregas*/
-SELECT v.Oferta_Entregado_Fecha,
-	   v.Cli_Nombre,
-	   v.Cli_Apellido,
-				   (SELECT c.cupon_codigo
-				    FROM S_QUERY.Cupon c 
-					JOIN S_QUERY.Oferta o ON c.oferta_codigo = o.oferta_codigo
-					JOIN S_QUERY.Cliente clie ON clie.clie_codigo = c.clie_codigo
-					WHERE SUBSTRING(v.Oferta_Codigo,1,10) = o.oferta_codigo_viejo AND 
-						  c.cupon_fecha = v.Oferta_Fecha_Compra AND
-						  clie.clie_dni = v.Cli_Dni AND
-						  v.Oferta_Fecha = o.oferta_fecha AND
-						  CONVERT(INT,SUBSTRING(v.Oferta_codigo, 11,LEN(v.Oferta_codigo))) = c.cupon_cantidad
-					)
-			FROM gd_esquema.Maestra v
-			WHERE v.Oferta_Entregado_Fecha IS NOT NULL AND v.Factura_Nro IS NULL
-			ORDER BY 1 ASC
+/*CANTIDAD ENTREGAS POR CODIGO*/
+SELECT Oferta_Codigo, COUNT(Oferta_Entregado_Fecha) FROM gd_esquema.Maestra
+WHERE Oferta_Codigo IS NOT NULL
+AND Factura_Nro IS NULL
+GROUP BY Oferta_Codigo
+ORDER BY Oferta_Codigo
 
-SELECT Factura_Nro, Factura_Fecha FROM gd_esquema.Maestra
-WHERE Factura_Nro IS NOT NULL
-GROUP BY Factura_Nro,Factura_Fecha
-ORDER BY Factura_Nro
+/*CANTIDAD DE ENTREGAS*/
+SELECT SUM(t.cantidad_entregas) FROM 
+(SELECT Oferta_Codigo as codigo, COUNT(Oferta_Entregado_Fecha) as cantidad_entregas FROM gd_esquema.Maestra
+WHERE Oferta_Codigo IS NOT NULL
+AND Factura_Nro IS NULL
+GROUP BY Oferta_Codigo
+) t
+
+/*Cupones*/
+SELECT * FROM S_QUERY.Cupon
 
 
-SELECT * FROM S_QUERY.Funcionalidad
+
