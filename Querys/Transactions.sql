@@ -78,13 +78,17 @@ BEGIN TRANSACTION
 			AND Oferta_Codigo IS NOT NULL
 			ORDER BY Oferta_Codigo ASC
 
-		/*Facturas READY*/
+		/*Facturas READY(ver mas abajo precio total)*/
 		INSERT INTO S_QUERY.Factura(fact_numero, fact_fecha, prov_codigo, fact_total)
 			SELECT DISTINCT m.Factura_Nro, m.Factura_Fecha,
 				 (SELECT prov_codigo FROM S_QUERY.Proveedor
 				  WHERE prov_cuit = m.Provee_CUIT
 				 ) as 'Codigo Proveedor',
-				 0  as 'total'
+				 (SELECT SUM(k.Oferta_Precio) as 'Total'
+					FROM gd_esquema.Maestra k
+					WHERE Factura_Nro IS NOT NULL
+					AND k.Factura_Nro = m.Factura_Nro
+					)  as 'total'
 				FROM gd_esquema.Maestra m
 				WHERE Factura_Nro IS NOT NULL
 				ORDER BY Factura_Nro
