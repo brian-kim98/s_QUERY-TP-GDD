@@ -132,11 +132,14 @@ CREATE TABLE [GD2C2019].[S_QUERY].Cupon(
 	cupon_fecha DATE NOT NULL,
 	oferta_codigo INT,
 	clie_codigo INT,
+	fact_numero BIGINT,
 	FOREIGN KEY (oferta_codigo) REFERENCES S_QUERY.Oferta(oferta_codigo),
-	FOREIGN KEY (clie_codigo) REFERENCES S_QUERY.Cliente(clie_codigo)
+	FOREIGN KEY (clie_codigo) REFERENCES S_QUERY.Cliente(clie_codigo),
+	FOREIGN KEY (fact_numero) REFERENCES S_QUERY.Factura(fact_numero)
 )
 GO
 
+/*
 CREATE TABLE [GD2C2019].[S_QUERY].Item_Factura(
 	fact_numero BIGINT NOT NULL,
 	cupon_codigo INT NOT NULL,
@@ -146,7 +149,7 @@ CREATE TABLE [GD2C2019].[S_QUERY].Item_Factura(
 	FOREIGN KEY(cupon_codigo) REFERENCES S_QUERY.Cupon(cupon_codigo)
 )
 GO
-
+*/
 
 CREATE TABLE [GD2C2019].[S_QUERY].Entrega(	
 	entrega_codigo INT IDENTITY(1,1) PRIMARY KEY,
