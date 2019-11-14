@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Security.Cryptography;
-using FrbaOfertas2.MenuPrincipal.Menu;
+using FrbaOfertas2.MenuPrincipal;
 
 namespace FrbaOfertas2.LoginYSeguridad
 {

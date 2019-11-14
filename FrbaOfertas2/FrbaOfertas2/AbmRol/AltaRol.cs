@@ -138,5 +138,15 @@ namespace FrbaOfertas2
 
         }
 
+        private void lbl_funcionalidades_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lbl_nombre_Click(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }
