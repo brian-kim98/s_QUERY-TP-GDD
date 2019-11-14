@@ -15,8 +15,8 @@ GO
 
 CREATE TABLE [GD2C2019].[S_QUERY].Rol(
 	rol_codigo INT IDENTITY(1,1) PRIMARY KEY,
-	rol_nombre VARCHAR(20) NOT NULL,
-	rol_estado BIT NOT NULL
+	rol_nombre VARCHAR(50) NOT NULL,
+	rol_estado BIT NOT NULL DEFAULT 1
 )
 GO
 

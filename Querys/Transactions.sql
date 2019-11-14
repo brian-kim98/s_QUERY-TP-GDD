@@ -24,11 +24,11 @@ BEGIN TRANSACTION
 		SELECT DISTINCT Provee_Rubro FROM gd_esquema.Maestra WHERE
 		Provee_Rubro IS NOT NULL
 
-		INSERT INTO S_QUERY.Rol(rol_nombre, rol_estado)
+		INSERT INTO S_QUERY.Rol(rol_nombre)
 		VALUES 
-		('Cliente', 1),
-		('Proveedor', 1),
-		('Administrativo', 1)
+		('Cliente'),
+		('Proveedor'),
+		('Administrativo')
 		
 
 		/*Proveedor ready*/
@@ -234,3 +234,51 @@ SELECT Oferta_Entregado_Fecha,
 			
 SELECT * FROM gd_esquema.Maestra
 WHERE Oferta_Entregado_Fecha IS NOT NULL
+
+
+/*--------------------procedures----------------------*/
+CREATE PROCEDURE S_QUERY.insertarCliente(@clie_nombre NVARCHAR(255), @clie_apellido NVARCHAR(255), @clie_dni NUMERIC(18,0), @clie_mail NVARCHAR(255), @clie_telefono NUMERIC(18,0), @clie_fecha_nacimiento DATETIME, @clie_saldo FLOAT,
+									 @clie_habilitado BIT, @direc_codigo INT, @usuario_codigo INT) 
+AS
+	BEGIN
+		DECLARE @idCliente int
+		INSERT INTO S_QUERY.Cliente(clie_nombre, clie_apellido, clie_dni, clie_mail, clie_telefono, clie_fecha_nacimiento, clie_saldo, clie_habilitado, direc_codigo, usuario_codigo)
+		VALUES(@clie_nombre, @clie_apellido, @clie_dni, @clie_mail, @clie_telefono, @clie_fecha_nacimiento, @clie_saldo, @clie_habilitado, @direc_codigo, @usuario_codigo)
+		SELECT @idCliente = SCOPE_IDENTITY()
+
+		RETURN @idCliente
+	END
+GO
+
+CREATE PROCEDURE S_QUERY.crearDireccion(@direc_localidad VARCHAR(255), @direc_calle VARCHAR(255), @direc_nro INT, @direc_piso SMALLINT, @direc_depto SMALLINT)
+AS
+	BEGIN
+		DECLARE @idDireccion int
+		INSERT INTO S_QUERY.Direccion(direc_localidad, direc_calle, direc_nro, direc_piso, direc_depto)
+		VALUES(@direc_localidad, @direc_calle, @direc_nro, @direc_piso, @direc_depto)
+		SELECT @idDireccion = SCOPE_IDENTITY()
+
+		RETURN @idDireccion
+	END
+GO
+
+/*-----------------------------------------------------------ABM ROL-----------------------------------------------------------------------*/
+DROP PROCEDURE S_QUERY.insertarRolNuevo
+CREATE PROCEDURE S_QUERY.insertarRolNuevo(@rol_nombre VARCHAR(50))
+AS
+	BEGIN
+		DECLARE @idRol numeric(18,0)
+		INSERT INTO S_QUERY.Rol(rol_nombre)	VALUES(@rol_nombre)
+		SET @idRol = SCOPE_IDENTITY()
+
+		RETURN SCOPE_IDENTITY()
+	END
+GO
+
+CREATE PROCEDURE S_QUERY.insertarFuncionalidadPorRol(@func_codigo INT, @rol_codigo INT)
+AS
+	BEGIN
+		INSERT INTO S_QUERY.FuncionalidadXRol(func_codigo, rol_codigo)
+		VALUES(@func_codigo, @rol_codigo)
+	END
+GO
