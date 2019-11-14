@@ -48,3 +48,6 @@ D:\UTN\Gestión de Datos\PorLasMoscas\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOf
 D:\UTN\Gestión de Datos\PorLasMoscas\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.RegistroUsuario.AbmProveedor.AltaProveedor.resources
 D:\UTN\Gestión de Datos\PorLasMoscas\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.RegistrarUsuario.resources
 D:\UTN\Gestión de Datos\PorLasMoscas\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.csproj.GenerateResource.Cache
+C:\Users\Leon\Documents\Facultad\Tercer Año\Gestion de Datos\Repositorio_TP\Repositorio\s_QUERY-TP-GDD\Remasterizado\FrbaOfertas2\FrbaOfertas2\bin\Debug\FrbaOfertas2.exe.config
+C:\Users\Leon\Documents\Facultad\Tercer Año\Gestion de Datos\Repositorio_TP\Repositorio\s_QUERY-TP-GDD\Remasterizado\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.exe
+C:\Users\Leon\Documents\Facultad\Tercer Año\Gestion de Datos\Repositorio_TP\Repositorio\s_QUERY-TP-GDD\Remasterizado\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.pdb

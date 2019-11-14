@@ -267,11 +267,11 @@ DROP PROCEDURE S_QUERY.insertarRolNuevo
 CREATE PROCEDURE S_QUERY.insertarRolNuevo(@rol_nombre VARCHAR(50))
 AS
 	BEGIN
-		DECLARE @idRol numeric(18,0)
+		DECLARE @idRol NUMERIC(18,0)
 		INSERT INTO S_QUERY.Rol(rol_nombre)	VALUES(@rol_nombre)
-		SET @idRol = SCOPE_IDENTITY()
+		SELECT @idRol = SCOPE_IDENTITY()
+		RETURN @idRol
 
-		RETURN SCOPE_IDENTITY()
 	END
 GO
 

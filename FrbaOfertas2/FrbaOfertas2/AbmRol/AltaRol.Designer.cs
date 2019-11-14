@@ -68,7 +68,6 @@
             this.lbl_nombre.Size = new System.Drawing.Size(44, 13);
             this.lbl_nombre.TabIndex = 2;
             this.lbl_nombre.Text = "Nombre";
-            this.lbl_nombre.Click += new System.EventHandler(this.lbl_nombre_Click);
             // 
             // lbl_funcionalidades
             // 
@@ -79,7 +78,6 @@
             this.lbl_funcionalidades.Size = new System.Drawing.Size(84, 13);
             this.lbl_funcionalidades.TabIndex = 3;
             this.lbl_funcionalidades.Text = "Funcionalidades";
-            this.lbl_funcionalidades.Click += new System.EventHandler(this.lbl_funcionalidades_Click);
             // 
             // comboBox_funcionalidades
             // 
