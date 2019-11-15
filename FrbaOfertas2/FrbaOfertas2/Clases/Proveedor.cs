@@ -8,7 +8,7 @@ namespace FrbaOfertas2.Clases
 {
     public class Proveedor
     {
-        public String codigo { get; set; }
+        public int codigo { get; set; }
         public String razon_social { get; set; }
         public String cuit { get; set; }
         public String mail { get; set; }
@@ -20,7 +20,7 @@ namespace FrbaOfertas2.Clases
         public String usuario_codigo { get; set; }
 
 
-        public Proveedor(String prov_codigo, String prov_razon_social, String prov_cuit,
+        public Proveedor(int prov_codigo, String prov_razon_social, String prov_cuit,
             String prov_mail, String prov_ciudad, String prov_telefono , String prov_nombre_contacto, String prov_rubro, String prov_direc_codigo , String prov_usuario_codigo){
 
                 this.codigo = prov_codigo;

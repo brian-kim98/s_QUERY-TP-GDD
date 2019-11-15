@@ -11,6 +11,8 @@ using System.Windows.Forms;
 using System.Data.SqlClient;
 using FrbaOfertas2.RegistroUsuario.AbmCliente;
 using FrbaOfertas2.RegistroUsuario.AbmProveedor;
+using FrbaOfertas2.Clases;
+
 
 namespace FrbaOfertas2
 {
@@ -24,6 +26,7 @@ namespace FrbaOfertas2
         {
             InitializeComponent();
             carga_comboBox_rol_asignado();
+            
         }
 
         private void RegistroUsuario_Load(object sender, EventArgs e)
@@ -74,6 +77,10 @@ namespace FrbaOfertas2
             connection.Close();
         }
 
+         /// //////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
         /// //////////////////////////////////////////////////////////////////////////////////////////////////////
 
         private SqlConnection ConnectionWithDatabase()
@@ -94,33 +101,42 @@ namespace FrbaOfertas2
         private void button_crear_Click(object sender, EventArgs e)
         {
 
-            SqlConnection connection = ConnectionWithDatabase();
-            connection.Open();
+            if( !this.ingresoTodosLosCampos()){
+
+                MessageBox.Show("Complete todos los campos");
+                return;
+            }
+
+            BaseDeDato bd = new BaseDeDato();
+
+            bd.conectar();
 
             String password_encriptado = this.encriptacion_password(textBox_password.Text.ToString());
 
-            String query_insert_usuario_nuevo = "INSERT INTO S_QUERY.Usuario(usuario_nombre, usuario_contraseña, usuario_habilitado) VALUES('" + textBox_username.Text.ToString() + "', '" + password_encriptado  +  "', 1)"; //despues cambiar la contra a encriptacion
-            //SqlDataAdapter sda_insert = new SqlDataAdapter(query_insert_rol, connection);
-            generico.InsertCommand = new SqlCommand(query_insert_usuario_nuevo, connection);
+            SqlCommand procedure = Clases.BaseDeDato.crearConsulta("S_QUERY.ingresarUsuarioNuevo");
+            procedure.CommandType = CommandType.StoredProcedure;
+            procedure.Parameters.AddWithValue("@usuario_nombre", SqlDbType.VarChar).Value = textBox_username.Text;
+            procedure.Parameters.AddWithValue("@usuario_contraseña", SqlDbType.VarChar).Value = password_encriptado;
+            procedure.Parameters.Add("@ReturnVal" , SqlDbType.Int );
+            procedure.Parameters["@ReturnVal"].Direction = ParameterDirection.ReturnValue;
+            procedure.ExecuteNonQuery();
 
-            int a = generico.InsertCommand.ExecuteNonQuery();
-            if (a == -1)
-            {
-                generico.InsertCommand.Cancel();
-                MessageBox.Show("Fallo al ingresar el usuario");
-            }
+            int codigo_usuario = Convert.ToInt32(procedure.Parameters["@ReturnVal"].Value);
 
-            generico.InsertCommand.Dispose();
+            MessageBox.Show("Codigo de usuario = " + codigo_usuario.ToString() );
+
+            bd.desconectar();
 
             if (comboBox_rol_asignado.SelectedValue.ToString() == "Cliente")
             {
-                AltaCliente alta = new AltaCliente(textBox_username.Text);
+                AltaCliente alta = new AltaCliente(codigo_usuario);
                 alta.Show();
             }
 
+
             if (comboBox_rol_asignado.SelectedValue.ToString() == "Proveedor")
             {
-                AltaProveedor alta = new AltaProveedor(textBox_username.Text);
+                AltaProveedor alta = new AltaProveedor(codigo_usuario);
                 alta.Show();
             }
 
@@ -140,6 +156,23 @@ namespace FrbaOfertas2
             for (int i = 0; i < stream.Length; i++) sb.AppendFormat("{0:x2}", stream[i]);
             return sb.ToString();
             
+        }
+
+        /// //////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+        private bool ingresoTodosLosCampos()
+        {
+
+            return textBox_username.Text != "" &&
+                textBox_username.Text != "" &&
+                comboBox_rol_asignado.SelectedIndex > -1;
+
+        }
+
+        private void comboBox1_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+
         }
 
 

@@ -6,6 +6,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using FrbaOfertas2.AbmRol;
+using FrbaOfertas2.CrearOferta;
+using FrbaOfertas2.Clases;
 
 namespace FrbaOfertas2
 {
@@ -19,11 +21,17 @@ namespace FrbaOfertas2
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            
+            Proveedor proveedor_prueba = new Proveedor(1, "Leon S.A.", "123154643213",
+            "leonreynosa_98@gmail.com","Calzada City", "423965564" , "LION", "VENDE MERCA","Robinson 15509", "1");
+
             Application.Run(new AltaRol_Form());
             Application.Run(new RegistrarUsuario());
-            Application.Run(new Login());
-            Application.Run(new AltaCliente());
-            Application.Run(new ListadoRoles());
+            //Application.Run(new Login());
+            //Application.Run(new AltaCliente());
+            //Application.Run(new ListadoRoles());
+
+            Application.Run(new CreacionOferta(proveedor_prueba));
         }
     }
 }

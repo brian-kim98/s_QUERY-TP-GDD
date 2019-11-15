@@ -14,18 +14,16 @@ namespace FrbaOfertas2.RegistroUsuario.AbmCliente
     public partial class AltaCliente : Form
     {
 
-        public String registrarUsuario_TextBox_username;
+        public int codigo_usuario_conectado;
         SqlDataAdapter generico = new SqlDataAdapter();
 
 
-        public AltaCliente(String username )
+        public AltaCliente(int codigo_usaurio)
         {
             InitializeComponent();
-            registrarUsuario_TextBox_username = username;
+            codigo_usuario_conectado = codigo_usaurio;
 
-            int prueba = this.obtener_usuario(username);
-
-            MessageBox.Show(prueba.ToString());
+  
 
         }
 
@@ -58,7 +56,7 @@ namespace FrbaOfertas2.RegistroUsuario.AbmCliente
 
             this.crear_direccion();
     
-            int id_usuario = this.obtener_usuario(registrarUsuario_TextBox_username);
+            int id_usuario = codigo_usuario_conectado;
             int id_direccion = this.obtener_direccion(textBox_localidad.Text.ToString(), textBox_calle.Text.ToString(), int.Parse(textBox_numero.Text), Int16.Parse(textBox_numero_piso.Text), Int16.Parse(textBox_departamento.Text));
 
             SqlConnection connection = ConnectionWithDatabase();

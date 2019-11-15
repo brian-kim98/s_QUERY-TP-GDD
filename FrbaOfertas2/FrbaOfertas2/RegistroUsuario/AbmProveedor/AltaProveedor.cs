@@ -13,17 +13,15 @@ namespace FrbaOfertas2.RegistroUsuario.AbmProveedor
 {
     public partial class AltaProveedor : Form
     {
-        public String registrarUsuario_TextBox_username;
+        public int codigo_usuario_conectado;
         SqlDataAdapter generico = new SqlDataAdapter();
 
-        public AltaProveedor(String username)
+        public AltaProveedor(int codigo_usuario)
         {
             InitializeComponent();
-            registrarUsuario_TextBox_username = username;
+            codigo_usuario_conectado = codigo_usuario;
 
-            int prueba = this.obtener_usuario(username);
-
-            MessageBox.Show(prueba.ToString());
+           
         }
 
         public AltaProveedor()
@@ -35,7 +33,7 @@ namespace FrbaOfertas2.RegistroUsuario.AbmProveedor
         {
             this.crear_direccion();
 
-            int id_usuario = this.obtener_usuario(registrarUsuario_TextBox_username);
+            int id_usuario = codigo_usuario_conectado;
             int id_direccion = this.obtener_direccion(textBox_localidad.Text.ToString(), textBox_calle.Text.ToString(), int.Parse(textBox_numero.Text), Int16.Parse(textBox_numero_piso.Text), Int16.Parse(textBox_departamento.Text));
             int id_rubro = this.obtener_rubro(textBox_rubro.Text.ToString());
             SqlConnection connection = ConnectionWithDatabase();
@@ -153,6 +151,11 @@ namespace FrbaOfertas2.RegistroUsuario.AbmProveedor
             connection.Close();
 
             return (int)data_rubro.Rows[0].ItemArray[0];
+
+        }
+
+        private void textBox_razonSocial_TextChanged(object sender, EventArgs e)
+        {
 
         }
 

@@ -39,6 +39,8 @@ namespace FrbaOfertas2.LoginYSeguridad
 //                    Menu menuParaUsuario = new Menu();
 //                    menuParaUsuario.View();
 
+                   // MenuProveedor menuParaMostrar
+
                     MessageBox.Show("Podes entrar !");
                 }
 

@@ -30,15 +30,15 @@
         {
             this.button_limpiar = new System.Windows.Forms.Button();
             this.button_crear = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
             this.comboBox_rol_asignado = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.textBox_password = new System.Windows.Forms.TextBox();
             this.textBox_username = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // button_limpiar
@@ -62,16 +62,6 @@
             this.button_crear.UseVisualStyleBackColor = true;
             this.button_crear.Click += new System.EventHandler(this.button_crear_Click);
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(36, 38);
-            this.button1.Margin = new System.Windows.Forms.Padding(2);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(56, 19);
-            this.button1.TabIndex = 19;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
             // comboBox_rol_asignado
             // 
             this.comboBox_rol_asignado.FormattingEnabled = true;
@@ -91,16 +81,6 @@
             this.label5.Size = new System.Drawing.Size(97, 13);
             this.label5.TabIndex = 17;
             this.label5.Text = "informar si es unico";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(199, 160);
-            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(83, 13);
-            this.label4.TabIndex = 16;
-            this.label4.Text = "ver encriptacion";
             // 
             // label3
             // 
@@ -150,14 +130,35 @@
             this.textBox_username.TabIndex = 11;
             this.textBox_username.TextChanged += new System.EventHandler(this.textBox_username_TextChanged);
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(199, 160);
+            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(83, 13);
+            this.label4.TabIndex = 16;
+            this.label4.Text = "ver encriptacion";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Swis721 Lt BT", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(72, 30);
+            this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(163, 22);
+            this.label6.TabIndex = 22;
+            this.label6.Text = "Ingrese un Usuario";
+            // 
             // RegistrarUsuario
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(307, 367);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.button_limpiar);
             this.Controls.Add(this.button_crear);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.comboBox_rol_asignado);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
@@ -179,14 +180,14 @@
 
         private System.Windows.Forms.Button button_limpiar;
         private System.Windows.Forms.Button button_crear;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ComboBox comboBox_rol_asignado;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBox_password;
         private System.Windows.Forms.TextBox textBox_username;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label6;
     }
 }

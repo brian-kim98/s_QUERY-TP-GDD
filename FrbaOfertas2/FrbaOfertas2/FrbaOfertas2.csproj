@@ -65,6 +65,7 @@
     <Compile Include="Clases\BaseDeDato.cs" />
     <Compile Include="Clases\Cliente.cs" />
     <Compile Include="Clases\Proveedor.cs" />
+    <Compile Include="Clases\Usuario.cs" />
     <Compile Include="CrearOferta\CreacionOferta.cs">
       <SubType>Form</SubType>
     </Compile>

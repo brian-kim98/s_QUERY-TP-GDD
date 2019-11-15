@@ -42,6 +42,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.textBox_maximo_compra = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // button_crear
@@ -161,11 +163,29 @@
             this.label1.TabIndex = 19;
             this.label1.Text = "Descripción";
             // 
-            // CrearOferta
+            // textBox_maximo_compra
+            // 
+            this.textBox_maximo_compra.Location = new System.Drawing.Point(372, 230);
+            this.textBox_maximo_compra.Name = "textBox_maximo_compra";
+            this.textBox_maximo_compra.Size = new System.Drawing.Size(66, 20);
+            this.textBox_maximo_compra.TabIndex = 37;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(267, 233);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(82, 13);
+            this.label6.TabIndex = 36;
+            this.label6.Text = "Maximo Compra";
+            // 
+            // CreacionOferta
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(496, 368);
+            this.Controls.Add(this.textBox_maximo_compra);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.button_crear);
             this.Controls.Add(this.button_limpiar);
             this.Controls.Add(this.textBox_cantidad);
@@ -180,7 +200,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Name = "CrearOferta";
+            this.Name = "CreacionOferta";
             this.Text = "CrearOferta";
             this.Load += new System.EventHandler(this.CrearOferta_Load);
             this.ResumeLayout(false);
@@ -204,5 +224,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox textBox_maximo_compra;
+        private System.Windows.Forms.Label label6;
     }
 }

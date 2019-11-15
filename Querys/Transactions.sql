@@ -133,7 +133,14 @@ BEGIN TRANSACTION
 			('Facturacion a Proveedor'),
 			('Listado Estadistico')
 
-			
+		INSERT INTO S_QUERY.FuncionalidadXRol(func_codigo, rol_codigo)
+			VALUES('5' , (SELECT TOP 1 rol_codigo FROM S_QUERY.Rol WHERE rol_nombre = 'Proveedor' )),
+				('8' , (SELECT TOP 1 rol_codigo FROM S_QUERY.Rol WHERE rol_nombre = 'Proveedor' )),
+				('6' , (SELECT TOP 1 rol_codigo FROM S_QUERY.Rol WHERE rol_nombre = 'Cliente' )),
+				('4' , (SELECT TOP 1 rol_codigo FROM S_QUERY.Rol WHERE rol_nombre = 'Cliente' )),
+				('7' , (SELECT TOP 1 rol_codigo FROM S_QUERY.Rol WHERE rol_nombre = 'Cliente' ))
+					
+							
 COMMIT
 
 /*Facturas*/
@@ -236,6 +243,7 @@ SELECT * FROM gd_esquema.Maestra
 WHERE Oferta_Entregado_Fecha IS NOT NULL
 
 
+
 /*--------------------procedures----------------------*/
 CREATE PROCEDURE S_QUERY.insertarCliente(@clie_nombre NVARCHAR(255), @clie_apellido NVARCHAR(255), @clie_dni NUMERIC(18,0), @clie_mail NVARCHAR(255), @clie_telefono NUMERIC(18,0), @clie_fecha_nacimiento DATETIME, @clie_saldo FLOAT,
 									 @clie_habilitado BIT, @direc_codigo INT, @usuario_codigo INT) 
@@ -280,5 +288,35 @@ AS
 	BEGIN
 		INSERT INTO S_QUERY.FuncionalidadXRol(func_codigo, rol_codigo)
 		VALUES(@func_codigo, @rol_codigo)
+	END
+GO
+
+/*-----------------------------------------------------------Creacion Ofertas-----------------------------------------------------------------------*/
+
+DROP PROCEDURE S_QUERY.insertarOfertaNueva
+CREATE PROCEDURE S_QUERY.insertarOfertaNueva(@oferta_descripcion VARCHAR(255) , @oferta_fecha DATE , @oferta_fecha_vencimiento DATE  , @oferta_precio FLOAT , 
+	@oferta_precio_lista FLOAT , @oferta_cantidad_disponible INT , @oferta_maximo_compra INT , @prov_codigo INT)
+AS
+	BEGIN 
+		INSERT INTO S_QUERY.Oferta(oferta_descripcion , oferta_fecha , oferta_fecha_vencimiento, 
+			oferta_precio , oferta_precio_lista, oferta_cantidad_disponible, oferta_maximo_compra, prov_codigo)
+		VALUES(@oferta_descripcion , @oferta_fecha , @oferta_fecha_vencimiento , 
+			@oferta_precio , @oferta_precio_lista , @oferta_cantidad_disponible, @oferta_maximo_compra,  @prov_codigo  )
+	END
+GO
+
+/*-----------------------------------------------------------Creacion Ofertas-----------------------------------------------------------------------*/
+
+
+DROP PROCEDURE S_QUERY.ingresarUsuarioNuevo
+CREATE PROCEDURE S_QUERY.ingresarUsuarioNuevo(@usuario_nombre VARCHAR(20), @usuario_contraseña VARCHAR(256))
+AS
+	BEGIN 
+		DECLARE @codigo_usuario INT
+		INSERT INTO S_QUERY.Usuario(usuario_nombre, usuario_contraseña, usuario_habilitado)
+			VALUES (@usuario_nombre , @usuario_contraseña , '1')
+		SELECT @codigo_usuario = SCOPE_IDENTITY()
+		RETURN @codigo_usuario
+
 	END
 GO
