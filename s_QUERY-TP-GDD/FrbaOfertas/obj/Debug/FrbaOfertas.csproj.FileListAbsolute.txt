@@ -26,3 +26,6 @@ C:\Users\Dell\Documents\UTN\3er año\Gestion de Datos\s_QUERY-TP-GDD\s_QUERY-TP-
 C:\Users\Leon\Documents\Facultad\Tercer Año\Gestion de Datos\Repositorio_TP\s_QUERY-TP-GDD\s_QUERY-TP-GDD\FrbaOfertas\bin\Debug\FrbaOfertas.exe.config
 C:\Users\Leon\Documents\Facultad\Tercer Año\Gestion de Datos\Repositorio_TP\s_QUERY-TP-GDD\s_QUERY-TP-GDD\FrbaOfertas\obj\Debug\FrbaOfertas.exe
 C:\Users\Leon\Documents\Facultad\Tercer Año\Gestion de Datos\Repositorio_TP\s_QUERY-TP-GDD\s_QUERY-TP-GDD\FrbaOfertas\obj\Debug\FrbaOfertas.pdb
+C:\Users\Leon\Documents\Facultad\Tercer Año\Gestion de Datos\Repositorio_TP\Repositorio\s_QUERY-TP-GDD\s_QUERY-TP-GDD\FrbaOfertas\bin\Debug\FrbaOfertas.exe.config
+C:\Users\Leon\Documents\Facultad\Tercer Año\Gestion de Datos\Repositorio_TP\Repositorio\s_QUERY-TP-GDD\s_QUERY-TP-GDD\FrbaOfertas\obj\Debug\FrbaOfertas.exe
+C:\Users\Leon\Documents\Facultad\Tercer Año\Gestion de Datos\Repositorio_TP\Repositorio\s_QUERY-TP-GDD\s_QUERY-TP-GDD\FrbaOfertas\obj\Debug\FrbaOfertas.pdb

@@ -64,17 +64,24 @@
     </Compile>
     <Compile Include="Clases\BaseDeDato.cs" />
     <Compile Include="Clases\Cliente.cs" />
+    <Compile Include="Clases\Proveedor.cs" />
+    <Compile Include="CrearOferta\CreacionOferta.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CrearOferta\CreacionOferta.Designer.cs">
+      <DependentUpon>CreacionOferta.cs</DependentUpon>
+    </Compile>
     <Compile Include="LoginYSeguridad\Login.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="LoginYSeguridad\Login.Designer.cs">
       <DependentUpon>Login.cs</DependentUpon>
     </Compile>
-    <Compile Include="MenuPrincipal\Menu.cs">
+    <Compile Include="MenuPrincipal\MenuProveedor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MenuPrincipal\Menu.Designer.cs">
-      <DependentUpon>Menu.cs</DependentUpon>
+    <Compile Include="MenuPrincipal\MenuProveedor.Designer.cs">
+      <DependentUpon>MenuProveedor.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -105,11 +112,14 @@
     <EmbeddedResource Include="AbmRol\ModificarRol.resx">
       <DependentUpon>ModificarRol.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="CrearOferta\CreacionOferta.resx">
+      <DependentUpon>CreacionOferta.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LoginYSeguridad\Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MenuPrincipal\Menu.resx">
-      <DependentUpon>Menu.cs</DependentUpon>
+    <EmbeddedResource Include="MenuPrincipal\MenuProveedor.resx">
+      <DependentUpon>MenuProveedor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -145,7 +155,6 @@
   <ItemGroup>
     <Folder Include="CargaCredito\" />
     <Folder Include="ComprarOferta\" />
-    <Folder Include="CrearOferta\" />
     <Folder Include="EntregaOferta\" />
     <Folder Include="Facturar\" />
     <Folder Include="ListadoEstadistico\" />
