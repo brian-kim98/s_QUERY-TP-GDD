@@ -41,6 +41,8 @@ namespace FrbaOfertas2.LoginYSeguridad
 
                    // MenuProveedor menuParaMostrar
 
+                    //aca deberiamos crear el menu y pasarle el codigo de usuario por parametro
+
                     MessageBox.Show("Podes entrar !");
                 }
 
