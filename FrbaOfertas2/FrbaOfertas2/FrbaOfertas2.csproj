@@ -72,6 +72,12 @@
     <Compile Include="CrearOferta\CreacionOferta.Designer.cs">
       <DependentUpon>CreacionOferta.cs</DependentUpon>
     </Compile>
+    <Compile Include="EntregaOferta\EntregarOferta.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EntregaOferta\EntregarOferta.Designer.cs">
+      <DependentUpon>EntregarOferta.cs</DependentUpon>
+    </Compile>
     <Compile Include="LoginYSeguridad\Login.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -116,6 +122,9 @@
     <EmbeddedResource Include="CrearOferta\CreacionOferta.resx">
       <DependentUpon>CreacionOferta.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="EntregaOferta\EntregarOferta.resx">
+      <DependentUpon>EntregarOferta.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LoginYSeguridad\Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>
@@ -156,7 +165,6 @@
   <ItemGroup>
     <Folder Include="CargaCredito\" />
     <Folder Include="ComprarOferta\" />
-    <Folder Include="EntregaOferta\" />
     <Folder Include="Facturar\" />
     <Folder Include="ListadoEstadistico\" />
   </ItemGroup>
