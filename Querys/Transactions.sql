@@ -364,3 +364,13 @@ AS
 
 	END
 GO
+
+/*-----------------------------------------------------Consumo de Ofertas-----------------------------------------------------------------*/
+
+CREATE PROCEDURE S_QUERY.ingresarEntregaOferta(@fechaConsumo DATETIME, @cupon_codigo INT, @clie_codigo INT)
+AS
+	BEGIN
+		INSERT INTO S_QUERY.Entrega(entrega_fecha, cupon_codigo, clie_codigo)
+		VALUES(@fechaConsumo, @cupon_codigo, @clie_codigo)
+	END
+GO
