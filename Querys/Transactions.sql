@@ -49,6 +49,38 @@ BEGIN TRANSACTION
 									 clie_habilitado)
 			SELECT DISTINCT cli_nombre, 
 				cli_apellido,cli_dni, cli_mail, Cli_Telefono, Cli_Fecha_Nac, 200.0, 1 FROM gd_esquema.Maestra
+			
+		BEGIN
+			
+			DECLARE @dni as Numeric(18,0)
+			DECLARE @direccion as NVARCHAR(255)
+			DECLARE @numero as NVARCHAR(4)
+			DECLARE @localidad as NVARCHAR(255)
+			DECLARE @idDireccion as INT
+			DECLARE cursor_cliente CURSOR FOR			
+			SELECT g.dni as documento,g.localidad,
+				substring(g.direc,1,
+				len(g.direc) - 5 + charindex(' ',substring(g.direc,len(g.direc) - 3,4)) 
+				) as direccion,
+				substring(g.direc, len(g.direc) - 3 + charindex(' ',substring(g.direc,len(g.direc) - 3,4)),4) as numero
+			FROM 
+				(SELECT DISTINCT Cli_Dni as dni, Cli_Direccion as direc, Cli_Ciudad as localidad FROM gd_esquema.Maestra WHERE Cli_Dni IS NOT NULL) g 
+			OPEN cursor_cliente	
+			FETCH NEXT FROM cursor_cliente INTO @dni, @localidad, @direccion, @numero
+			WHILE @@fetch_status = 0
+			BEGIN
+				INSERT INTO S_QUERY.Direccion(direc_localidad, direc_calle, direc_nro)
+					VALUES(@localidad, @direccion, @numero)
+				SELECT @idDireccion = SCOPE_IDENTITY()
+				UPDATE S_QUERY.Cliente
+					SET direc_codigo = @idDireccion
+					WHERE clie_dni = @dni 
+				FETCH NEXT FROM cursor_cliente INTO @dni,@localidad, @direccion, @numero
+			END
+			CLOSE cursor_cliente
+			DEALLOCATE cursor_cliente
+
+		END
 
 		/*Tipo_Pago ready*/
 		INSERT INTO S_QUERY.Tipo_Pago (tipo_pago_nombre)
@@ -142,6 +174,18 @@ BEGIN TRANSACTION
 					
 							
 COMMIT
+
+SELECT DISTINCT Cli_Dni, Cli_Direccion FROM gd_esquema.Maestra
+where Cli_Dni IS NOT NULL
+
+SELECT substring(g.direc,1,
+		len(g.direc) - 5 + charindex(' ',substring(g.direc,len(g.direc) - 3,4)) 
+		) as direccion,
+		substring(g.direc, len(g.direc) - 3 + charindex(' ',substring(g.direc,len(g.direc) - 3,4)),4) as numero
+		
+FROM 
+(SELECT DISTINCT Cli_Dni as dni, Cli_Direccion as direc FROM gd_esquema.Maestra WHERE Cli_Dni IS NOT NULL) g
+
 
 /*Facturas*/
 
@@ -252,7 +296,7 @@ AS
 		DECLARE @idCliente int
 		INSERT INTO S_QUERY.Cliente(clie_nombre, clie_apellido, clie_dni, clie_mail, clie_telefono, clie_fecha_nacimiento, clie_saldo, clie_habilitado, direc_codigo, usuario_codigo)
 		VALUES(@clie_nombre, @clie_apellido, @clie_dni, @clie_mail, @clie_telefono, @clie_fecha_nacimiento, @clie_saldo, @clie_habilitado, @direc_codigo, @usuario_codigo)
-		SELECT @idCliente = SCOPE_IDENTITY()
+		SZELECT @idCliente = SCOPE_IDENTITY()
 
 		RETURN @idCliente
 	END
