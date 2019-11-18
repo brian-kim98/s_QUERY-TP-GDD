@@ -32,7 +32,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label_intentos = new System.Windows.Forms.Label();
             this.button_crear = new System.Windows.Forms.Button();
-            this.button_limpiar = new System.Windows.Forms.Button();
+            this.button_registrarse = new System.Windows.Forms.Button();
             this.textBox_usuario = new System.Windows.Forms.TextBox();
             this.textBox_contrasenia = new System.Windows.Forms.TextBox();
             this.label_alerta = new System.Windows.Forms.Label();
@@ -75,7 +75,7 @@
             // button_crear
             // 
             this.button_crear.Location = new System.Drawing.Point(213, 213);
-            this.button_crear.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button_crear.Margin = new System.Windows.Forms.Padding(2);
             this.button_crear.Name = "button_crear";
             this.button_crear.Size = new System.Drawing.Size(66, 26);
             this.button_crear.TabIndex = 3;
@@ -83,20 +83,21 @@
             this.button_crear.UseVisualStyleBackColor = true;
             this.button_crear.Click += new System.EventHandler(this.button1_Click);
             // 
-            // button_limpiar
+            // button_registrarse
             // 
-            this.button_limpiar.Location = new System.Drawing.Point(20, 213);
-            this.button_limpiar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.button_limpiar.Name = "button_limpiar";
-            this.button_limpiar.Size = new System.Drawing.Size(66, 26);
-            this.button_limpiar.TabIndex = 4;
-            this.button_limpiar.Text = "Limpiar";
-            this.button_limpiar.UseVisualStyleBackColor = true;
+            this.button_registrarse.Location = new System.Drawing.Point(11, 213);
+            this.button_registrarse.Margin = new System.Windows.Forms.Padding(2);
+            this.button_registrarse.Name = "button_registrarse";
+            this.button_registrarse.Size = new System.Drawing.Size(85, 26);
+            this.button_registrarse.TabIndex = 4;
+            this.button_registrarse.Text = "Registrarse";
+            this.button_registrarse.UseVisualStyleBackColor = true;
+            this.button_registrarse.Click += new System.EventHandler(this.button_registrarse_Click);
             // 
             // textBox_usuario
             // 
             this.textBox_usuario.Location = new System.Drawing.Point(89, 44);
-            this.textBox_usuario.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBox_usuario.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_usuario.Name = "textBox_usuario";
             this.textBox_usuario.Size = new System.Drawing.Size(171, 20);
             this.textBox_usuario.TabIndex = 5;
@@ -104,7 +105,7 @@
             // textBox_contrasenia
             // 
             this.textBox_contrasenia.Location = new System.Drawing.Point(89, 110);
-            this.textBox_contrasenia.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBox_contrasenia.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_contrasenia.Name = "textBox_contrasenia";
             this.textBox_contrasenia.Size = new System.Drawing.Size(171, 20);
             this.textBox_contrasenia.TabIndex = 6;
@@ -129,12 +130,12 @@
             this.Controls.Add(this.label_alerta);
             this.Controls.Add(this.textBox_contrasenia);
             this.Controls.Add(this.textBox_usuario);
-            this.Controls.Add(this.button_limpiar);
+            this.Controls.Add(this.button_registrarse);
             this.Controls.Add(this.button_crear);
             this.Controls.Add(this.label_intentos);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Login";
             this.Text = "LoginYSeguridad";
             this.Load += new System.EventHandler(this.Login_Load);
@@ -149,7 +150,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label_intentos;
         private System.Windows.Forms.Button button_crear;
-        private System.Windows.Forms.Button button_limpiar;
+        private System.Windows.Forms.Button button_registrarse;
         private System.Windows.Forms.TextBox textBox_usuario;
         private System.Windows.Forms.TextBox textBox_contrasenia;
         private System.Windows.Forms.Label label_alerta;

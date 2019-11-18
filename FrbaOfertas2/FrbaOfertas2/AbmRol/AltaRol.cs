@@ -24,7 +24,7 @@ namespace FrbaOfertas2
         private DataTable tabla_funcionalidades = new DataTable();
         private DataTable dt;
         private List<int> func_codigo_aux = new List<int>();
-        SqlDataAdapter 0adapter;
+        SqlDataAdapter adapter;
 
 
         public AltaRol_Form()

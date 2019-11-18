@@ -131,6 +131,7 @@ namespace FrbaOfertas2
             {
                 AltaCliente alta = new AltaCliente(codigo_usuario);
                 alta.Show();
+                this.Close();
             }
 
 
@@ -138,6 +139,7 @@ namespace FrbaOfertas2
             {
                 AltaProveedor alta = new AltaProveedor(codigo_usuario);
                 alta.Show();
+                this.Close();
             }
 
 

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using FrbaOfertas2.LoginYSeguridad;
 
 namespace FrbaOfertas2.RegistroUsuario.AbmCliente
 {
@@ -77,6 +78,11 @@ namespace FrbaOfertas2.RegistroUsuario.AbmCliente
                 generico.InsertCommand.Cancel();
             }
             generico.InsertCommand.Dispose();
+
+            Login nuevoLogin = new Login();
+            nuevoLogin.Show();
+            this.Close();
+
         }
 
         /// //////////////////////////////////////////////////////////////////////////////////////////////////////
