@@ -62,10 +62,22 @@
     <Compile Include="AbmRol\ModificarRol.Designer.cs">
       <DependentUpon>ModificarRol.cs</DependentUpon>
     </Compile>
+    <Compile Include="CargaCredito\CargarCredito.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CargaCredito\CargarCredito.Designer.cs">
+      <DependentUpon>CargarCredito.cs</DependentUpon>
+    </Compile>
     <Compile Include="Clases\BaseDeDato.cs" />
     <Compile Include="Clases\Cliente.cs" />
     <Compile Include="Clases\Proveedor.cs" />
     <Compile Include="Clases\Usuario.cs" />
+    <Compile Include="ComprarOferta\CompraOferta.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ComprarOferta\CompraOferta.Designer.cs">
+      <DependentUpon>CompraOferta.cs</DependentUpon>
+    </Compile>
     <Compile Include="CrearOferta\CreacionOferta.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -137,6 +149,12 @@
     <EmbeddedResource Include="AbmRol\ModificarRol.resx">
       <DependentUpon>ModificarRol.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="CargaCredito\CargarCredito.resx">
+      <DependentUpon>CargarCredito.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ComprarOferta\CompraOferta.resx">
+      <DependentUpon>CompraOferta.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CrearOferta\CreacionOferta.resx">
       <DependentUpon>CreacionOferta.cs</DependentUpon>
     </EmbeddedResource>
@@ -187,8 +205,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="CargaCredito\" />
-    <Folder Include="ComprarOferta\" />
     <Folder Include="ListadoEstadistico\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

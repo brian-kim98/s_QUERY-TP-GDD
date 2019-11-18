@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using FrbaOfertas2.AbmRol;
 using FrbaOfertas2.CrearOferta;
 using FrbaOfertas2.Clases;
+using FrbaOfertas2.CargaCredito;
 
 namespace FrbaOfertas2
 {
@@ -28,6 +29,7 @@ namespace FrbaOfertas2
             //Application.Run(new AltaRol_Form());
             //Application.Run(new RegistrarUsuario());
             Application.Run(new Login());
+            Application.Run(new CargarCredito());
             //Application.Run(new AltaCliente());
             //Application.Run(new ListadoRoles());
 
