@@ -78,6 +78,18 @@
     <Compile Include="EntregaOferta\EntregarOferta.Designer.cs">
       <DependentUpon>EntregarOferta.cs</DependentUpon>
     </Compile>
+    <Compile Include="Facturar\FacturacionAProveedor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Facturar\FacturacionAProveedor.Designer.cs">
+      <DependentUpon>FacturacionAProveedor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Facturar\ListadoFacturacionGenerada.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Facturar\ListadoFacturacionGenerada.Designer.cs">
+      <DependentUpon>ListadoFacturacionGenerada.cs</DependentUpon>
+    </Compile>
     <Compile Include="LoginYSeguridad\Login.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -131,6 +143,9 @@
     <EmbeddedResource Include="EntregaOferta\EntregarOferta.resx">
       <DependentUpon>EntregarOferta.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Facturar\FacturacionAProveedor.resx">
+      <DependentUpon>FacturacionAProveedor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LoginYSeguridad\Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>
@@ -174,7 +189,6 @@
   <ItemGroup>
     <Folder Include="CargaCredito\" />
     <Folder Include="ComprarOferta\" />
-    <Folder Include="Facturar\" />
     <Folder Include="ListadoEstadistico\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

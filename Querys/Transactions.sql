@@ -1,23 +1,106 @@
-USE GD2C2019;
 
-DROP TABLE S_QUERY.FuncionalidadXRol 
-DROP TABLE S_QUERY.RolXUsuario
-DROP TABLE S_QUERY.Funcionalidad
-DROP TABLE S_QUERY.Rol
-DROP TABLE S_QUERY.Carga
-DROP TABLE S_QUERY.Tipo_Pago
-DROP TABLE S_QUERY.Tarjeta
-DROP TABLE S_QUERY.Entrega
-/*DROP TABLE S_QUERY.Item_Factura*/
-DROP TABLE S_QUERY.Cupon
-DROP TABLE S_QUERY.Factura
-DROP TABLE S_QUERY.Oferta
-DROP TABLE S_QUERY.Proveedor
-DROP TABLE S_QUERY.Cliente
-DROP TABLE S_QUERY.Rubro
-DROP TABLE S_QUERY.Direccion
-DROP TABLE S_QUERY.Usuario
+/*--------------------procedures----------------------*/
+IF EXISTS (SELECT name FROM sysobjects WHERE name='insertarCliente' AND type='p')
+	DROP PROCEDURE S_QUERY.insertarCliente
+GO
+CREATE PROCEDURE S_QUERY.insertarCliente(@clie_nombre NVARCHAR(255), @clie_apellido NVARCHAR(255), @clie_dni NUMERIC(18,0), @clie_mail NVARCHAR(255), @clie_telefono NUMERIC(18,0), @clie_fecha_nacimiento DATETIME, @clie_saldo FLOAT,
+									 @clie_habilitado BIT, @direc_codigo INT, @usuario_codigo INT) 
+AS
+	BEGIN
+		DECLARE @idCliente int
+		INSERT INTO S_QUERY.Cliente(clie_nombre, clie_apellido, clie_dni, clie_mail, clie_telefono, clie_fecha_nacimiento, clie_saldo, clie_habilitado, direc_codigo, usuario_codigo)
+		VALUES(@clie_nombre, @clie_apellido, @clie_dni, @clie_mail, @clie_telefono, @clie_fecha_nacimiento, @clie_saldo, @clie_habilitado, @direc_codigo, @usuario_codigo)
+		SELECT @idCliente = SCOPE_IDENTITY()
 
+		RETURN @idCliente
+	END
+GO
+
+
+
+IF EXISTS (SELECT name FROM sysobjects WHERE name='crearDireccion' AND type='p')
+	DROP PROCEDURE S_QUERY.crearDireccion
+GO
+CREATE PROCEDURE S_QUERY.crearDireccion(@direc_localidad VARCHAR(255), @direc_calle VARCHAR(255), @direc_nro INT, @direc_piso SMALLINT, @direc_depto SMALLINT)
+AS
+	BEGIN
+		DECLARE @idDireccion int
+		INSERT INTO S_QUERY.Direccion(direc_localidad, direc_calle, direc_nro, direc_piso, direc_depto)
+		VALUES(@direc_localidad, @direc_calle, @direc_nro, @direc_piso, @direc_depto)
+		SELECT @idDireccion = SCOPE_IDENTITY()
+
+		RETURN @idDireccion
+	END
+GO
+
+/*-----------------------------------------------------------ABM ROL-----------------------------------------------------------------------*/
+
+IF EXISTS (SELECT name FROM sysobjects WHERE name='insertarRolNuevo' AND type='p')
+	DROP PROCEDURE S_QUERY.insertarRolNuevo
+GO
+CREATE PROCEDURE S_QUERY.insertarRolNuevo(@rol_nombre VARCHAR(50))
+AS
+	BEGIN
+		DECLARE @idRol NUMERIC(18,0)
+		INSERT INTO S_QUERY.Rol(rol_nombre)	VALUES(@rol_nombre)
+		SELECT @idRol = SCOPE_IDENTITY()
+		RETURN @idRol
+
+	END
+GO
+
+
+
+IF EXISTS (SELECT name FROM sysobjects WHERE name='insertarFuncionalidadPorRol' AND type='p')
+	DROP PROCEDURE S_QUERY.insertarFuncionalidadPorRol
+GO
+CREATE PROCEDURE S_QUERY.insertarFuncionalidadPorRol(@func_codigo INT, @rol_codigo INT)
+AS
+	BEGIN
+		INSERT INTO S_QUERY.FuncionalidadXRol(func_codigo, rol_codigo)
+		VALUES(@func_codigo, @rol_codigo)
+	END
+GO
+
+/*-----------------------------------------------------------Creacion Ofertas-----------------------------------------------------------------------*/
+
+
+IF EXISTS (SELECT name FROM sysobjects WHERE name='insertarOfertaNueva' AND type='p')
+	DROP PROCEDURE S_QUERY.insertarOfertaNueva
+GO
+CREATE PROCEDURE S_QUERY.insertarOfertaNueva(@oferta_descripcion VARCHAR(255) , @oferta_fecha DATE , @oferta_fecha_vencimiento DATE  , @oferta_precio FLOAT , 
+	@oferta_precio_lista FLOAT , @oferta_cantidad_disponible INT , @oferta_maximo_compra INT , @prov_codigo INT)
+AS
+	BEGIN 
+		INSERT INTO S_QUERY.Oferta(oferta_descripcion , oferta_fecha , oferta_fecha_vencimiento, 
+			oferta_precio , oferta_precio_lista, oferta_cantidad_disponible, oferta_maximo_compra, prov_codigo)
+		VALUES(@oferta_descripcion , @oferta_fecha , @oferta_fecha_vencimiento , 
+			@oferta_precio , @oferta_precio_lista , @oferta_cantidad_disponible, @oferta_maximo_compra,  @prov_codigo  )
+	END
+GO
+
+/*-----------------------------------------------------------Creacion Ofertas-----------------------------------------------------------------------*/
+
+
+
+IF EXISTS (SELECT name FROM sysobjects WHERE name='ingresarUsuarioNuevo' AND type='p')
+	DROP PROCEDURE S_QUERY.ingresarUsuarioNuevo
+GO
+CREATE PROCEDURE S_QUERY.ingresarUsuarioNuevo(@usuario_nombre VARCHAR(20), @usuario_contraseña VARCHAR(256))
+AS
+	BEGIN 
+		DECLARE @codigo_usuario INT
+		INSERT INTO S_QUERY.Usuario(usuario_nombre, usuario_contraseña, usuario_habilitado)
+			VALUES (@usuario_nombre , @usuario_contraseña , '1')
+		SELECT @codigo_usuario = SCOPE_IDENTITY()
+		RETURN @codigo_usuario
+
+	END
+GO
+
+/*-------------------------------TRANSACTION-----------------------------*/
+
+USE GD2C2019
 BEGIN TRANSACTION
 		/*Rubro ready*/
 		INSERT INTO S_QUERY.Rubro(rubro_nombre)
@@ -43,7 +126,46 @@ BEGIN TRANSACTION
 			AND Provee_CUIT IS NOT NULL
 			AND Provee_Dom IS NOT NULL 
 			AND Provee_Ciudad IS NOT NULL
+		BEGIN
 
+			DECLARE @cuit as NVARCHAR(20)
+			DECLARE @direccion as NVARCHAR(100)
+			DECLARE @numero as NVARCHAR(4)
+			DECLARE @localidad as NVARCHAR(255)
+			DECLARE @idDireccion as INT
+			DECLARE @idUsuario as INT
+			DECLARE cursor_proveedor CURSOR FOR			
+			SELECT g.cuit as documento,g.localidad,
+				substring(g.direc,1,
+				len(g.direc) - 5 + charindex(' ',substring(g.direc,len(g.direc) - 3,4)) 
+				) as direccion,
+				substring(g.direc, len(g.direc) - 3 + charindex(' ',substring(g.direc,len(g.direc) - 3,4)),4) as numero
+			FROM 
+				(SELECT DISTINCT Provee_CUIT as cuit, Provee_Dom as direc, Provee_Ciudad as localidad FROM gd_esquema.Maestra WHERE Provee_CUIT IS NOT NULL) g 
+			OPEN cursor_proveedor
+			FETCH NEXT FROM cursor_proveedor INTO @cuit, @localidad, @direccion, @numero
+			WHILE @@fetch_status = 0
+			BEGIN
+				INSERT INTO S_QUERY.Direccion(direc_localidad, direc_calle, direc_nro)
+					VALUES(@localidad, @direccion, @numero)
+				SELECT @idDireccion = SCOPE_IDENTITY()
+				UPDATE S_QUERY.Proveedor
+					SET direc_codigo = @idDireccion
+					WHERE prov_cuit = @cuit
+
+				INSERT INTO S_QUERY.Usuario(usuario_nombre,usuario_contraseña, usuario_habilitado)
+					VALUES(@cuit, lower(convert(varchar(256),HASHBYTES('SHA2_256',@cuit),2)),1)
+				 SELECT @idUsuario = SCOPE_IDENTITY()
+				 UPDATE S_QUERY.Proveedor
+					SET usuario_codigo = @idUsuario
+					WHERE prov_cuit = @cuit
+
+				FETCH NEXT FROM cursor_proveedor INTO @cuit,@localidad, @direccion, @numero
+			END
+			CLOSE cursor_proveedor
+			DEALLOCATE cursor_proveedor
+
+		END
 		/*Cliente ready*/
 		INSERT INTO S_QUERY.Cliente (clie_nombre, clie_apellido, clie_dni, clie_mail, clie_telefono, clie_fecha_nacimiento, clie_saldo,
 									 clie_habilitado)
@@ -53,10 +175,11 @@ BEGIN TRANSACTION
 		BEGIN
 			
 			DECLARE @dni as Numeric(18,0)
-			DECLARE @direccion as NVARCHAR(255)
-			DECLARE @numero as NVARCHAR(4)
-			DECLARE @localidad as NVARCHAR(255)
-			DECLARE @idDireccion as INT
+			DECLARE @direccion_cliente as NVARCHAR(255)
+			DECLARE @numero_cliente as NVARCHAR(4)
+			DECLARE @localidad_cliente as NVARCHAR(255)
+			DECLARE @idDireccion_cliente as INT
+			DECLARE @idUsuarioC as INT
 			DECLARE cursor_cliente CURSOR FOR			
 			SELECT g.dni as documento,g.localidad,
 				substring(g.direc,1,
@@ -66,16 +189,22 @@ BEGIN TRANSACTION
 			FROM 
 				(SELECT DISTINCT Cli_Dni as dni, Cli_Direccion as direc, Cli_Ciudad as localidad FROM gd_esquema.Maestra WHERE Cli_Dni IS NOT NULL) g 
 			OPEN cursor_cliente	
-			FETCH NEXT FROM cursor_cliente INTO @dni, @localidad, @direccion, @numero
+			FETCH NEXT FROM cursor_cliente INTO @dni, @localidad_cliente, @direccion_cliente, @numero_cliente
 			WHILE @@fetch_status = 0
 			BEGIN
 				INSERT INTO S_QUERY.Direccion(direc_localidad, direc_calle, direc_nro)
-					VALUES(@localidad, @direccion, @numero)
-				SELECT @idDireccion = SCOPE_IDENTITY()
+					VALUES(@localidad_cliente, @direccion_cliente, @numero_cliente)
+				SELECT @idDireccion_cliente = SCOPE_IDENTITY()
 				UPDATE S_QUERY.Cliente
-					SET direc_codigo = @idDireccion
-					WHERE clie_dni = @dni 
-				FETCH NEXT FROM cursor_cliente INTO @dni,@localidad, @direccion, @numero
+					SET direc_codigo = @idDireccion_cliente
+					WHERE clie_dni = @dni
+				INSERT INTO S_QUERY.Usuario(usuario_nombre,usuario_contraseña, usuario_habilitado)
+					VALUES(@dni, lower(convert(varchar(256),HASHBYTES('SHA2_256',convert(varchar,@dni)),2)),1)
+				 SELECT @idUsuarioC = SCOPE_IDENTITY()
+				 UPDATE S_QUERY.Cliente
+					SET usuario_codigo = @idUsuarioC
+					WHERE clie_dni = @dni
+				FETCH NEXT FROM cursor_cliente INTO @dni,@localidad_cliente, @direccion_cliente, @numero_cliente
 			END
 			CLOSE cursor_cliente
 			DEALLOCATE cursor_cliente
@@ -175,202 +304,4 @@ BEGIN TRANSACTION
 							
 COMMIT
 
-SELECT DISTINCT Cli_Dni, Cli_Direccion FROM gd_esquema.Maestra
-where Cli_Dni IS NOT NULL
 
-SELECT substring(g.direc,1,
-		len(g.direc) - 5 + charindex(' ',substring(g.direc,len(g.direc) - 3,4)) 
-		) as direccion,
-		substring(g.direc, len(g.direc) - 3 + charindex(' ',substring(g.direc,len(g.direc) - 3,4)),4) as numero
-		
-FROM 
-(SELECT DISTINCT Cli_Dni as dni, Cli_Direccion as direc FROM gd_esquema.Maestra WHERE Cli_Dni IS NOT NULL) g
-
-
-/*Facturas*/
-
-/* COMENTADO POR LAS DUDIÑAS, PERIODO INICIO Y FIN EN MAESTRA
-SELECT DISTINCT m.Factura_Nro, m.Factura_Fecha,
-	   (SELECT MIN(m1.Oferta_Fecha_Compra)
-	    FROM gd_esquema.Maestra m1
-		WHERE m1.Factura_Nro = m.Factura_Nro
-	   ) as 'Periodo inicio',
-	   (SELECT MAX(m2.Oferta_Fecha_Compra)
-	    FROM gd_esquema.Maestra m2
-		WHERE m2.Factura_Nro = m.Factura_Nro
-	   ) as 'Periodo Fin',
-	   (SELECT prov_codigo FROM S_QUERY.Proveedor
-		WHERE prov_cuit = m.Provee_CUIT
-	   ) as 'Codigo Proveedor'
-FROM gd_esquema.Maestra m
-WHERE Factura_Nro IS NOT NULL
-ORDER BY Factura_Nro
-*/
-
-/*cantidad de cupones facturados MIGRADOS*/
-SELECT * FROM S_QUERY.Cupon
-WHERE fact_numero IS NOT NULL
-ORDER BY fact_numero ASC
-
-/*cantidad de cupones a migrar*/
-SELECT * FROM gd_esquema.Maestra
-WHERE Factura_Nro IS NOT NULL
-ORDER BY Factura_Nro ASC
-
-/*facturas distintas*/
-SELECT DISTINCT  Factura_Nro, Factura_Fecha, Provee_CUIT FROM gd_esquema.Maestra
-WHERE Factura_Nro IS NOT NULL
-Order BY Factura_Nro
-
-/*Ofertas GDD_MAESTRA*/
-SELECT DISTINCT Oferta_Codigo, Oferta_Descripcion, Oferta_Fecha, Oferta_Fecha_Venc, Oferta_Precio,
-							Oferta_Precio_Ficticio, 0, Oferta_Cantidad,
-							(SELECT prov_codigo FROM S_QUERY.Proveedor
-							 WHERE prov_cuit = Provee_CUIT)
-			FROM gd_esquema.Maestra
-			WHERE Oferta_Entregado_Fecha IS NULL
-			AND Factura_Nro IS NULL
-			AND Oferta_Codigo IS NOT NULL
-			ORDER BY Oferta_Codigo ASC
-
-/*Compras GDD_MAESTRA*/
-SELECT * FROM gd_esquema.Maestra
-WHERE Oferta_Codigo IS NOT NULL
-AND Oferta_Entregado_Fecha IS NULL
-AND Factura_Nro IS NULL
-ORDER BY Cli_Dni, Oferta_Codigo ASC
-
-/*Entregas GDD_MAESTRA*/
-
-SELECT * FROM gd_esquema.Maestra
-WHERE Oferta_Codigo IS NOT NULL
-AND Factura_Nro IS NULL
-ORDER BY Oferta_Codigo,Oferta_Entregado_Fecha
-
-/*CANTIDAD DE ENTREGAS*/
-SELECT COUNT(Oferta_Entregado_Fecha) FROM gd_esquema.Maestra
-WHERE Oferta_Entregado_Fecha IS NOT NULL
-
-SELECT SUM(t.cantidad_entregas) FROM 
-(SELECT Oferta_Codigo as codigo, COUNT(Oferta_Entregado_Fecha) as cantidad_entregas FROM gd_esquema.Maestra
-WHERE Oferta_Codigo IS NOT NULL
-AND Factura_Nro IS NULL
-GROUP BY Oferta_Codigo
-) t
-
-/*CANTIDAD ENTREGAS POR CODIGO*/
-SELECT Oferta_Codigo, COUNT(Oferta_Entregado_Fecha) FROM gd_esquema.Maestra
-WHERE Oferta_Codigo IS NOT NULL
-AND Factura_Nro IS NULL
-GROUP BY Oferta_Codigo
-ORDER BY Oferta_Codigo
-
-SELECT Oferta_Codigo, Oferta_Entregado_Fecha FROM gd_esquema.Maestra
-WHERE Oferta_Codigo IS NOT NULL
-AND Factura_Nro IS NULL
-GROUP BY Oferta_Codigo, Oferta_Entregado_Fecha
-ORDER BY Oferta_Codigo, Oferta_Entregado_Fecha
-
-/*Cupones*/
-SELECT * FROM S_QUERY.Cupon
-
-
-/*Entrega - cupon*/
-SELECT Oferta_Entregado_Fecha,
-			(SELECT c.cupon_codigo
-			FROM S_QUERY.Cupon c JOIN S_QUERY.Oferta o on c.oferta_codigo = o.oferta_codigo
-			WHERE o.oferta_codigo_viejo = maestra.Oferta_Codigo AND c.cupon_fecha = maestra.Oferta_Fecha_Compra)
-			FROM gd_esquema.Maestra maestra
-			WHERE Oferta_Entregado_Fecha IS NOT NULL
-			
-SELECT * FROM gd_esquema.Maestra
-WHERE Oferta_Entregado_Fecha IS NOT NULL
-
-
-
-/*--------------------procedures----------------------*/
-CREATE PROCEDURE S_QUERY.insertarCliente(@clie_nombre NVARCHAR(255), @clie_apellido NVARCHAR(255), @clie_dni NUMERIC(18,0), @clie_mail NVARCHAR(255), @clie_telefono NUMERIC(18,0), @clie_fecha_nacimiento DATETIME, @clie_saldo FLOAT,
-									 @clie_habilitado BIT, @direc_codigo INT, @usuario_codigo INT) 
-AS
-	BEGIN
-		DECLARE @idCliente int
-		INSERT INTO S_QUERY.Cliente(clie_nombre, clie_apellido, clie_dni, clie_mail, clie_telefono, clie_fecha_nacimiento, clie_saldo, clie_habilitado, direc_codigo, usuario_codigo)
-		VALUES(@clie_nombre, @clie_apellido, @clie_dni, @clie_mail, @clie_telefono, @clie_fecha_nacimiento, @clie_saldo, @clie_habilitado, @direc_codigo, @usuario_codigo)
-		SZELECT @idCliente = SCOPE_IDENTITY()
-
-		RETURN @idCliente
-	END
-GO
-
-CREATE PROCEDURE S_QUERY.crearDireccion(@direc_localidad VARCHAR(255), @direc_calle VARCHAR(255), @direc_nro INT, @direc_piso SMALLINT, @direc_depto SMALLINT)
-AS
-	BEGIN
-		DECLARE @idDireccion int
-		INSERT INTO S_QUERY.Direccion(direc_localidad, direc_calle, direc_nro, direc_piso, direc_depto)
-		VALUES(@direc_localidad, @direc_calle, @direc_nro, @direc_piso, @direc_depto)
-		SELECT @idDireccion = SCOPE_IDENTITY()
-
-		RETURN @idDireccion
-	END
-GO
-
-/*-----------------------------------------------------------ABM ROL-----------------------------------------------------------------------*/
-DROP PROCEDURE S_QUERY.insertarRolNuevo
-CREATE PROCEDURE S_QUERY.insertarRolNuevo(@rol_nombre VARCHAR(50))
-AS
-	BEGIN
-		DECLARE @idRol NUMERIC(18,0)
-		INSERT INTO S_QUERY.Rol(rol_nombre)	VALUES(@rol_nombre)
-		SELECT @idRol = SCOPE_IDENTITY()
-		RETURN @idRol
-
-	END
-GO
-
-CREATE PROCEDURE S_QUERY.insertarFuncionalidadPorRol(@func_codigo INT, @rol_codigo INT)
-AS
-	BEGIN
-		INSERT INTO S_QUERY.FuncionalidadXRol(func_codigo, rol_codigo)
-		VALUES(@func_codigo, @rol_codigo)
-	END
-GO
-
-/*-----------------------------------------------------------Creacion Ofertas-----------------------------------------------------------------------*/
-
-DROP PROCEDURE S_QUERY.insertarOfertaNueva
-CREATE PROCEDURE S_QUERY.insertarOfertaNueva(@oferta_descripcion VARCHAR(255) , @oferta_fecha DATE , @oferta_fecha_vencimiento DATE  , @oferta_precio FLOAT , 
-	@oferta_precio_lista FLOAT , @oferta_cantidad_disponible INT , @oferta_maximo_compra INT , @prov_codigo INT)
-AS
-	BEGIN 
-		INSERT INTO S_QUERY.Oferta(oferta_descripcion , oferta_fecha , oferta_fecha_vencimiento, 
-			oferta_precio , oferta_precio_lista, oferta_cantidad_disponible, oferta_maximo_compra, prov_codigo)
-		VALUES(@oferta_descripcion , @oferta_fecha , @oferta_fecha_vencimiento , 
-			@oferta_precio , @oferta_precio_lista , @oferta_cantidad_disponible, @oferta_maximo_compra,  @prov_codigo  )
-	END
-GO
-
-/*-----------------------------------------------------------Creacion Ofertas-----------------------------------------------------------------------*/
-
-
-DROP PROCEDURE S_QUERY.ingresarUsuarioNuevo
-CREATE PROCEDURE S_QUERY.ingresarUsuarioNuevo(@usuario_nombre VARCHAR(20), @usuario_contraseña VARCHAR(256))
-AS
-	BEGIN 
-		DECLARE @codigo_usuario INT
-		INSERT INTO S_QUERY.Usuario(usuario_nombre, usuario_contraseña, usuario_habilitado)
-			VALUES (@usuario_nombre , @usuario_contraseña , '1')
-		SELECT @codigo_usuario = SCOPE_IDENTITY()
-		RETURN @codigo_usuario
-
-	END
-GO
-
-/*-----------------------------------------------------Consumo de Ofertas-----------------------------------------------------------------*/
-
-CREATE PROCEDURE S_QUERY.ingresarEntregaOferta(@fechaConsumo DATETIME, @cupon_codigo INT, @clie_codigo INT)
-AS
-	BEGIN
-		INSERT INTO S_QUERY.Entrega(entrega_fecha, cupon_codigo, clie_codigo)
-		VALUES(@fechaConsumo, @cupon_codigo, @clie_codigo)
-	END
-GO
