@@ -154,10 +154,8 @@ GO
 CREATE TABLE [GD2C2019].[S_QUERY].Entrega(	
 	entrega_codigo INT IDENTITY(1,1) PRIMARY KEY,
 	entrega_fecha DATETIME NOT NULL,
-	cupon_codigo INT NOT NULL,
-	clie_codigo INT NOT NULL,
+	cupon_codigo INT,
 	FOREIGN KEY (cupon_codigo) REFERENCES S_QUERY.Cupon(cupon_codigo)
-	FOREIGN KEY (clie_codigo) REFERENCES S_QUERY.Cliente(clie_codigo)
 )
 GO
 

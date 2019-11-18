@@ -47,3 +47,4 @@ C:\Users\Leon\Documents\Facultad\Tercer Año\Gestion de Datos\Repositorio_TP\Rep
 C:\Users\Leon\Documents\Facultad\Tercer Año\Gestion de Datos\Repositorio_TP\Repositorio\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.AbmRol.ModificarRol.resources
 C:\Users\Leon\Documents\Facultad\Tercer Año\Gestion de Datos\Repositorio_TP\Repositorio\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.CrearOferta.CreacionOferta.resources
 C:\Users\Leon\Documents\Facultad\Tercer Año\Gestion de Datos\Repositorio_TP\Repositorio\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.MenuPrincipal.MenuProveedor.resources
+C:\Users\Leon\Documents\Facultad\Tercer Año\Gestion de Datos\Repositorio_TP\Repositorio\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.EntregaOferta.EntregarOferta.resources
