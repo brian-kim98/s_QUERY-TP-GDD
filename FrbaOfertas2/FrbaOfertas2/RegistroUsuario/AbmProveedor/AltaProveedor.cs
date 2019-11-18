@@ -77,7 +77,7 @@ namespace FrbaOfertas2.RegistroUsuario.AbmProveedor
             SqlConnection connection = ConnectionWithDatabase();
             connection.Open();
 
-            String query_insert_direccion_nuevo = "INSERT INTO S_QUERY.Direccion(direc_localidad, direc_calle , direc_nro, direc_piso, direc_depto) VALUES('" + textBox_localidad.Text.ToString() + "', '"
+            string query_insert_direccion_nuevo = "INSERT INTO S_QUERY.Direccion(direc_localidad, direc_calle , direc_nro, direc_piso, direc_depto) VALUES('" + textBox_localidad.Text.ToString() + "', '"
                 + textBox_calle.Text.ToString() + "', "
                 + int.Parse(textBox_numero.Text) + ", "
                 + Int16.Parse(textBox_numero_piso.Text) + ", "

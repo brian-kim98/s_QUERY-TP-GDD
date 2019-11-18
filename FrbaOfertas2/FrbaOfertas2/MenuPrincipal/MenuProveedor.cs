@@ -27,7 +27,7 @@ namespace FrbaOfertas2.MenuPrincipal
 
         private void button1_Click(object sender, EventArgs e)
         {
-            CreacionOferta pantalla_crear_oferta = new CreacionOferta(proveedor_usuario);
+            CreacionOferta pantalla_crear_oferta = new CreacionOferta(1);
             pantalla_crear_oferta.Show();
         }
 

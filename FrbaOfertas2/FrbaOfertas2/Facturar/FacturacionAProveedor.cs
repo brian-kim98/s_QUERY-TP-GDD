@@ -41,7 +41,7 @@ namespace FrbaOfertas2.Facturar
 
         private bool estanTodosLosCamposCompletos()
         {
-
+            return true;
         }
 
         private void cargar_comboBox_proveedores()

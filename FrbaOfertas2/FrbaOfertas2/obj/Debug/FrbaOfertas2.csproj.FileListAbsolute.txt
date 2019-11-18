@@ -59,3 +59,4 @@ C:\Users\Leon\Documents\Facultad\Tercer Año\Gestion de Datos\Repositorio_TP\s_Q
 =======
 C:\Users\Leon\Documents\Facultad\Tercer Año\Gestion de Datos\Repositorio_TP\Repositorio\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.EntregaOferta.EntregarOferta.resources
 >>>>>>> 34f498d63ccc9b3db53cb7f9853b143361309896
+C:\Users\Leon\Documents\Facultad\Tercer Año\Gestion de Datos\Repositorio_TP\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.Facturar.FacturacionAProveedor.resources

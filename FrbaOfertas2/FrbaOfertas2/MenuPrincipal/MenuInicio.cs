@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using FrbaOfertas2.Clases;
 using System.Data.SqlClient;
+using FrbaOfertas2.CrearOferta;
+using FrbaOfertas2.AbmRol;
 
 namespace FrbaOfertas2.MenuPrincipal
 {
@@ -16,11 +18,15 @@ namespace FrbaOfertas2.MenuPrincipal
     {
         private BaseDeDato bd = new BaseDeDato();
         SqlDataAdapter adapter;
+        int codigo_user;
 
         public MenuInicio(int codigo_usuario)
         {
             InitializeComponent();
+            codigo_user = codigo_usuario;
             this.habilitar_funcionalidades(codigo_usuario);
+            MessageBox.Show("Termino");
+        
         }
 
         private void habilitar_funcionalidades(int codigo_usuario)
@@ -29,19 +35,21 @@ namespace FrbaOfertas2.MenuPrincipal
 
             listaFuncionalidades = this.obtenerListaFuncionalidades(codigo_usuario);
 
-            if (listaFuncionalidades.Contains("Confeccion y publicacion de Ofertas"))
+            if (!listaFuncionalidades.Contains("Confeccion y publicacion de Ofertas"))
             {
-                this.habilitar_button(button_crear_oferta);
+                this.inhabilitar_button(button_crear_oferta);
             }
 
-            if (listaFuncionalidades.Contains("Comprar Oferta"))
+
+            if ( !listaFuncionalidades.Contains("Comprar Oferta"))
             {
-                this.habilitar_button(button_comprar_oferta);
+                this.inhabilitar_button(button_comprar_oferta);
             }
 
-            if (listaFuncionalidades.Contains("Cargar Credito"))
+            if (!listaFuncionalidades.Contains("Cargar Credito"))
             {
-                this.habilitar_button(button_carga_credito);
+
+                this.inhabilitar_button(button_carga_credito);
             }
 
             //Falta terminar
@@ -52,12 +60,13 @@ namespace FrbaOfertas2.MenuPrincipal
         {
             List<String> funcionalidades = new List<String>();
 
-            bd.conectar();
+            
 
-            String selectFuncionalidadesQuery = "SELECT f.func_nombre FROM [S_QUERY].Funcionalidad f"
-                + "JOIN S_QUERY.FuncionalidadXRol fr ON fr.func_codigo = f.func_codigo"
-                + "JOIN S_QUERY.Rol r ON r.rol_codigo = fr.rol_codigo"
-                + "JOIN S_QUERY.RolXUsuario u ON r.rol_codigo = ' " + codigo_usuario.ToString() + "'";
+            String selectFuncionalidadesQuery = "SELECT f.func_nombre FROM S_QUERY.Funcionalidad f "
+                + "JOIN S_QUERY.FuncionalidadXRol fr ON fr.func_codigo = f.func_codigo "
+                + "JOIN S_QUERY.Rol r ON r.rol_codigo = fr.rol_codigo "
+                + "JOIN S_QUERY.RolXUsuario u ON r.rol_codigo = u.rol_codigo "
+                + "WHERE u.usuario_codigo = '" + codigo_usuario.ToString() + "'";
 
             try
             {
@@ -83,22 +92,55 @@ namespace FrbaOfertas2.MenuPrincipal
             }
 
 
-            bd.desconectar();
+           
             return funcionalidades;
+        }
+
+        public void inhabilitar_button(Button botonAModificar)
+        {
+
+
+            botonAModificar.BackColor = SystemColors.ControlDark;
+
+            botonAModificar.FlatStyle = FlatStyle.Popup;
+         
+            botonAModificar.Enabled = false;
+
+            botonAModificar.Visible = false;
+
         }
 
 
         public void habilitar_button(Button botonAModificar)
         {
-            botonAModificar.BackColor = SystemColors.Control;
-            botonAModificar.FlatStyle = FlatStyle.Standard;
-            botonAModificar.Enabled = true;
 
+            
+            botonAModificar.BackColor = SystemColors.Control;
+            
+            botonAModificar.FlatStyle = FlatStyle.Standard;
+            MessageBox.Show("prueba222");
+            botonAModificar.Enabled = true;
+            MessageBox.Show("pruebaa");
+            //botonAModificar.Visible = true;
+            MessageBox.Show("prueba111");
         }
 
         private void button_crear_oferta_Click(object sender, EventArgs e)
         {
+            CreacionOferta crearOferta = new CreacionOferta(codigo_user);
+            crearOferta.Show();
+            MessageBox.Show("hoaala");
+        }
 
+        private void button_comprar_oferta_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button_roles_Click(object sender, EventArgs e)
+        {
+            ListadoRoles listaRoles = new ListadoRoles();
+            listaRoles.Show();
         }
     }
 }
