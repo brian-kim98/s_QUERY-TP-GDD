@@ -11,6 +11,7 @@ using FrbaOfertas2.Clases;
 using System.Data.SqlClient;
 using FrbaOfertas2.CrearOferta;
 using FrbaOfertas2.AbmRol;
+using FrbaOfertas2.CargaCredito;
 
 namespace FrbaOfertas2.MenuPrincipal
 {
@@ -141,6 +142,13 @@ namespace FrbaOfertas2.MenuPrincipal
         {
             ListadoRoles listaRoles = new ListadoRoles();
             listaRoles.Show();
+        }
+
+        private void button_carga_credito_Click(object sender, EventArgs e)
+        {
+            CargarCredito nuevaCarga = new CargarCredito(codigo_user);
+            nuevaCarga.Show();
+            this.Close();
         }
     }
 }

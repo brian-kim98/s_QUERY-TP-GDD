@@ -83,10 +83,12 @@ AS
 
 		SELECT @idUsuario = SCOPE_IDENTITY()
 
-
-
 		INSERT INTO S_QUERY.Cliente(clie_nombre, clie_apellido, clie_dni, clie_mail, clie_telefono, clie_fecha_nacimiento, clie_saldo, clie_habilitado, direc_codigo, usuario_codigo)
 			VALUES(@clie_nombre, @clie_apellido, @clie_dni, @clie_mail, @clie_telefono, @clie_fecha_nacimiento, @clie_saldo, '1', @direc_codigo, @idUsuario)
+
+	
+		INSERT INTO S_QUERY.RolXUsuario(rol_codigo, usuario_codigo)
+			VALUES( (SELECT rol_codigo FROM S_QUERY.Rol WHERE rol_nombre = 'Cliente') , @idUsuario)
 	END
 GO
 
@@ -109,6 +111,9 @@ AS
 
 		INSERT INTO S_QUERY.Proveedor(prov_razon_social, prov_cuit, prov_mail, prov_ciudad, prov_telefono, prov_nombre_contacto, prov_habilitado, rubro_codigo, direc_codigo, usuario_codigo)
 			VALUES(@razon_social_prov, @cuit_prov, @mail_prov, @ciudad_prov, @telefono_prov, @nombre_contacto_prov, '1', @rubro_codigo_prov, @direc_codigo_prov, @idUsuario)
+
+		INSERT INTO S_QUERY.RolXUsuario(rol_codigo, usuario_codigo)
+			VALUES( (SELECT rol_codigo FROM S_QUERY.Rol WHERE rol_nombre = 'Proveedor') , @idUsuario)
 	END
 GO
 
@@ -136,6 +141,13 @@ GO
 CREATE PROCEDURE S_QUERY.cargarCredito(@fecha_de_carga DATE , @monto numeric(18,2) , @clie_codigo_carga INT , @tarjeta_numero_carga INT , @tipo_pago_carga INT)
 AS
 	BEGIN
+		
+		IF NOT EXISTS (SELECT tarjeta_numero FROM S_QUERY.Tarjeta WHERE tarjeta_numero=@tarjeta_numero_carga AND clie_codigo= @clie_codigo_carga)
+			BEGIN
+				INSERT INTO S_QUERY.Tarjeta(tarjeta_numero, clie_codigo)
+					VALUES(@tarjeta_numero_carga, @clie_codigo_carga)
+			END
+
 		INSERT INTO S_QUERY.Carga(carga_fecha, carga_monto, clie_codigo,  tarjeta_numero , tipo_pago_codigo)
 		 VALUES(@fecha_de_carga , @monto, @clie_codigo_carga , @tarjeta_numero_carga, @tipo_pago_carga )
 

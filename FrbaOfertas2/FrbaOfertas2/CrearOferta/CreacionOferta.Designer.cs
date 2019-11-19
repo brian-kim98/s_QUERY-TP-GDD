@@ -93,6 +93,7 @@
             this.dateTimePicker_fecha_vencimiento.Name = "dateTimePicker_fecha_vencimiento";
             this.dateTimePicker_fecha_vencimiento.Size = new System.Drawing.Size(200, 20);
             this.dateTimePicker_fecha_vencimiento.TabIndex = 28;
+            this.dateTimePicker_fecha_vencimiento.ValueChanged += new System.EventHandler(this.dateTimePicker_fecha_vencimiento_ValueChanged);
             // 
             // dateTimePicker_fecha_publicacion
             // 

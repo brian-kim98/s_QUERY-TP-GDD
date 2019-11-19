@@ -149,6 +149,11 @@ namespace FrbaOfertas2.CrearOferta
             return respuesta;
         }
 
+        private void dateTimePicker_fecha_vencimiento_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
 
         /// //////////////////////////////////////////////////////////////////////////////////////////////////
     }

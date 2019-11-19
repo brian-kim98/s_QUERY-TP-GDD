@@ -70,6 +70,7 @@
             this.button_carga_credito.TabIndex = 2;
             this.button_carga_credito.Text = "Cargar Credito";
             this.button_carga_credito.UseVisualStyleBackColor = false;
+            this.button_carga_credito.Click += new System.EventHandler(this.button_carga_credito_Click);
             // 
             // button_comprar_oferta
             // 

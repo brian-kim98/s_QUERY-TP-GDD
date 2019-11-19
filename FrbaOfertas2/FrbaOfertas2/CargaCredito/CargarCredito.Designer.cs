@@ -73,6 +73,9 @@
             // 
             // textBox_cod_seguridad
             // 
+            this.textBox_cod_seguridad.BackColor = System.Drawing.SystemColors.ScrollBar;
+            this.textBox_cod_seguridad.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBox_cod_seguridad.Enabled = false;
             this.textBox_cod_seguridad.Location = new System.Drawing.Point(138, 299);
             this.textBox_cod_seguridad.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_cod_seguridad.Name = "textBox_cod_seguridad";
@@ -81,6 +84,9 @@
             // 
             // textBox_numero_tarjeta
             // 
+            this.textBox_numero_tarjeta.BackColor = System.Drawing.SystemColors.ScrollBar;
+            this.textBox_numero_tarjeta.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBox_numero_tarjeta.Enabled = false;
             this.textBox_numero_tarjeta.Location = new System.Drawing.Point(138, 237);
             this.textBox_numero_tarjeta.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_numero_tarjeta.Name = "textBox_numero_tarjeta";
@@ -89,6 +95,7 @@
             // 
             // dateTimePicker_fecha
             // 
+            this.dateTimePicker_fecha.Enabled = false;
             this.dateTimePicker_fecha.Location = new System.Drawing.Point(138, 265);
             this.dateTimePicker_fecha.Margin = new System.Windows.Forms.Padding(2);
             this.dateTimePicker_fecha.Name = "dateTimePicker_fecha";
