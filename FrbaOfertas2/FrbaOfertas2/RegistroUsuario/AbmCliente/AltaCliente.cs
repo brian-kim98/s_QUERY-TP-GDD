@@ -9,22 +9,21 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using FrbaOfertas2.LoginYSeguridad;
+using FrbaOfertas2.Clases;
 
 namespace FrbaOfertas2.RegistroUsuario.AbmCliente
 {
     public partial class AltaCliente : Form
     {
 
-        public int codigo_usuario_conectado;
+        public Usuario usuario_registrar;
         SqlDataAdapter generico = new SqlDataAdapter();
 
 
-        public AltaCliente(int codigo_usaurio)
+        public AltaCliente(Usuario nuevo_usuario )
         {
             InitializeComponent();
-            codigo_usuario_conectado = codigo_usaurio;
-
-  
+            usuario_registrar = nuevo_usuario;
 
         }
 
@@ -52,63 +51,93 @@ namespace FrbaOfertas2.RegistroUsuario.AbmCliente
 
         /// //////////////////////////////////////////////////////////////////////////////////////////////////////
 
+        private bool todosLosCamposCompletos()
+        {
+            //modificar esto luego
+            return true;
+
+        }
+
+        /// //////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        private bool verificarCamposNumericos()
+        {
+            //modificar esto luego
+            return true;
+
+        }
+
+        /// //////////////////////////////////////////////////////////////////////////////////////////////////////
         private void button_crear_Click(object sender, EventArgs e)
         {
+            if(this.todosLosCamposCompletos() && this.verificarCamposNumericos()){
+            
+                int id_direccion = this.crear_direccion();
 
-            this.crear_direccion();
-    
-            int id_usuario = codigo_usuario_conectado;
-            int id_direccion = this.obtener_direccion(textBox_localidad.Text.ToString(), textBox_calle.Text.ToString(), int.Parse(textBox_numero.Text), Int16.Parse(textBox_numero_piso.Text), Int16.Parse(textBox_departamento.Text));
+                BaseDeDato bd = new BaseDeDato();
 
-            SqlConnection connection = ConnectionWithDatabase();
-            connection.Open();
-            String query_insert_rol_nuevo = "INSERT INTO S_QUERY.Cliente(clie_nombre, clie_apellido, clie_dni, clie_mail, clie_telefono, clie_fecha_nacimiento, clie_saldo, clie_habilitado, direc_codigo, usuario_codigo)" +  
-                " VALUES('" + textBox_nombre.Text.ToString() +
-                "', '" + textBox_apellido.Text.ToString() +
-                "', " + int.Parse(textBox_dni.Text) +
-                ", '" + textBox_mail.Text.ToString() +
-                "', " + int.Parse(textBox_telefono.Text) +
-                ", '" + dateTimePicker_fecha_nacimiento.Value.ToString() +
-                "', 200, 1," + id_direccion + ", " + id_usuario + ")";
-            generico.InsertCommand = new SqlCommand(query_insert_rol_nuevo, connection);
-            MessageBox.Show("llega");
-            int a = generico.InsertCommand.ExecuteNonQuery();
-            if (a == -1)
-            {
-                generico.InsertCommand.Cancel();
+                bd.conectar();
+
+                SqlCommand procedure = Clases.BaseDeDato.crearConsulta("S_QUERY.insertarCliente");
+                procedure.CommandType = CommandType.StoredProcedure;
+                procedure.Parameters.AddWithValue("@usuario_nombre", SqlDbType.VarChar).Value = usuario_registrar.username;
+                procedure.Parameters.AddWithValue("@usuario_contraseña", SqlDbType.VarChar).Value = usuario_registrar.password;
+                procedure.Parameters.AddWithValue("@clie_nombre", SqlDbType.VarChar).Value = textBox_nombre.Text;
+                procedure.Parameters.AddWithValue("@clie_apellido", SqlDbType.VarChar).Value = textBox_apellido.Text;
+                procedure.Parameters.AddWithValue("@clie_dni", SqlDbType.Int).Value = (int)Convert.ToInt32(textBox_dni.Text);
+                procedure.Parameters.AddWithValue("@clie_mail", SqlDbType.VarChar).Value = textBox_mail.Text;
+                procedure.Parameters.AddWithValue("@clie_telefono", SqlDbType.Int).Value = (int)Convert.ToInt32(textBox_telefono.Text);
+                procedure.Parameters.AddWithValue("@clie_fecha_nacimiento", SqlDbType.Date).Value = dateTimePicker_fecha_nacimiento.Value;
+                procedure.Parameters.AddWithValue("@clie_saldo", SqlDbType.Float).Value = 200.00;
+                procedure.Parameters.AddWithValue("@direc_codigo", SqlDbType.Int).Value = id_direccion;
+
+                procedure.ExecuteNonQuery();
+
+                bd.desconectar();
+
+                Login nuevoLogin = new Login();
+                nuevoLogin.Show();
+                this.Close();
             }
-            generico.InsertCommand.Dispose();
-
-            Login nuevoLogin = new Login();
-            nuevoLogin.Show();
-            this.Close();
-
         }
 
         /// //////////////////////////////////////////////////////////////////////////////////////////////////////
         /// 
 
-        private void crear_direccion()
+        private int crear_direccion()
         {
-            SqlConnection connection = ConnectionWithDatabase();
-            connection.Open();
+            BaseDeDato bd = new BaseDeDato();
 
-            String query_insert_direccion_nuevo = "INSERT INTO S_QUERY.Direccion(direc_localidad, direc_calle , direc_nro, direc_piso, direc_depto) VALUES('" + textBox_localidad.Text.ToString() + "', '"
-                + textBox_calle.Text.ToString() + "', "
-                + int.Parse(textBox_numero.Text) + ", "
-                + Int16.Parse(textBox_numero_piso.Text) + ", " 
-                + Int16.Parse(textBox_departamento.Text) + ")"; //despues cambiar la contra a encriptacion
-            //SqlDataAdapter sda_insert = new SqlDataAdapter(query_insert_rol, connection);
-            generico.InsertCommand = new SqlCommand(query_insert_direccion_nuevo, connection);
+            bd.conectar();
 
-            int a = generico.InsertCommand.ExecuteNonQuery();
-            if (a == -1)
+            SqlCommand procedure = Clases.BaseDeDato.crearConsulta("S_QUERY.crearDireccion");
+            procedure.CommandType = CommandType.StoredProcedure;
+            procedure.Parameters.AddWithValue("@direc_localidad", SqlDbType.VarChar).Value = textBox_localidad.Text;
+            procedure.Parameters.AddWithValue("@direc_calle", SqlDbType.VarChar).Value = textBox_calle.Text;
+            procedure.Parameters.AddWithValue("@direc_nro", SqlDbType.Int).Value = (int)Convert.ToInt16(textBox_numero.Text);
+
+            if (textBox_numero_piso.Text != "" && textBox_departamento.Text != "")
             {
-                generico.InsertCommand.Cancel();
-                MessageBox.Show("Fallo al ingresar el usuario");
+
+                procedure.Parameters.AddWithValue("@direc_piso", SqlDbType.Int).Value = (int)Convert.ToInt16(textBox_numero_piso.Text);
+                procedure.Parameters.AddWithValue("@direc_depto", SqlDbType.Int).Value = (int)Convert.ToInt16(textBox_departamento.Text);
+
+            }
+            else
+            {
+                procedure.Parameters.AddWithValue("@direc_piso", SqlDbType.Int).Value = (object)DBNull.Value;
+                procedure.Parameters.AddWithValue("@direc_depto", SqlDbType.Int).Value = (object)DBNull.Value;
             }
 
-            generico.InsertCommand.Dispose();
+            procedure.Parameters.Add("@ReturnVal", SqlDbType.Int);
+            procedure.Parameters["@ReturnVal"].Direction = ParameterDirection.ReturnValue;
+            procedure.ExecuteNonQuery();
+
+            int codigo_direccion = Convert.ToInt32(procedure.Parameters["@ReturnVal"].Value);
+
+            bd.desconectar();
+
+            return codigo_direccion;
         }
         
         /// //////////////////////////////////////////////////////////////////////////////////////////////////////

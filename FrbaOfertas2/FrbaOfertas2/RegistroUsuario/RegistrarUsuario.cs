@@ -109,27 +109,14 @@ namespace FrbaOfertas2
 
             BaseDeDato bd = new BaseDeDato();
 
-            bd.conectar();
+            
 
             String password_encriptado = this.encriptacion_password(textBox_password.Text.ToString());
 
-            SqlCommand procedure = Clases.BaseDeDato.crearConsulta("S_QUERY.ingresarUsuarioNuevo");
-            procedure.CommandType = CommandType.StoredProcedure;
-            procedure.Parameters.AddWithValue("@usuario_nombre", SqlDbType.VarChar).Value = textBox_username.Text;
-            procedure.Parameters.AddWithValue("@usuario_contraseña", SqlDbType.VarChar).Value = password_encriptado;
-            procedure.Parameters.Add("@ReturnVal" , SqlDbType.Int );
-            procedure.Parameters["@ReturnVal"].Direction = ParameterDirection.ReturnValue;
-            procedure.ExecuteNonQuery();
-
-            int codigo_usuario = Convert.ToInt32(procedure.Parameters["@ReturnVal"].Value);
-
-            MessageBox.Show("Codigo de usuario = " + codigo_usuario.ToString() );
-
-            bd.desconectar();
-
+            Usuario usuario_nuevo = new Usuario(password_encriptado, textBox_username.Text);
             if (comboBox_rol_asignado.SelectedValue.ToString() == "Cliente")
             {
-                AltaCliente alta = new AltaCliente(codigo_usuario);
+                AltaCliente alta = new AltaCliente(usuario_nuevo);
                 alta.Show();
                 this.Close();
             }
@@ -137,8 +124,8 @@ namespace FrbaOfertas2
 
             if (comboBox_rol_asignado.SelectedValue.ToString() == "Proveedor")
             {
-                AltaProveedor alta = new AltaProveedor(codigo_usuario);
-                alta.Show();
+                //AltaProveedor alta = new AltaProveedor(usuario_nuevo);
+                //alta.Show();
                 this.Close();
             }
 

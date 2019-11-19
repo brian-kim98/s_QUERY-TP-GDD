@@ -1,20 +1,6 @@
 
 /*--------------------procedures----------------------*/
-IF EXISTS (SELECT name FROM sysobjects WHERE name='insertarCliente' AND type='p')
-	DROP PROCEDURE S_QUERY.insertarCliente
-GO
-CREATE PROCEDURE S_QUERY.insertarCliente(@clie_nombre NVARCHAR(255), @clie_apellido NVARCHAR(255), @clie_dni NUMERIC(18,0), @clie_mail NVARCHAR(255), @clie_telefono NUMERIC(18,0), @clie_fecha_nacimiento DATETIME, @clie_saldo FLOAT,
-									 @clie_habilitado BIT, @direc_codigo INT, @usuario_codigo INT) 
-AS
-	BEGIN
-		DECLARE @idCliente int
-		INSERT INTO S_QUERY.Cliente(clie_nombre, clie_apellido, clie_dni, clie_mail, clie_telefono, clie_fecha_nacimiento, clie_saldo, clie_habilitado, direc_codigo, usuario_codigo)
-		VALUES(@clie_nombre, @clie_apellido, @clie_dni, @clie_mail, @clie_telefono, @clie_fecha_nacimiento, @clie_saldo, @clie_habilitado, @direc_codigo, @usuario_codigo)
-		SELECT @idCliente = SCOPE_IDENTITY()
 
-		RETURN @idCliente
-	END
-GO
 
 
 
@@ -79,11 +65,33 @@ AS
 	END
 GO
 
-/*-----------------------------------------------------------Creacion Ofertas-----------------------------------------------------------------------*/
+/*-----------------------------------------------------------Nuevo Usuario-----------------------------------------------------------------------*/
+/*----SE INSERTARAN CON SU USUARIO Y SU DIRECCION--*/
+
+IF EXISTS (SELECT name FROM sysobjects WHERE name='insertarCliente' AND type='p')
+	DROP PROCEDURE S_QUERY.insertarCliente
+GO
+CREATE PROCEDURE S_QUERY.insertarCliente(@usuario_nombre VARCHAR(20), @usuario_contraseña VARCHAR(256), @clie_nombre NVARCHAR(255),
+		 @clie_apellido NVARCHAR(255), @clie_dni NUMERIC(18,0), @clie_mail NVARCHAR(255), @clie_telefono NUMERIC(18,0), @clie_fecha_nacimiento DATETIME, @clie_saldo FLOAT, @direc_codigo INT) 
+AS
+	BEGIN
+		DECLARE @idUsuario INT
+		DECLARE @idCliente int
+
+		INSERT INTO S_QUERY.Usuario(usuario_nombre, usuario_contraseña, usuario_habilitado)
+			VALUES (@usuario_nombre , @usuario_contraseña , '1')
+
+		SELECT @idUsuario = SCOPE_IDENTITY()
 
 
 
-IF EXISTS (SELECT name FROM sysobjects WHERE name='ingresarUsuarioNuevo' AND type='p')
+		INSERT INTO S_QUERY.Cliente(clie_nombre, clie_apellido, clie_dni, clie_mail, clie_telefono, clie_fecha_nacimiento, clie_saldo, clie_habilitado, direc_codigo, usuario_codigo)
+			VALUES(@clie_nombre, @clie_apellido, @clie_dni, @clie_mail, @clie_telefono, @clie_fecha_nacimiento, @clie_saldo, '1', @direc_codigo, @idUsuario)
+	END
+GO
+
+
+/*IF EXISTS (SELECT name FROM sysobjects WHERE name='ingresarUsuarioNuevo' AND type='p')
 	DROP PROCEDURE S_QUERY.ingresarUsuarioNuevo
 GO
 CREATE PROCEDURE S_QUERY.ingresarUsuarioNuevo(@usuario_nombre VARCHAR(20), @usuario_contraseña VARCHAR(256))
@@ -96,7 +104,26 @@ AS
 		RETURN @codigo_usuario
 
 	END
+GO*/
+
+/*-----------------------------------------------------------Carga Credito-----------------------------------------------------------------------*/
+
+IF EXISTS (SELECT name FROM sysobjects WHERE name='cargarCredito' AND type='p')
+	DROP PROCEDURE S_QUERY.cargarCredito
 GO
+CREATE PROCEDURE S_QUERY.cargarCredito(@fecha_de_carga DATE , @monto numeric(18,2) , @clie_codigo_carga INT , @tarjeta_numero_carga INT , @tipo_pago_carga INT)
+AS
+	BEGIN
+		INSERT INTO S_QUERY.Carga(carga_fecha, carga_monto, clie_codigo,  tarjeta_numero , tipo_pago_codigo)
+		 VALUES(@fecha_de_carga , @monto, @clie_codigo_carga , @tarjeta_numero_carga, @tipo_pago_carga )
+
+		UPDATE S_QUERY.Cliente
+			SET clie_saldo += @monto
+			WHERE clie_codigo = @clie_codigo_carga 
+
+	END
+GO
+
 
 /*-------------------------------TRANSACTION-----------------------------*/
 

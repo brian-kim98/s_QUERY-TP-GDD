@@ -15,15 +15,19 @@ namespace FrbaOfertas2.CargaCredito
     {
 
         private DataTable tabla_pagos = new DataTable();
+        int codigo_cliente;
 
-        public CargarCredito()
+        public CargarCredito(int codigo_usuario)
         {
             InitializeComponent();
+            codigo_cliente = this.buscarCodigoCliente(codigo_usuario);
             this.cargar_valores();
+
         }
 
         private void cargar_valores() {
             label_fecha_hoy.Text = DateTime.Today.ToString("dd-MM-yyyy");
+            label_codigo_cliente.Text = codigo_cliente.ToString();
             this.carga_comboBox_tipo_pago();
         }
 
@@ -94,6 +98,69 @@ namespace FrbaOfertas2.CargaCredito
         }
 
         /// //////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        private void button_cargar_Click(object sender, EventArgs e)
+        {
+            if (!this.esUnCampoNumerico(textBox_monto))
+            {
+                MessageBox.Show("Ingrese un monto numerico.");
+                textBox_monto.BackColor = Color.IndianRed;
+            }
+            else
+            {
+
+                //ACA FALTARIA AGARRAR EL PROCEDURE Y HACERLO; PERO NO TENGO NADA PARA PROBARLO POR NO TENER CLIENTES; VOY A TERMINAR ESA PARTE PRIMERO
+
+
+            }
+
+
+
+
+
+        }
+
+        /// //////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+        private int buscarCodigoCliente(int codigoUsuario)
+        {
+            int codigo_encontrado;
+
+            using (SqlConnection connection = ConnectionWithDatabase())
+            {
+                connection.Open();
+
+                String query_buscar_codigo_cliente = "SELECT clie_codigo FROM S_QUERY.Cliente WHERE usuario_codigo = '" +
+                    codigoUsuario.ToString() + "'";
+                SqlDataAdapter sda_select = new SqlDataAdapter(query_buscar_codigo_cliente, connection);
+                DataTable data_cliente = new DataTable();
+
+                sda_select.Fill(data_cliente);
+
+                codigo_encontrado = int.Parse(data_cliente.Rows[0].ItemArray[0].ToString());
+
+
+            }
+
+            return codigo_encontrado;
+        }
+
+        /// //////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        private bool esUnCampoNumerico(TextBox casilla_texto)
+        {
+
+            double valorDouble = 0.0;
+
+            float valorFloat = (float)valorDouble;
+
+            bool respuesta = float.TryParse(casilla_texto.Text, out valorFloat);
+
+            return respuesta;
+
+        }
+
 
     }
 }
