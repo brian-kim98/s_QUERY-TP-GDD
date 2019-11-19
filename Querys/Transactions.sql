@@ -91,6 +91,28 @@ AS
 GO
 
 
+
+IF EXISTS (SELECT name FROM sysobjects WHERE name='insertarProveedor' AND type='p')
+	DROP PROCEDURE S_QUERY.insertarProveedor
+GO
+CREATE PROCEDURE S_QUERY.insertarProveedor(@usuario_nombre_prov VARCHAR(20), @usuario_contraseña_prov VARCHAR(256), @razon_social_prov NVARCHAR(255),
+		 @cuit_prov NVARCHAR(20), @mail_prov NVARCHAR(255),@ciudad_prov VARCHAR(64) ,  @telefono_prov NUMERIC(18,0), @nombre_contacto_prov VARCHAR(64), @rubro_codigo_prov INT, @direc_codigo_prov INT) 
+AS
+	BEGIN
+		DECLARE @idUsuario INT
+		DECLARE @idProveedor int
+
+		INSERT INTO S_QUERY.Usuario(usuario_nombre, usuario_contraseña, usuario_habilitado)
+			VALUES (@usuario_nombre_prov , @usuario_contraseña_prov , '1')
+
+		SELECT @idUsuario = SCOPE_IDENTITY()
+
+		INSERT INTO S_QUERY.Proveedor(prov_razon_social, prov_cuit, prov_mail, prov_ciudad, prov_telefono, prov_nombre_contacto, prov_habilitado, rubro_codigo, direc_codigo, usuario_codigo)
+			VALUES(@razon_social_prov, @cuit_prov, @mail_prov, @ciudad_prov, @telefono_prov, @nombre_contacto_prov, '1', @rubro_codigo_prov, @direc_codigo_prov, @idUsuario)
+	END
+GO
+
+
 /*IF EXISTS (SELECT name FROM sysobjects WHERE name='ingresarUsuarioNuevo' AND type='p')
 	DROP PROCEDURE S_QUERY.ingresarUsuarioNuevo
 GO
@@ -123,6 +145,7 @@ AS
 
 	END
 GO
+
 
 
 /*-------------------------------TRANSACTION-----------------------------*/
@@ -161,6 +184,8 @@ BEGIN TRANSACTION
 			DECLARE @localidad as NVARCHAR(255)
 			DECLARE @idDireccion as INT
 			DECLARE @idUsuario as INT
+			DECLARE @rolProv as INT
+			SET @rolProv = (SELECT rol_codigo FROM S_QUERY.Rol WHERE rol_nombre = 'Proveedor')
 			DECLARE cursor_proveedor CURSOR FOR			
 			SELECT g.cuit as documento,g.localidad,
 				substring(g.direc,1,
@@ -187,6 +212,9 @@ BEGIN TRANSACTION
 					SET usuario_codigo = @idUsuario
 					WHERE prov_cuit = @cuit
 
+				INSERT INTO S_QUERY.RolXUsuario(rol_codigo,usuario_codigo)
+					VALUES(@rolProv,@idUsuario)
+
 				FETCH NEXT FROM cursor_proveedor INTO @cuit,@localidad, @direccion, @numero
 			END
 			CLOSE cursor_proveedor
@@ -207,6 +235,8 @@ BEGIN TRANSACTION
 			DECLARE @localidad_cliente as NVARCHAR(255)
 			DECLARE @idDireccion_cliente as INT
 			DECLARE @idUsuarioC as INT
+			DECLARE @rolCli as INT
+			SET @rolCli = (SELECT rol_codigo FROM S_QUERY.Rol WHERE rol_nombre = 'Cliente')
 			DECLARE cursor_cliente CURSOR FOR			
 			SELECT g.dni as documento,g.localidad,
 				substring(g.direc,1,
@@ -231,6 +261,10 @@ BEGIN TRANSACTION
 				 UPDATE S_QUERY.Cliente
 					SET usuario_codigo = @idUsuarioC
 					WHERE clie_dni = @dni
+
+				INSERT INTO S_QUERY.RolXUsuario(rol_codigo, usuario_codigo)
+					VALUES(@rolCli,@idUsuarioC)
+
 				FETCH NEXT FROM cursor_cliente INTO @dni,@localidad_cliente, @direccion_cliente, @numero_cliente
 			END
 			CLOSE cursor_cliente

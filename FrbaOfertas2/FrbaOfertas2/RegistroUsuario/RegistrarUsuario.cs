@@ -124,8 +124,8 @@ namespace FrbaOfertas2
 
             if (comboBox_rol_asignado.SelectedValue.ToString() == "Proveedor")
             {
-                //AltaProveedor alta = new AltaProveedor(usuario_nuevo);
-                //alta.Show();
+                AltaProveedor alta = new AltaProveedor(usuario_nuevo);
+                alta.Show();
                 this.Close();
             }
 

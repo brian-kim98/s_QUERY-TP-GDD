@@ -8,19 +8,22 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using FrbaOfertas2.Clases;
+using FrbaOfertas2.LoginYSeguridad;
 
 namespace FrbaOfertas2.RegistroUsuario.AbmProveedor
 {
     public partial class AltaProveedor : Form
     {
-        public int codigo_usuario_conectado;
+        public Usuario usuario_conectado;
         SqlDataAdapter generico = new SqlDataAdapter();
+        private DataTable tabla_rubros = new DataTable();
 
-        public AltaProveedor(int codigo_usuario)
+        public AltaProveedor(Usuario usuario)
         {
             InitializeComponent();
-            codigo_usuario_conectado = codigo_usuario;
-
+            usuario_conectado = usuario;
+            this.cargarSelectorRubro();
            
         }
 
@@ -29,32 +32,61 @@ namespace FrbaOfertas2.RegistroUsuario.AbmProveedor
             InitializeComponent();
         }
 
+        /// ////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// 
+        private bool todosLosCamposCompletos()
+        {
+            return true;
+        }
+
+        /// ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        private bool verificarCamposNumericos()
+        {
+            return true;
+        }
+
+        /// ////////////////////////////////////////////////////////////////////////////////////////////////////
+
         private void button_crear_Click(object sender, EventArgs e)
         {
-            this.crear_direccion();
 
-            int id_usuario = codigo_usuario_conectado;
-            int id_direccion = this.obtener_direccion(textBox_localidad.Text.ToString(), textBox_calle.Text.ToString(), int.Parse(textBox_numero.Text), Int16.Parse(textBox_numero_piso.Text), Int16.Parse(textBox_departamento.Text));
-            int id_rubro = this.obtener_rubro(textBox_rubro.Text.ToString());
-            SqlConnection connection = ConnectionWithDatabase();
-            connection.Open();
-            String query_insert_rol_nuevo = "INSERT INTO S_QUERY.Proveedor(prov_razon_social, prov_cuit, prov_mail, prov_ciudad, prov_telefono, prov_nombre_contacto, prov_habilitado, rubro_codigo, direc_codigo, usuario_codigo)" +
-                " VALUES('" + textBox_razonSocial.Text.ToString() +
-                "', '" + textBox_cuit.Text.ToString() +
-                ", '" + textBox_mail.Text.ToString() +
-                "', '" + textBox_ciudad.Text.ToString() +
-                "', " + int.Parse(textBox_telefono.Text) +
-                ", '" + textBox_nombreContacto.Text.ToString() +
-                "', 1, " + id_rubro + ", " + id_direccion + ", " + id_usuario + ")";
-            generico.InsertCommand = new SqlCommand(query_insert_rol_nuevo, connection);
-            int a = generico.InsertCommand.ExecuteNonQuery();
-            if (a == -1)
+            MessageBox.Show("rubro: " + comboBox_rubro.ValueMember.ToString());
+
+            
+
+
+            if (this.todosLosCamposCompletos() && this.verificarCamposNumericos())
             {
-                generico.InsertCommand.Cancel();
-            }
-            generico.InsertCommand.Dispose();
 
-            MessageBox.Show("Creado con exito");
+                int id_rubro = this.obtener_rubro(comboBox_rubro.Text.ToString());
+                MessageBox.Show("Hola");
+                int id_direccion = this.crear_direccion();
+                MessageBox.Show("Hola");
+                BaseDeDato bd = new BaseDeDato();
+
+                bd.conectar();
+
+                SqlCommand procedure = Clases.BaseDeDato.crearConsulta("S_QUERY.insertarProveedor");
+                procedure.CommandType = CommandType.StoredProcedure;
+                procedure.Parameters.AddWithValue("@usuario_nombre_prov", SqlDbType.VarChar).Value = usuario_conectado.username;
+                procedure.Parameters.AddWithValue("@usuario_contraseña_prov", SqlDbType.VarChar).Value = usuario_conectado.password;
+                procedure.Parameters.AddWithValue("@razon_social_prov", SqlDbType.VarChar).Value = textBox_razonSocial.Text;
+                procedure.Parameters.AddWithValue("@cuit_prov", SqlDbType.VarChar).Value = textBox_cuit.Text;
+                procedure.Parameters.AddWithValue("@mail_prov", SqlDbType.VarChar).Value = textBox_mail.Text;
+                procedure.Parameters.AddWithValue("@ciudad_prov", SqlDbType.VarChar).Value = textBox_ciudad.Text;
+                procedure.Parameters.AddWithValue("@telefono_prov", SqlDbType.Int).Value = (int)Convert.ToInt32(textBox_telefono.Text);
+                procedure.Parameters.AddWithValue("@nombre_contacto_prov", SqlDbType.VarChar).Value = textBox_nombreContacto.Text;
+                procedure.Parameters.AddWithValue("@rubro_codigo_prov", SqlDbType.Int).Value = id_rubro;
+                procedure.Parameters.AddWithValue("@direc_codigo_prov", SqlDbType.Int).Value = id_direccion;
+
+                procedure.ExecuteNonQuery();
+
+                bd.desconectar();
+
+                this.Close();
+            }
+            
         }
 
         /// ////////////////////////////////////////////////////////////////////////////////
@@ -72,27 +104,42 @@ namespace FrbaOfertas2.RegistroUsuario.AbmProveedor
 
         }
 
-        private void crear_direccion()
+        private int crear_direccion()
         {
-            SqlConnection connection = ConnectionWithDatabase();
-            connection.Open();
 
-            string query_insert_direccion_nuevo = "INSERT INTO S_QUERY.Direccion(direc_localidad, direc_calle , direc_nro, direc_piso, direc_depto) VALUES('" + textBox_localidad.Text.ToString() + "', '"
-                + textBox_calle.Text.ToString() + "', "
-                + int.Parse(textBox_numero.Text) + ", "
-                + Int16.Parse(textBox_numero_piso.Text) + ", "
-                + Int16.Parse(textBox_departamento.Text) + ")"; //despues cambiar la contra a encriptacion
-            //SqlDataAdapter sda_insert = new SqlDataAdapter(query_insert_rol, connection);
-            generico.InsertCommand = new SqlCommand(query_insert_direccion_nuevo, connection);
+            BaseDeDato bd = new BaseDeDato();
 
-            int a = generico.InsertCommand.ExecuteNonQuery();
-            if (a == -1)
+            bd.conectar();
+
+            SqlCommand procedure = Clases.BaseDeDato.crearConsulta("S_QUERY.crearDireccion");
+            procedure.CommandType = CommandType.StoredProcedure;
+            procedure.Parameters.AddWithValue("@direc_localidad", SqlDbType.VarChar).Value = textBox_localidad.Text;
+            procedure.Parameters.AddWithValue("@direc_calle", SqlDbType.VarChar).Value = textBox_calle.Text;
+            procedure.Parameters.AddWithValue("@direc_nro", SqlDbType.Int).Value = (int)Convert.ToInt16(textBox_numero.Text);
+
+            if (textBox_numero_piso.Text != "" && textBox_departamento.Text != "")
             {
-                generico.InsertCommand.Cancel();
-                MessageBox.Show("Fallo al ingresar el usuario");
+
+                procedure.Parameters.AddWithValue("@direc_piso", SqlDbType.Int).Value = (int)Convert.ToInt16(textBox_numero_piso.Text);
+                procedure.Parameters.AddWithValue("@direc_depto", SqlDbType.Int).Value = (int)Convert.ToInt16(textBox_departamento.Text);
+
+            }
+            else
+            {
+                procedure.Parameters.AddWithValue("@direc_piso", SqlDbType.Int).Value = (object)DBNull.Value;
+                procedure.Parameters.AddWithValue("@direc_depto", SqlDbType.Int).Value = (object)DBNull.Value;
             }
 
-            generico.InsertCommand.Dispose();
+            procedure.Parameters.Add("@ReturnVal", SqlDbType.Int);
+            procedure.Parameters["@ReturnVal"].Direction = ParameterDirection.ReturnValue;
+            procedure.ExecuteNonQuery();
+
+            int codigo_direccion = Convert.ToInt32(procedure.Parameters["@ReturnVal"].Value);
+
+            bd.desconectar();
+
+            return codigo_direccion;
+
         }
 
         private int obtener_usuario(String username)
@@ -113,6 +160,10 @@ namespace FrbaOfertas2.RegistroUsuario.AbmProveedor
             return (int)data_usuario.Rows[0].ItemArray[0];
 
         }
+
+        /// ////////////////////////////////////////////////////////////////////////////////
+        /// 
+
 
         private int obtener_direccion(String localidad, String calle, int numero, Int16 piso, Int16 depto)
         {
@@ -135,12 +186,16 @@ namespace FrbaOfertas2.RegistroUsuario.AbmProveedor
             return (int)data_direccion.Rows[0].ItemArray[0];
         }
 
+        /// ////////////////////////////////////////////////////////////////////////////////
+        /// 
+
+
         private int obtener_rubro(String rubro_nombre)
         {
             SqlConnection connection = ConnectionWithDatabase();
             connection.Open();
 
-            String query_select_rubro_id = "SELECT rubro_nombre FROM S_QUERY.Rubro WHERE rubro_nombre = '"
+            String query_select_rubro_id = "SELECT rubro_codigo FROM S_QUERY.Rubro WHERE rubro_nombre = '"
                 + rubro_nombre + "'";
 
             SqlDataAdapter sda_select = new SqlDataAdapter(query_select_rubro_id, connection);
@@ -154,11 +209,46 @@ namespace FrbaOfertas2.RegistroUsuario.AbmProveedor
 
         }
 
+        /// ////////////////////////////////////////////////////////////////////////////////
+        /// 
+
+
         private void textBox_razonSocial_TextChanged(object sender, EventArgs e)
         {
 
         }
 
         /// ////////////////////////////////////////////////////////////////////////////////
+        /// 
+
+        private void cargarSelectorRubro()
+        {
+            SqlConnection connection = ConnectionWithDatabase();
+
+            String query_obtenerRubros = "SELECT rubro_codigo, rubro_nombre FROM S_QUERY.Rubro";
+            SqlDataAdapter sda = new SqlDataAdapter(query_obtenerRubros, connection);
+
+            try
+            {
+                connection.Open();
+                sda.Fill(tabla_rubros);
+
+            }
+
+            catch (SqlException se)
+            {
+                MessageBox.Show("An error occured while connecting to database" + se.ToString());
+            }
+
+
+
+
+            comboBox_rubro.DataSource = tabla_rubros;
+            comboBox_rubro.DisplayMember = "rubro_nombre";
+            comboBox_rubro.ValueMember = "rubro_nombre";
+
+            connection.Close();
+        }
+
     }
 }

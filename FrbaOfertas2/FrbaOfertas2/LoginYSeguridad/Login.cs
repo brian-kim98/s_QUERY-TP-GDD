@@ -20,6 +20,8 @@ namespace FrbaOfertas2.LoginYSeguridad
         public Login()
         {
             InitializeComponent();
+            MessageBox.Show("Los Clientes y Proveedores que ya utilizaron previamente el sistema, tienen un usuario y contraseña \n\n  Clientes:\n   Usuario: Nombre del cliente\n   Password: Dni"
+                + "\n\n  Proveedor:\n   Usuario: Nombre del Proveedor\n   Password: CUIT");
         }
 
         private void label3_Click(object sender, EventArgs e)
@@ -75,10 +77,6 @@ namespace FrbaOfertas2.LoginYSeguridad
                 this.inhabilitarUsuario(textBox_usuario.Text.ToString());
             }
 
-            if(!habilitado)
-            {
-                MessageBox.Show("Usuario Inhabilitado");
-            }
 
           
 
@@ -182,17 +180,35 @@ namespace FrbaOfertas2.LoginYSeguridad
             using (SqlConnection connection = ConnectionWithDatabase())
             {
 
-                connection.Open();
+                try
+                {
+                    connection.Open();
 
 
-                SqlDataAdapter sda_select = new SqlDataAdapter(query_buscar_usuario, connection);
-                DataTable data_usuario = new DataTable();
+                    SqlDataAdapter sda_select = new SqlDataAdapter(query_buscar_usuario, connection);
+                    DataTable data_usuario = new DataTable();
 
-                sda_select.Fill(data_usuario);
+                    sda_select.Fill(data_usuario);
 
-                resultado = Convert.ToBoolean(data_usuario.Rows[0].ItemArray[0].ToString());
+                    resultado = Convert.ToBoolean(data_usuario.Rows[0].ItemArray[0].ToString());
+
+
+                    if (!resultado)
+                    {
+                        MessageBox.Show("Usuario Inhabilitado");
+                    }
+                    
+
+                }
+                catch (SqlException)
+                {
+                    MessageBox.Show("Ocurrio un error");
+                    return false;
+                }
+
 
             }
+
 
             return resultado;
 

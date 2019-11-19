@@ -95,8 +95,6 @@ namespace FrbaOfertas2.RegistroUsuario.AbmCliente
 
                 bd.desconectar();
 
-                Login nuevoLogin = new Login();
-                nuevoLogin.Show();
                 this.Close();
             }
         }
