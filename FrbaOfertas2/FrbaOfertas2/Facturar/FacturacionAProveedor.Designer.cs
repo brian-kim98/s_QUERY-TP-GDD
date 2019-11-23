@@ -35,12 +35,13 @@
             this.comboBox_proveedores = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.button_generar = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // dateTimePicker_fechaInicio
             // 
+            this.dateTimePicker_fechaInicio.CustomFormat = "yyyy-MM-dd HH-mm-ss";
             this.dateTimePicker_fechaInicio.Location = new System.Drawing.Point(248, 60);
             this.dateTimePicker_fechaInicio.Name = "dateTimePicker_fechaInicio";
             this.dateTimePicker_fechaInicio.Size = new System.Drawing.Size(200, 22);
@@ -48,6 +49,7 @@
             // 
             // dateTimePicker_fechaFin
             // 
+            this.dateTimePicker_fechaFin.CustomFormat = "yyyy-MM-dd HH-mm-ss";
             this.dateTimePicker_fechaFin.Location = new System.Drawing.Point(248, 104);
             this.dateTimePicker_fechaFin.Name = "dateTimePicker_fechaFin";
             this.dateTimePicker_fechaFin.Size = new System.Drawing.Size(200, 22);
@@ -98,21 +100,21 @@
             this.button1.Text = "LIMPIAR";
             this.button1.UseVisualStyleBackColor = true;
             // 
-            // button2
+            // button_generar
             // 
-            this.button2.Location = new System.Drawing.Point(424, 249);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(92, 23);
-            this.button2.TabIndex = 7;
-            this.button2.Text = "GENERAR";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.button_generar.Location = new System.Drawing.Point(424, 249);
+            this.button_generar.Name = "button_generar";
+            this.button_generar.Size = new System.Drawing.Size(92, 23);
+            this.button_generar.TabIndex = 7;
+            this.button_generar.Text = "GENERAR";
+            this.button_generar.UseVisualStyleBackColor = true;
+            this.button_generar.Click += new System.EventHandler(this.button_generar_Click);
             // 
             // button3
             // 
             this.button3.Location = new System.Drawing.Point(12, 12);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.Size = new System.Drawing.Size(89, 23);
             this.button3.TabIndex = 8;
             this.button3.Text = "VOLVER";
             this.button3.UseVisualStyleBackColor = true;
@@ -123,7 +125,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(528, 284);
             this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.button_generar);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.comboBox_proveedores);
@@ -133,6 +135,7 @@
             this.Controls.Add(this.dateTimePicker_fechaInicio);
             this.Name = "FacturacionAProveedor";
             this.Text = "FacturacionAProveedor";
+            this.Load += new System.EventHandler(this.FacturacionAProveedor_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -147,7 +150,7 @@
         private System.Windows.Forms.ComboBox comboBox_proveedores;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button_generar;
         private System.Windows.Forms.Button button3;
     }
 }

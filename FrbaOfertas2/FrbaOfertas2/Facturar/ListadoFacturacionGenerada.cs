@@ -12,9 +12,23 @@ namespace FrbaOfertas2.Facturar
 {
     public partial class ListadoFacturacionGenerada : Form
     {
-        public ListadoFacturacionGenerada()
+        private DataTable tabla = new DataTable();
+
+        public ListadoFacturacionGenerada(DataTable tablaAMostrar)
         {
             InitializeComponent();
+            tabla = tablaAMostrar;
+
+        }
+
+        private void ListadoFacturacionGenerada_Load(object sender, EventArgs e)
+        {
+            dataGridView_listado.DataSource = tabla;
+        }
+
+        private void dataGridView_listado_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }
