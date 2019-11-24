@@ -54,6 +54,7 @@
             this.dateTimePicker_fechaFin.Name = "dateTimePicker_fechaFin";
             this.dateTimePicker_fechaFin.Size = new System.Drawing.Size(200, 22);
             this.dateTimePicker_fechaFin.TabIndex = 1;
+            this.dateTimePicker_fechaFin.ValueChanged += new System.EventHandler(this.dateTimePicker_fechaFin_ValueChanged);
             // 
             // label1
             // 

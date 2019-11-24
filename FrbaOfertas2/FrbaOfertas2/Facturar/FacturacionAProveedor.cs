@@ -32,15 +32,24 @@ namespace FrbaOfertas2.Facturar
             dateTimePicker_fechaInicio.Enabled = false;
             comboBox_proveedores.Enabled = false;
 
+            dateTimePicker_fechaInicio.Format = DateTimePickerFormat.Custom;
+            dateTimePicker_fechaFin.Format = DateTimePickerFormat.Custom;
+
+            MessageBox.Show(dateTimePicker_fechaInicio.Text);
+            MessageBox.Show(dateTimePicker_fechaFin.Text);
+            MessageBox.Show(dt.Rows[comboBox_proveedores.SelectedIndex]["prov_codigo"].ToString());
+
             BaseDeDato bd = new BaseDeDato();
             bd.conectar();
             String cuponesEntreIntervalos =
-                "SELECT cupon_codigo, clie_nombre, clie_apellido FROM S_QUERY.Cupon cup JOIN " 
-                + "Cliente cl ON cup.clie_codigo = cl.clie_codigo "
-                + "WHERE cupon_fecha BETWEEN '" + dateTimePicker_fechaInicio.Text.ToString() 
-                + "' AND '" 
-                + dateTimePicker_fechaFin.Text.ToString() + "' AND prov_codigo = "
-                + dt.Rows[comboBox_proveedores.SelectedIndex].Field<int>(0).ToString();
+                "SELECT cup.cupon_codigo, cl.clie_nombre, cl.clie_apellido FROM S_QUERY.Cupon cup JOIN "
+                + "S_QUERY.Cliente cl ON cl.clie_codigo = cup.clie_codigo "
+                + "JOIN S_QUERY.Oferta of ON of.oferta_codigo = cup.oferta_codigo "
+                + "WHERE cup.cupon_fecha (BETWEEN '" + dateTimePicker_fechaInicio.Text
+                + "' AND '"
+                + dateTimePicker_fechaFin.Text + "') AND of.prov_codigo = "
+                + dt.Rows[comboBox_proveedores.SelectedIndex]["prov_codigo"].ToString();
+            MessageBox.Show(cuponesEntreIntervalos);
             SqlDataAdapter adapter = new SqlDataAdapter(cuponesEntreIntervalos, bd.obtenerConexion());
             DataTable tablaFinal = new DataTable();
             adapter.Fill(tablaFinal);
@@ -77,6 +86,11 @@ namespace FrbaOfertas2.Facturar
         private void FacturacionAProveedor_Load(object sender, EventArgs e)
         {
             cargar_comboBox_proveedores();
+        }
+
+        private void dateTimePicker_fechaFin_ValueChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
