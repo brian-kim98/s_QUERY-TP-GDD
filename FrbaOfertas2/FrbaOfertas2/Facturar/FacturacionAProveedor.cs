@@ -44,10 +44,10 @@ namespace FrbaOfertas2.Facturar
             String cuponesEntreIntervalos =
                 "SELECT cup.cupon_codigo, cl.clie_nombre, cl.clie_apellido FROM S_QUERY.Cupon cup JOIN "
                 + "S_QUERY.Cliente cl ON cl.clie_codigo = cup.clie_codigo "
-                + "JOIN S_QUERY.Oferta of ON of.oferta_codigo = cup.oferta_codigo "
-                + "WHERE cup.cupon_fecha (BETWEEN '" + dateTimePicker_fechaInicio.Text
+                + "JOIN S_QUERY.Oferta ofer ON ofer.oferta_codigo = cup.oferta_codigo "
+                + "WHERE (cup.cupon_fecha BETWEEN '" + dateTimePicker_fechaInicio.Text
                 + "' AND '"
-                + dateTimePicker_fechaFin.Text + "') AND of.prov_codigo = "
+                + dateTimePicker_fechaFin.Text + "') AND ofer.prov_codigo = "
                 + dt.Rows[comboBox_proveedores.SelectedIndex]["prov_codigo"].ToString();
             MessageBox.Show(cuponesEntreIntervalos);
             SqlDataAdapter adapter = new SqlDataAdapter(cuponesEntreIntervalos, bd.obtenerConexion());
