@@ -10,6 +10,7 @@ using FrbaOfertas2.CrearOferta;
 using FrbaOfertas2.Clases;
 using FrbaOfertas2.CargaCredito;
 using FrbaOfertas2.Facturar;
+using FrbaOfertas2.ListadoEstadistico;
 
 namespace FrbaOfertas2
 {
@@ -36,7 +37,8 @@ namespace FrbaOfertas2
             //Application.Run(new ListadoRoles());
 
             //Application.Run(new CreacionOferta(proveedor_prueba));
-            Application.Run(new FacturacionAProveedor());
+            //Application.Run(new FacturacionAProveedor());
+            Application.Run(new Listados());
         }
     }
 }

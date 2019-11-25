@@ -158,7 +158,26 @@ AS
 	END
 GO
 
+/*--------------------------------------------------LISTADO ESTADISTICO---------------------------------------------------*/
+CREATE FUNCTION S_QUERY.TOP5_PROVEEDORES_MAYOR_PORCENTAJE_DESCUENTO_OFRECIDO(@ANIO INT, @MES INT) RETURNS TABLE
+AS
+RETURN 
+(SELECT * FROM S_QUERY.Cliente)
+GO
 
+USE GD2C2019
+CREATE FUNCTION S_QUERY.TOP5_PROVEEDORES_MAYOR_FACTURACION(@ANIO INT, @MES INT) RETURNS TABLE
+AS
+
+RETURN
+(SELECT TOP 5 p.prov_codigo, p.prov_razon_social, SUM(f.fact_total) as [MONTO TOTAL]
+FROM S_QUERY.Proveedor p
+JOIN S_QUERY.Factura f ON f.prov_codigo = p.prov_codigo
+WHERE YEAR(f.fact_periodo_fin) = @ANIO
+AND (@MES = 1 AND MONTH(f.fact_periodo_fin) IN ('1', '2', '3', '4', '5', '6')) OR (@MES = 7 AND MONTH(f.fact_periodo_fin) IN ('7', '8', '9', '10', '11', '12'))
+GROUP BY p.prov_codigo, p.prov_razon_social
+ORDER BY SUM(f.fact_total))
+GO
 
 /*-------------------------------TRANSACTION-----------------------------*/
 

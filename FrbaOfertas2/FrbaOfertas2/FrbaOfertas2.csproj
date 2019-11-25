@@ -102,6 +102,12 @@
     <Compile Include="Facturar\ListadoFacturacionGenerada.Designer.cs">
       <DependentUpon>ListadoFacturacionGenerada.cs</DependentUpon>
     </Compile>
+    <Compile Include="ListadoEstadistico\Listados.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ListadoEstadistico\Listados.Designer.cs">
+      <DependentUpon>Listados.cs</DependentUpon>
+    </Compile>
     <Compile Include="LoginYSeguridad\Login.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -167,6 +173,9 @@
     <EmbeddedResource Include="Facturar\ListadoFacturacionGenerada.resx">
       <DependentUpon>ListadoFacturacionGenerada.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ListadoEstadistico\Listados.resx">
+      <DependentUpon>Listados.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LoginYSeguridad\Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>
@@ -207,9 +216,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ListadoEstadistico\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
