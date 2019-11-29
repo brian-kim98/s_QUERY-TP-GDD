@@ -41,7 +41,7 @@
             this.label_nombre = new System.Windows.Forms.Label();
             this.textBox_nombre = new System.Windows.Forms.TextBox();
             this.button_buscar = new System.Windows.Forms.Button();
-            this.nuevo_cliente = new System.Windows.Forms.Button();
+            this.nuevo_proveedor = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.button_eliminar = new System.Windows.Forms.Button();
             this.button_modificar = new System.Windows.Forms.Button();
@@ -177,15 +177,15 @@
             this.button_buscar.UseVisualStyleBackColor = true;
             this.button_buscar.Click += new System.EventHandler(this.button_buscar_Click);
             // 
-            // nuevo_cliente
+            // nuevo_proveedor
             // 
-            this.nuevo_cliente.Location = new System.Drawing.Point(148, 471);
-            this.nuevo_cliente.Name = "nuevo_cliente";
-            this.nuevo_cliente.Size = new System.Drawing.Size(183, 35);
-            this.nuevo_cliente.TabIndex = 13;
-            this.nuevo_cliente.Text = "Nuevo Cliente";
-            this.nuevo_cliente.UseVisualStyleBackColor = true;
-            this.nuevo_cliente.Click += new System.EventHandler(this.nuevo_cliente_Click);
+            this.nuevo_proveedor.Location = new System.Drawing.Point(148, 471);
+            this.nuevo_proveedor.Name = "nuevo_proveedor";
+            this.nuevo_proveedor.Size = new System.Drawing.Size(183, 35);
+            this.nuevo_proveedor.TabIndex = 13;
+            this.nuevo_proveedor.Text = "Nuevo Cliente";
+            this.nuevo_proveedor.UseVisualStyleBackColor = true;
+            this.nuevo_proveedor.Click += new System.EventHandler(this.nuevo_cliente_Click);
             // 
             // label2
             // 
@@ -224,12 +224,13 @@
             this.Controls.Add(this.button_modificar);
             this.Controls.Add(this.button_eliminar);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.nuevo_cliente);
+            this.Controls.Add(this.nuevo_proveedor);
             this.Controls.Add(this.groupBox_filtros);
             this.Controls.Add(this.button_actualizar);
             this.Controls.Add(this.dataGridView_clientes);
             this.Name = "ListadoClientes";
             this.Text = "ListadoClientes";
+            this.Load += new System.EventHandler(this.ListadoClientes_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_clientes)).EndInit();
             this.groupBox_filtros.ResumeLayout(false);
             this.groupBox_filtros.PerformLayout();
@@ -253,7 +254,7 @@
         private System.Windows.Forms.Label label_nombre;
         private System.Windows.Forms.TextBox textBox_nombre;
         private System.Windows.Forms.Button button_buscar;
-        private System.Windows.Forms.Button nuevo_cliente;
+        private System.Windows.Forms.Button nuevo_proveedor;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button button_eliminar;
         private System.Windows.Forms.Button button_modificar;

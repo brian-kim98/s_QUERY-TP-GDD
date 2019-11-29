@@ -21,6 +21,27 @@ GO
 
 /*-----------------------------------------------------------ABM Cliente-----------------------------------------------------------------------*/
 
+IF EXISTS (SELECT name FROM sysobjects WHERE name='eliminarProveedor' AND type='p')
+	DROP PROCEDURE S_QUERY.eliminarProveedor
+GO
+CREATE PROCEDURE S_QUERY.eliminarProveedor(@proveedor_codigo_eliminar INT)
+AS
+	BEGIN
+		DELETE FROM S_QUERY.RolXUsuario WHERE rol_codigo = (SELECT TOP 1 rol_codigo FROM S_QUERY.Rol WHERE rol_nombre = 'Cliente' ORDER BY rol_nombre) AND
+			usuario_codigo = (SELECT TOP 1 usuario_codigo FROM S_QUERY.Proveedor WHERE prov_codigo = @proveedor_codigo_eliminar);
+
+		UPDATE S_QUERY.Oferta 
+		SET prov_codigo = null
+		WHERE prov_codigo = @proveedor_codigo_eliminar;
+
+		DELETE FROM S_QUERY.Proveedor WHERE prov_codigo = @proveedor_codigo_eliminar;
+
+
+	END
+GO
+
+/*-----------------------------------------------------------ABM Cliente-----------------------------------------------------------------------*/
+
 IF EXISTS (SELECT name FROM sysobjects WHERE name='eliminarCliente' AND type='p')
 	DROP PROCEDURE S_QUERY.eliminarCliente
 GO
@@ -66,16 +87,10 @@ AS
 		UPDATE S_QUERY.Direccion
 			SET direc_calle = @clie_calle_modif,
 			direc_localidad = @clie_localidad_modif,
-			direc_nro = @clie_nro_modif
+			direc_nro = @clie_nro_modif,
+			direc_piso = @clie_piso_modif,
+			direc_depto=  @clie_depto_modif
 			WHERE direc_codigo = @codigo_direccion;
-
-		IF @clie_depto_modif != NULL
-		BEGIN
-			UPDATE S_QUERY.Direccion
-				SET direc_depto = @clie_depto_modif, direc_piso = @clie_piso_modif
-				WHERE direc_codigo = @codigo_direccion;
-				 
-		END
 
 
 	END

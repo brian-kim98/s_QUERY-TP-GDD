@@ -169,6 +169,7 @@ namespace FrbaOfertas2.RegistroUsuario.AbmCliente
         {
             AltaCliente clienteFormAlta = new AltaCliente();
             clienteFormAlta.FormClosed += new FormClosedEventHandler(afterCloseClienteAlta);
+            clienteFormAlta.Show();
         }
 
         private void afterCloseClienteAlta(Object sender, FormClosedEventArgs e)
@@ -217,6 +218,11 @@ namespace FrbaOfertas2.RegistroUsuario.AbmCliente
         private void afterCloseModificacionCliente(Object sender, FormClosedEventArgs e)
         {
             this.mostrarTodos();
+        }
+
+        private void ListadoClientes_Load(object sender, EventArgs e)
+        {
+
         }
 
 

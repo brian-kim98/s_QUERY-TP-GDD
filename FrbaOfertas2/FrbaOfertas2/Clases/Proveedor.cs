@@ -18,10 +18,11 @@ namespace FrbaOfertas2.Clases
         public String rubro { get; set; }
         public String direc_codigo { get; set; }
         public String usuario_codigo { get; set; }
+        public bool habilitado { get; set; }
 
 
         public Proveedor(int prov_codigo, String prov_razon_social, String prov_cuit,
-            String prov_mail, String prov_ciudad, String prov_telefono , String prov_nombre_contacto, String prov_rubro, String prov_direc_codigo , String prov_usuario_codigo){
+            String prov_mail, String prov_ciudad, String prov_telefono , String prov_nombre_contacto, bool habilitacion ,  String prov_rubro, String prov_direc_codigo , String prov_usuario_codigo){
 
                 this.codigo = prov_codigo;
                 this.razon_social = prov_razon_social;
@@ -33,6 +34,7 @@ namespace FrbaOfertas2.Clases
                 this.rubro = prov_rubro;
                 this.direc_codigo = prov_direc_codigo;
                 this.usuario_codigo = prov_usuario_codigo;
+                this.habilitado = habilitacion;
 
         }
 

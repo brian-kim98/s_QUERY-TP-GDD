@@ -152,6 +152,18 @@
     <Compile Include="RegistroUsuario\AbmProveedor\AltaProveedor.Designer.cs">
       <DependentUpon>AltaProveedor.cs</DependentUpon>
     </Compile>
+    <Compile Include="RegistroUsuario\AbmProveedor\ListadoProveedores.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RegistroUsuario\AbmProveedor\ListadoProveedores.Designer.cs">
+      <DependentUpon>ListadoProveedores.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RegistroUsuario\AbmProveedor\ModificarProveedor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RegistroUsuario\AbmProveedor\ModificarProveedor.Designer.cs">
+      <DependentUpon>ModificarProveedor.cs</DependentUpon>
+    </Compile>
     <Compile Include="RegistroUsuario\RegistrarUsuario.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -217,6 +229,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="RegistroUsuario\AbmProveedor\AltaProveedor.resx">
       <DependentUpon>AltaProveedor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RegistroUsuario\AbmProveedor\ListadoProveedores.resx">
+      <DependentUpon>ListadoProveedores.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RegistroUsuario\AbmProveedor\ModificarProveedor.resx">
+      <DependentUpon>ModificarProveedor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RegistroUsuario\RegistrarUsuario.resx">
       <DependentUpon>RegistrarUsuario.cs</DependentUpon>

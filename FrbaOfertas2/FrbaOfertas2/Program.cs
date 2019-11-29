@@ -11,6 +11,7 @@ using FrbaOfertas2.Clases;
 using FrbaOfertas2.CargaCredito;
 using FrbaOfertas2.Facturar;
 using FrbaOfertas2.ListadoEstadistico;
+using FrbaOfertas2.RegistroUsuario.AbmProveedor;
 
 namespace FrbaOfertas2
 {
@@ -25,8 +26,6 @@ namespace FrbaOfertas2
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             
-            Proveedor proveedor_prueba = new Proveedor(1, "Leon S.A.", "123154643213",
-            "leonreynosa_98@gmail.com","Calzada City", "423965564" , "LION", "VENDE MERCA","Robinson 15509", "1");
 
             //Application.Run(new AltaRol_Form());
             //Application.Run(new RegistrarUsuario());
@@ -34,9 +33,9 @@ namespace FrbaOfertas2
 
             //Application.Run(new CargarCredito());
             //Application.Run(new AltaCliente());
-            Application.Run(new ListadoClientes());
+            //Application.Run(new ListadoProveedores());
 
-            //Application.Run(new ModificarCliente("2"));
+            Application.Run(new ModificarProveedor("2"));
 
             //Application.Run(new CreacionOferta(proveedor_prueba));
             //Application.Run(new FacturacionAProveedor());
