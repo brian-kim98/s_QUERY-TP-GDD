@@ -82,6 +82,10 @@ namespace FrbaOfertas2.CargaCredito
             {
                 this.habilitarTarjeta();
             }
+            else
+            {
+                this.deshabilitarTarjeta();
+            }
         }
 
 
@@ -98,6 +102,17 @@ namespace FrbaOfertas2.CargaCredito
             textBox_cod_seguridad.Enabled = true;
             textBox_cod_seguridad.BackColor = SystemColors.Window;
 
+        }
+
+        private void deshabilitarTarjeta()
+        {
+            textBox_numero_tarjeta.Enabled = false;
+            textBox_numero_tarjeta.BackColor = SystemColors.ScrollBar;
+
+            dateTimePicker_fecha.Enabled = false;
+
+            textBox_cod_seguridad.Enabled = false;
+            textBox_cod_seguridad.BackColor = SystemColors.ScrollBar;
         }
 
         /// //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -260,6 +275,11 @@ namespace FrbaOfertas2.CargaCredito
             bool respuesta = float.TryParse(casilla_texto.Text, out valorFloat);
 
             return respuesta;
+
+        }
+
+        private void CargarCredito_Load(object sender, EventArgs e)
+        {
 
         }
 

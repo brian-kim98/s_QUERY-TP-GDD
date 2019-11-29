@@ -12,6 +12,8 @@ using System.Data.SqlClient;
 using FrbaOfertas2.CrearOferta;
 using FrbaOfertas2.AbmRol;
 using FrbaOfertas2.CargaCredito;
+using FrbaOfertas2.RegistroUsuario.AbmProveedor;
+using FrbaOfertas2.RegistroUsuario.AbmCliente;
 
 namespace FrbaOfertas2.MenuPrincipal
 {
@@ -26,7 +28,6 @@ namespace FrbaOfertas2.MenuPrincipal
             InitializeComponent();
             codigo_user = codigo_usuario;
             this.habilitar_funcionalidades(codigo_usuario);
-            MessageBox.Show("Termino");
         
         }
 
@@ -36,26 +37,42 @@ namespace FrbaOfertas2.MenuPrincipal
 
             listaFuncionalidades = this.obtenerListaFuncionalidades(codigo_usuario);
 
-            if (!listaFuncionalidades.Contains("Confeccion y publicacion de Ofertas"))
+            if (listaFuncionalidades.Contains("Confeccion y publicacion de Ofertas"))
             {
-                this.inhabilitar_button(button_crear_oferta);
+                this.habilitar_boton(button_crear_oferta);
             }
 
 
-            if ( !listaFuncionalidades.Contains("Comprar Oferta"))
+            if ( listaFuncionalidades.Contains("Comprar Oferta"))
             {
-                this.inhabilitar_button(button_comprar_oferta);
+                this.habilitar_boton(button_comprar_oferta);
             }
 
-            if (!listaFuncionalidades.Contains("Cargar Credito"))
+            if (listaFuncionalidades.Contains("Cargar Credito"))
             {
 
-                this.inhabilitar_button(button_carga_credito);
+                this.habilitar_boton(button_carga_credito);
             }
 
-            //Falta terminar
+
+            if (listaFuncionalidades.Contains("ABM de Cliente"))
+            {
+                this.habilitar_boton(button_abmClientes);
+            }
+
+            if (listaFuncionalidades.Contains("ABM de Proveedor"))
+            {
+                this.habilitar_boton(button_abmProvee);
+            }
+
+
+            if (listaFuncionalidades.Contains("ABM de Proveedor"))
+            {
+                this.habilitar_boton(button_abmProvee);
+            }
 
         }
+
 
         private List<String> obtenerListaFuncionalidades(int codigo_usuario)
         {
@@ -105,32 +122,32 @@ namespace FrbaOfertas2.MenuPrincipal
 
             botonAModificar.FlatStyle = FlatStyle.Popup;
          
-            botonAModificar.Enabled = false;
+            botonAModificar.Enabled = true;
 
-            botonAModificar.Visible = false;
+            botonAModificar.Visible = true;
 
         }
 
 
-        public void habilitar_button(Button botonAModificar)
+        public void habilitar_boton(Button botonAModificar)
         {
 
             
             botonAModificar.BackColor = SystemColors.Control;
             
             botonAModificar.FlatStyle = FlatStyle.Standard;
-            MessageBox.Show("prueba222");
+      
             botonAModificar.Enabled = true;
-            MessageBox.Show("pruebaa");
-            //botonAModificar.Visible = true;
-            MessageBox.Show("prueba111");
+       
+            botonAModificar.Visible = true;
+          
         }
 
         private void button_crear_oferta_Click(object sender, EventArgs e)
         {
             CreacionOferta crearOferta = new CreacionOferta(codigo_user);
             crearOferta.Show();
-            MessageBox.Show("hoaala");
+        
         }
 
         private void button_comprar_oferta_Click(object sender, EventArgs e)
@@ -149,6 +166,23 @@ namespace FrbaOfertas2.MenuPrincipal
             CargarCredito nuevaCarga = new CargarCredito(codigo_user);
             nuevaCarga.Show();
             this.Close();
+        }
+
+        private void MenuInicio_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button_abmProvee_Click(object sender, EventArgs e)
+        {
+            ListadoProveedores abmProveedor = new ListadoProveedores();
+            abmProveedor.Show();
+        }
+
+        private void button_abmClientes_Click(object sender, EventArgs e)
+        {
+            ListadoClientes abmClientes = new ListadoClientes();
+            abmClientes.Show();
         }
     }
 }

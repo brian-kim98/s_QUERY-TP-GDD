@@ -42,6 +42,7 @@
             this.dataGridView_proveedor = new System.Windows.Forms.DataGridView();
             this.nuevo_cliente = new System.Windows.Forms.Button();
             this.button_eliminar = new System.Windows.Forms.Button();
+            this.button_modificar = new System.Windows.Forms.Button();
             this.groupBox_filtros.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_proveedor)).BeginInit();
             this.SuspendLayout();
@@ -62,6 +63,7 @@
             this.groupBox_filtros.TabIndex = 15;
             this.groupBox_filtros.TabStop = false;
             this.groupBox_filtros.Text = "Filtros de busqueda";
+            this.groupBox_filtros.Enter += new System.EventHandler(this.groupBox_filtros_Enter);
             // 
             // label_email
             // 
@@ -95,6 +97,7 @@
             this.button_limpiar.TabIndex = 7;
             this.button_limpiar.Text = "Limpiar";
             this.button_limpiar.UseVisualStyleBackColor = true;
+            this.button_limpiar.Click += new System.EventHandler(this.button_limpiar_Click);
             // 
             // label_seleccion_habilitado
             // 
@@ -165,7 +168,7 @@
             // 
             // nuevo_cliente
             // 
-            this.nuevo_cliente.Location = new System.Drawing.Point(137, 478);
+            this.nuevo_cliente.Location = new System.Drawing.Point(142, 478);
             this.nuevo_cliente.Name = "nuevo_cliente";
             this.nuevo_cliente.Size = new System.Drawing.Size(183, 35);
             this.nuevo_cliente.TabIndex = 19;
@@ -175,7 +178,7 @@
             // 
             // button_eliminar
             // 
-            this.button_eliminar.Location = new System.Drawing.Point(60, 437);
+            this.button_eliminar.Location = new System.Drawing.Point(65, 437);
             this.button_eliminar.Name = "button_eliminar";
             this.button_eliminar.Size = new System.Drawing.Size(81, 35);
             this.button_eliminar.TabIndex = 20;
@@ -183,11 +186,22 @@
             this.button_eliminar.UseVisualStyleBackColor = true;
             this.button_eliminar.Click += new System.EventHandler(this.button_eliminar_Click);
             // 
+            // button_modificar
+            // 
+            this.button_modificar.Location = new System.Drawing.Point(323, 437);
+            this.button_modificar.Name = "button_modificar";
+            this.button_modificar.Size = new System.Drawing.Size(81, 35);
+            this.button_modificar.TabIndex = 21;
+            this.button_modificar.Text = "Modificar";
+            this.button_modificar.UseVisualStyleBackColor = true;
+            this.button_modificar.Click += new System.EventHandler(this.button_modificar_Click);
+            // 
             // ListadoProveedores
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(478, 525);
+            this.Controls.Add(this.button_modificar);
             this.Controls.Add(this.button_eliminar);
             this.Controls.Add(this.nuevo_cliente);
             this.Controls.Add(this.label2);
@@ -196,6 +210,7 @@
             this.Controls.Add(this.groupBox_filtros);
             this.Name = "ListadoProveedores";
             this.Text = "ListadoProveedores";
+            this.Load += new System.EventHandler(this.ListadoProveedores_Load);
             this.groupBox_filtros.ResumeLayout(false);
             this.groupBox_filtros.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_proveedor)).EndInit();
@@ -220,5 +235,6 @@
         private System.Windows.Forms.DataGridView dataGridView_proveedor;
         private System.Windows.Forms.Button nuevo_cliente;
         private System.Windows.Forms.Button button_eliminar;
+        private System.Windows.Forms.Button button_modificar;
     }
 }

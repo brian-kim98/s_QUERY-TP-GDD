@@ -34,6 +34,8 @@
             this.button_comprar_oferta = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.button_roles = new System.Windows.Forms.Button();
+            this.button_abmClientes = new System.Windows.Forms.Button();
+            this.button_abmProvee = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -50,19 +52,23 @@
             // button_crear_oferta
             // 
             this.button_crear_oferta.BackColor = System.Drawing.SystemColors.Control;
+            this.button_crear_oferta.Enabled = false;
             this.button_crear_oferta.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button_crear_oferta.Location = new System.Drawing.Point(15, 19);
             this.button_crear_oferta.Name = "button_crear_oferta";
             this.button_crear_oferta.Size = new System.Drawing.Size(306, 35);
             this.button_crear_oferta.TabIndex = 0;
+            this.button_crear_oferta.Tag = "Confeccion y publicacion de Ofertas";
             this.button_crear_oferta.Text = "Crear Oferta";
             this.button_crear_oferta.UseVisualStyleBackColor = false;
+            this.button_crear_oferta.Visible = false;
             this.button_crear_oferta.VisibleChanged += new System.EventHandler(this.button_crear_oferta_Click);
             this.button_crear_oferta.Click += new System.EventHandler(this.button_crear_oferta_Click);
             // 
             // button_carga_credito
             // 
             this.button_carga_credito.BackColor = System.Drawing.SystemColors.Control;
+            this.button_carga_credito.Enabled = false;
             this.button_carga_credito.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button_carga_credito.Location = new System.Drawing.Point(15, 59);
             this.button_carga_credito.Name = "button_carga_credito";
@@ -70,11 +76,13 @@
             this.button_carga_credito.TabIndex = 2;
             this.button_carga_credito.Text = "Cargar Credito";
             this.button_carga_credito.UseVisualStyleBackColor = false;
+            this.button_carga_credito.Visible = false;
             this.button_carga_credito.Click += new System.EventHandler(this.button_carga_credito_Click);
             // 
             // button_comprar_oferta
             // 
             this.button_comprar_oferta.BackColor = System.Drawing.SystemColors.Control;
+            this.button_comprar_oferta.Enabled = false;
             this.button_comprar_oferta.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button_comprar_oferta.Location = new System.Drawing.Point(15, 100);
             this.button_comprar_oferta.Name = "button_comprar_oferta";
@@ -82,17 +90,20 @@
             this.button_comprar_oferta.TabIndex = 3;
             this.button_comprar_oferta.Text = "Comprar Oferta";
             this.button_comprar_oferta.UseVisualStyleBackColor = false;
+            this.button_comprar_oferta.Visible = false;
             this.button_comprar_oferta.Click += new System.EventHandler(this.button_comprar_oferta_Click);
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.button_abmProvee);
+            this.groupBox1.Controls.Add(this.button_abmClientes);
             this.groupBox1.Controls.Add(this.button_roles);
             this.groupBox1.Controls.Add(this.button_comprar_oferta);
             this.groupBox1.Controls.Add(this.button_carga_credito);
             this.groupBox1.Controls.Add(this.button_crear_oferta);
             this.groupBox1.Location = new System.Drawing.Point(23, 47);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(337, 320);
+            this.groupBox1.Size = new System.Drawing.Size(337, 431);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Funcionalidades disponibles";
@@ -100,14 +111,44 @@
             // button_roles
             // 
             this.button_roles.BackColor = System.Drawing.SystemColors.Control;
+            this.button_roles.Enabled = false;
             this.button_roles.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button_roles.Location = new System.Drawing.Point(15, 141);
             this.button_roles.Name = "button_roles";
             this.button_roles.Size = new System.Drawing.Size(306, 35);
             this.button_roles.TabIndex = 4;
-            this.button_roles.Text = "Roles";
+            this.button_roles.Text = "ABM Roles";
             this.button_roles.UseVisualStyleBackColor = false;
+            this.button_roles.Visible = false;
             this.button_roles.Click += new System.EventHandler(this.button_roles_Click);
+            // 
+            // button_abmClientes
+            // 
+            this.button_abmClientes.BackColor = System.Drawing.SystemColors.Control;
+            this.button_abmClientes.Enabled = false;
+            this.button_abmClientes.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.button_abmClientes.Location = new System.Drawing.Point(15, 182);
+            this.button_abmClientes.Name = "button_abmClientes";
+            this.button_abmClientes.Size = new System.Drawing.Size(306, 35);
+            this.button_abmClientes.TabIndex = 5;
+            this.button_abmClientes.Text = "ABM Clientes";
+            this.button_abmClientes.UseVisualStyleBackColor = false;
+            this.button_abmClientes.Visible = false;
+            this.button_abmClientes.Click += new System.EventHandler(this.button_abmClientes_Click);
+            // 
+            // button_abmProvee
+            // 
+            this.button_abmProvee.BackColor = System.Drawing.SystemColors.Control;
+            this.button_abmProvee.Enabled = false;
+            this.button_abmProvee.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.button_abmProvee.Location = new System.Drawing.Point(15, 223);
+            this.button_abmProvee.Name = "button_abmProvee";
+            this.button_abmProvee.Size = new System.Drawing.Size(306, 35);
+            this.button_abmProvee.TabIndex = 6;
+            this.button_abmProvee.Text = "ABM Proveedores";
+            this.button_abmProvee.UseVisualStyleBackColor = false;
+            this.button_abmProvee.Visible = false;
+            this.button_abmProvee.Click += new System.EventHandler(this.button_abmProvee_Click);
             // 
             // MenuInicio
             // 
@@ -118,6 +159,7 @@
             this.Controls.Add(this.label_texto);
             this.Name = "MenuInicio";
             this.Text = "MenuPrincipal";
+            this.Load += new System.EventHandler(this.MenuInicio_Load);
             this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -132,5 +174,7 @@
         private System.Windows.Forms.Button button_comprar_oferta;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button button_roles;
+        private System.Windows.Forms.Button button_abmProvee;
+        private System.Windows.Forms.Button button_abmClientes;
     }
 }

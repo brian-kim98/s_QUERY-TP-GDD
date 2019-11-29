@@ -155,5 +155,33 @@ namespace FrbaOfertas2.RegistroUsuario.AbmProveedor
             dataGridView_proveedor.Rows.RemoveAt(row_index);
         }
 
+        private void button_modificar_Click(object sender, EventArgs e)
+        {
+            int row_index = dataGridView_proveedor.CurrentCell.RowIndex;
+            String row_codigo_prove = dataGridView_proveedor.CurrentRow.Cells["prov_codigo"].Value.ToString();
+
+            ModificarProveedor formModificarProve = new ModificarProveedor(row_codigo_prove);
+            formModificarProve.Show();
+            formModificarProve.FormClosed += new FormClosedEventHandler(afterCloseProveeAlta);
+
+        }
+
+        private void groupBox_filtros_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button_limpiar_Click(object sender, EventArgs e)
+        {
+            textBox_cuit.Clear();
+            textBox_email.Clear();
+            textBox_razon_social.Clear();
+        }
+
+        private void ListadoProveedores_Load(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }

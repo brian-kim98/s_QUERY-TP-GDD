@@ -19,7 +19,7 @@ AS
 	END
 GO
 
-/*-----------------------------------------------------------ABM Cliente-----------------------------------------------------------------------*/
+/*-----------------------------------------------------------ABM Proveedor-----------------------------------------------------------------------*/
 
 IF EXISTS (SELECT name FROM sysobjects WHERE name='eliminarProveedor' AND type='p')
 	DROP PROCEDURE S_QUERY.eliminarProveedor
@@ -35,6 +35,41 @@ AS
 		WHERE prov_codigo = @proveedor_codigo_eliminar;
 
 		DELETE FROM S_QUERY.Proveedor WHERE prov_codigo = @proveedor_codigo_eliminar;
+
+
+	END
+GO
+
+
+
+IF EXISTS (SELECT name FROM sysobjects WHERE name='modificarProveedor' AND type='p')
+	DROP PROCEDURE S_QUERY.modificarProveedor
+GO
+CREATE PROCEDURE S_QUERY.modificarProveedor(@prov_codigo_modif INT, @prov_razon_social_modif NVARCHAR(255), @prov_cuit_modif NVARCHAR(20), @prov_mail_modif NVARCHAR(255)
+		, @prov_telefono_modif NUMERIC(18,0) , @prov_nombre_contacto_modif VARCHAR(64), @prov_habilitado_modif BIT, @prov_calle_modif VARCHAR(255) , @prov_localidad_modif VARCHAR(255) , 
+		@prov_nro_modif INT , @prov_depto_modif SMALLINT , @prov_piso_modif SMALLINT)
+AS
+	BEGIN
+		DECLARE @codigo_direccion INT;
+
+		UPDATE S_QUERY.Proveedor 
+			SET prov_razon_social = @prov_razon_social_modif, 
+			prov_cuit = @prov_cuit_modif,
+			prov_mail = @prov_mail_modif,
+			prov_telefono= @prov_telefono_modif,
+			prov_habilitado = @prov_habilitado_modif,
+			prov_nombre_contacto = @prov_nombre_contacto_modif 
+			WHERE prov_codigo = @prov_codigo_modif;
+
+		SET @codigo_direccion = (SELECT TOP 1 direc_codigo FROM S_QUERY.Proveedor WHERE prov_codigo = @prov_codigo_modif);
+
+		UPDATE S_QUERY.Direccion
+			SET direc_calle = @prov_calle_modif,
+			direc_localidad = @prov_localidad_modif,
+			direc_nro = @prov_nro_modif,
+			direc_piso = @prov_piso_modif,
+			direc_depto=  @prov_depto_modif
+			WHERE direc_codigo = @codigo_direccion;
 
 
 	END

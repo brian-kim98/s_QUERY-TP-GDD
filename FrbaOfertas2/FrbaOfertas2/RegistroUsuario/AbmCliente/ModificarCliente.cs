@@ -62,7 +62,7 @@ namespace FrbaOfertas2.RegistroUsuario.AbmCliente
                     procedure.Parameters.AddWithValue("@clie_fecha_nac_modif", SqlDbType.DateTime).Value = dateTimePicker_fecha_nacimiento.Value;
                     procedure.Parameters.AddWithValue("@clie_habilitado", SqlDbType.Bit).Value = Boolean.Parse(checkBox_habilitado.Checked.ToString());
                     procedure.Parameters.AddWithValue("@clie_calle_modif", SqlDbType.VarChar).Value = textBox_calle.Text;
-                    procedure.Parameters.AddWithValue("@clie_localidad_modif", SqlDbType.VarChar).Value = label_localidad.Text;
+                    procedure.Parameters.AddWithValue("@clie_localidad_modif", SqlDbType.VarChar).Value = textBox_localidad.Text;
                     procedure.Parameters.AddWithValue("@clie_nro_modif", SqlDbType.Int).Value = (int)Convert.ToInt32(textBox_numero.Text);
 
                     if (this.boxVacia(textBox_numero_piso)|| this.boxVacia(textBox_departamento))
@@ -152,6 +152,15 @@ namespace FrbaOfertas2.RegistroUsuario.AbmCliente
            
         }
 
+        private bool huboCambios()
+        {
+
+
+            return this.cambioTexto(textBox_nombre1) || this.cambioTexto(textBox_apellido) || this.cambioTexto(textBox_mail) || this.cambioTexto(textBox_dni) || this.cambioTexto(textBox_numero_piso) ||
+                this.cambioTexto(textBox_telefono) || this.cambioTexto(textBox_numero) || this.cambioTexto(textBox_departamento) || this.cambioTexto(textBox_calle)
+                || this.cambioTexto(textBox_localidad) || !checkBox_habilitado.Checked.ToString().Equals(clienteConectado.habilitado.ToString()) || this.cambioFechaCumple();
+        }
+
         private bool boxVacia(TextBox box)
         {
                 return box.Text.ToString() == "" ;
@@ -159,12 +168,7 @@ namespace FrbaOfertas2.RegistroUsuario.AbmCliente
 
 
 
-        private bool huboCambios(){
 
-            return this.cambioTexto(textBox_nombre1) || this.cambioTexto(textBox_apellido) || this.cambioTexto(textBox_mail) || this.cambioTexto(textBox_dni) || this.cambioTexto(textBox_numero_piso) ||
-                this.cambioTexto(textBox_telefono) || this.cambioTexto(textBox_numero) || this.cambioTexto(textBox_departamento) || this.cambioTexto(textBox_calle)
-                || this.cambioTexto(textBox_localidad) || !checkBox_habilitado.Checked.ToString().Equals(clienteConectado.habilitado.ToString()) || this.cambioFechaCumple() ;
-        }
 
         private bool cambioFechaCumple() {
             int result = DateTime.Compare(clienteConectado.fecha_nacimiento, dateTimePicker_fecha_nacimiento.Value);

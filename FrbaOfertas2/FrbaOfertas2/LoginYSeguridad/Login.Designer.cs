@@ -110,6 +110,7 @@
             this.textBox_contrasenia.Name = "textBox_contrasenia";
             this.textBox_contrasenia.Size = new System.Drawing.Size(171, 20);
             this.textBox_contrasenia.TabIndex = 6;
+            this.textBox_contrasenia.TextChanged += new System.EventHandler(this.textBox_contrasenia_TextChanged);
             // 
             // label_alerta
             // 

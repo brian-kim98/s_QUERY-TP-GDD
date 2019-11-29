@@ -278,6 +278,7 @@
             this.Controls.Add(this.label13);
             this.Name = "CargarCredito";
             this.Text = "CargarCredito";
+            this.Load += new System.EventHandler(this.CargarCredito_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

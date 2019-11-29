@@ -52,8 +52,8 @@ namespace FrbaOfertas2.RegistroUsuario.AbmProveedor
                   dr["prov_nombre_contacto"].ToString(),
                   bool.Parse(dr["prov_habilitado"].ToString()),
                   dr["rubro_codigo"].ToString(),
-                  dr["prov_direc_codigo"].ToString(),
-                  dr["prov_usuario_codigo"].ToString());
+                  dr["direc_codigo"].ToString(),
+                  dr["usuario_codigo"].ToString());
 
             bd.desconectar();
 
@@ -68,6 +68,9 @@ namespace FrbaOfertas2.RegistroUsuario.AbmProveedor
 
         private void funcion_cargar_todo()
         {
+
+            this.cargarSelectorRubro();
+
             //Obtenemos los datos de la direccion
             bd.conectar();
 
@@ -113,7 +116,7 @@ namespace FrbaOfertas2.RegistroUsuario.AbmProveedor
 
             checkBox_habilitado.Checked = proveedorConectado.habilitado;
 
-            // ver rubro
+            comboBox_rubro.SelectedValue = proveedorConectado.rubro;
 
             bd.desconectar();
         }
@@ -121,6 +124,207 @@ namespace FrbaOfertas2.RegistroUsuario.AbmProveedor
         private void button_deshacer_cambios_Click(object sender, EventArgs e)
         {
             this.funcion_cargar_todo();
+        }
+
+        private void button_modificar_Click(object sender, EventArgs e)
+        {
+            if(this.huboCambios() && this.comprobarCamposNumericos()){
+
+
+                try
+                {
+                    bd.conectar();
+                    SqlCommand procedure = Clases.BaseDeDato.crearConsulta("S_QUERY.modificarProveedor");
+                    procedure.CommandType = CommandType.StoredProcedure;
+                    procedure.Parameters.AddWithValue("@prov_codigo_modif", SqlDbType.Int).Value = (int)Convert.ToInt32(proveedorConectado.codigo);
+                    procedure.Parameters.AddWithValue("@prov_razon_social_modif", SqlDbType.NVarChar).Value = textBox_razon_social.Text;
+                    procedure.Parameters.AddWithValue("@prov_cuit_modif", SqlDbType.NVarChar).Value = textBox_cuit.Text;
+                    procedure.Parameters.AddWithValue("@prov_nombre_contacto_modif", SqlDbType.NVarChar).Value = textBox_nombre_contacto.Text;
+                    procedure.Parameters.AddWithValue("@prov_mail_modif", SqlDbType.NVarChar).Value = textBox_mail.Text;
+                    procedure.Parameters.AddWithValue("@prov_telefono_modif", SqlDbType.Int).Value = (int)Convert.ToInt32(textBox_telefono.Text);
+                    procedure.Parameters.AddWithValue("@prov_calle_modif", SqlDbType.VarChar).Value = textBox_calle.Text;
+                    procedure.Parameters.AddWithValue("@prov_habilitado_modif", SqlDbType.Bit).Value = Boolean.Parse(checkBox_habilitado.Checked.ToString());
+                    procedure.Parameters.AddWithValue("@prov_localidad_modif", SqlDbType.VarChar).Value = textBox_localidad.Text;
+                    procedure.Parameters.AddWithValue("@prov_nro_modif", SqlDbType.Int).Value = (int)Convert.ToInt32(textBox_numero.Text);
+
+                    if (this.boxVacia(textBox_numero_piso) || this.boxVacia(textBox_departamento))
+                    {
+
+                        procedure.Parameters.AddWithValue("@prov_piso_modif", SqlDbType.SmallInt).Value = (object)DBNull.Value;
+                        procedure.Parameters.AddWithValue("@prov_depto_modif", SqlDbType.SmallInt).Value = (object)DBNull.Value;
+
+                    }
+                    else
+                    {
+
+                        procedure.Parameters.AddWithValue("@prov_piso_modif", SqlDbType.SmallInt).Value = (int)Convert.ToInt16(textBox_numero_piso.Text);
+                        procedure.Parameters.AddWithValue("@prov_depto_modif", SqlDbType.SmallInt).Value = (int)Convert.ToInt16(textBox_departamento.Text);
+                    }
+
+
+                    procedure.ExecuteNonQuery();
+
+                    bd.desconectar();
+                    MessageBox.Show("Se Actualizo el Proveedor.");
+                    this.Close();
+                }
+
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                    bd.desconectar();
+                }
+
+                
+            }
+        }
+
+        private void cargarSelectorRubro()
+        {
+            SqlConnection connection = ConnectionWithDatabase();
+
+            DataTable tabla_rubros = new DataTable();
+            String query_obtenerRubros = "SELECT rubro_codigo, rubro_nombre FROM S_QUERY.Rubro";
+            SqlDataAdapter sda = new SqlDataAdapter(query_obtenerRubros, connection);
+
+            try
+            {
+                connection.Open();
+                sda.Fill(tabla_rubros);
+
+            }
+
+            catch (SqlException se)
+            {
+                MessageBox.Show("An error occured while connecting to database" + se.ToString());
+            }
+
+
+
+
+            comboBox_rubro.DataSource = tabla_rubros;
+            comboBox_rubro.DisplayMember = "rubro_nombre";
+            comboBox_rubro.ValueMember = "rubro_codigo";
+
+            connection.Close();
+
+        }
+
+        private SqlConnection ConnectionWithDatabase()
+        {
+            string connectionString;
+            SqlConnection connection;
+
+            connectionString = @"Data Source=.\SQLSERVER2012;Initial Catalog = GD2C2019;User ID=sa;Password=gestiondedatos";
+
+            connection = new SqlConnection(connectionString);
+
+            return connection;
+
+        }
+
+
+
+        private bool comprobarCamposNumericos()
+        {
+            if (!this.esUnCampoNumerico(textBox_numero) || !this.esUnCampoNumerico(textBox_telefono)
+                ||  this.comprobarNumeroDepto(textBox_numero_piso) || this.comprobarNumeroDepto(textBox_departamento))
+            {
+
+                MessageBox.Show("Hay campos numericos mal introducidos.");
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+
+        }
+
+        private bool comprobarNumeroDepto(TextBox box)
+        {
+            return box.Text.ToString() != "" && !this.esUnCampoNumerico(box);
+        }
+
+
+        private bool pisoDeptoDistintos()
+        {
+            if (this.boxVacia(textBox_numero_piso) && this.boxVacia(textBox_departamento))
+            {
+                return false;
+            }
+            else if (!this.boxVacia(textBox_numero_piso) && !this.boxVacia(textBox_departamento))
+            {
+                return false;
+            }
+            else { return true; }
+
+
+
+        }
+
+        private bool estaTodoCompleto()
+        {
+            if (this.boxVacia(textBox_cuit)  || this.boxVacia(textBox_razon_social) 
+                    || this.pisoDeptoDistintos() || this.boxVacia(textBox_telefono)
+                    || this.boxVacia(textBox_numero) || this.boxVacia(textBox_calle) || this.boxVacia(textBox_localidad))
+            {
+
+                MessageBox.Show("Debe Completar todos los campos");
+                return false;
+
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+
+        private bool esUnCampoNumerico(TextBox casilla_texto)
+        {
+
+            double valorDouble = 0.0;
+
+            float valorFloat = (float)valorDouble;
+
+            bool respuesta = float.TryParse(casilla_texto.Text, out valorFloat);
+
+            if (!respuesta)
+            {
+                casilla_texto.BackColor = SystemColors.ControlDark;
+            }
+
+            return respuesta;
+
+        }
+
+
+        private bool boxVacia(TextBox box)
+        {
+            return box.Text.ToString() == "";
+        }
+
+
+
+        private bool huboCambios()
+        {
+
+            return this.cambioTexto(textBox_razon_social) || this.cambioTexto(textBox_nombre_contacto) || this.cambioTexto(textBox_mail) || this.cambioTexto(textBox_cuit) || this.cambioTexto(textBox_numero_piso) ||
+                this.cambioTexto(textBox_telefono) || this.cambioTexto(textBox_numero) || this.cambioTexto(textBox_departamento) || this.cambioTexto(textBox_calle)
+                || this.cambioTexto(textBox_localidad) || !checkBox_habilitado.Checked.ToString().Equals(proveedorConectado.habilitado.ToString())  ||this.cambioRubro();
+        }
+
+        private bool cambioTexto(TextBox cajaTexto)
+        {
+            return !cajaTexto.Tag.ToString().Equals(cajaTexto.Text.ToString());
+        }
+
+        private bool cambioRubro()
+        {
+
+
+            return !comboBox_rubro.SelectedValue.ToString().Equals(proveedorConectado.rubro);
         }
     }
 }

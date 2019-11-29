@@ -93,7 +93,7 @@
             this.groupBox1.Size = new System.Drawing.Size(397, 560);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Modificar Cliente";
+            this.groupBox1.Text = "Modificar Proveedor";
             this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
             // checkBox_habilitado
@@ -114,6 +114,7 @@
             this.button_modificar.TabIndex = 63;
             this.button_modificar.Text = "Modificar";
             this.button_modificar.UseVisualStyleBackColor = true;
+            this.button_modificar.Click += new System.EventHandler(this.button_modificar_Click);
             // 
             // button_deshacer_cambios
             // 
