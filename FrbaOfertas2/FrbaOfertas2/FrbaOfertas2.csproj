@@ -134,6 +134,18 @@
     <Compile Include="RegistroUsuario\AbmCliente\AltaCliente.Designer.cs">
       <DependentUpon>AltaCliente.cs</DependentUpon>
     </Compile>
+    <Compile Include="RegistroUsuario\AbmCliente\ListadoClientes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RegistroUsuario\AbmCliente\ListadoClientes.Designer.cs">
+      <DependentUpon>ListadoClientes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RegistroUsuario\AbmCliente\ModificarCliente.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RegistroUsuario\AbmCliente\ModificarCliente.Designer.cs">
+      <DependentUpon>ModificarCliente.cs</DependentUpon>
+    </Compile>
     <Compile Include="RegistroUsuario\AbmProveedor\AltaProveedor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -196,6 +208,12 @@
     </Compile>
     <EmbeddedResource Include="RegistroUsuario\AbmCliente\AltaCliente.resx">
       <DependentUpon>AltaCliente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RegistroUsuario\AbmCliente\ListadoClientes.resx">
+      <DependentUpon>ListadoClientes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RegistroUsuario\AbmCliente\ModificarCliente.resx">
+      <DependentUpon>ModificarCliente.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RegistroUsuario\AbmProveedor\AltaProveedor.resx">
       <DependentUpon>AltaProveedor.cs</DependentUpon>

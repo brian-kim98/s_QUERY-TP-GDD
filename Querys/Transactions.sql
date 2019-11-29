@@ -21,6 +21,29 @@ GO
 
 /*-----------------------------------------------------------ABM ROL-----------------------------------------------------------------------*/
 
+IF EXISTS (SELECT name FROM sysobjects WHERE name='eliminarCliente' AND type='p')
+	DROP PROCEDURE S_QUERY.eliminarCliente
+GO
+CREATE PROCEDURE S_QUERY.eliminarCliente(@usuario_codigo_eliminar INT)
+AS
+	BEGIN
+		DELETE FROM S_QUERY.RolXUsuario WHERE rol_codigo = (SELECT TOP 1 rol_codigo FROM S_QUERY.Rol WHERE rol_nombre = 'Cliente' ORDER BY rol_nombre) AND
+			usuario_codigo = (SELECT TOP 1 usuario_codigo FROM S_QUERY.Cliente WHERE clie_codigo = @usuario_codigo_eliminar);
+
+		UPDATE S_QUERY.Cupon 
+		SET clie_codigo = null
+		WHERE clie_codigo = @usuario_codigo_eliminar;
+
+		DELETE FROM S_QUERY.Cliente WHERE clie_codigo = @usuario_codigo_eliminar;
+
+
+	END
+GO
+
+
+
+/*-----------------------------------------------------------ABM ROL-----------------------------------------------------------------------*/
+
 IF EXISTS (SELECT name FROM sysobjects WHERE name='insertarRolNuevo' AND type='p')
 	DROP PROCEDURE S_QUERY.insertarRolNuevo
 GO
@@ -47,6 +70,10 @@ AS
 		VALUES(@func_codigo, @rol_codigo)
 	END
 GO
+
+
+
+
 
 /*-----------------------------------------------------------Creacion Ofertas-----------------------------------------------------------------------*/
 

@@ -50,10 +50,10 @@
             // 
             // button_crear_rol
             // 
-            this.button_crear_rol.Location = new System.Drawing.Point(277, 314);
+            this.button_crear_rol.Location = new System.Drawing.Point(260, 314);
             this.button_crear_rol.Margin = new System.Windows.Forms.Padding(2);
             this.button_crear_rol.Name = "button_crear_rol";
-            this.button_crear_rol.Size = new System.Drawing.Size(56, 19);
+            this.button_crear_rol.Size = new System.Drawing.Size(74, 33);
             this.button_crear_rol.TabIndex = 1;
             this.button_crear_rol.Text = "Crear";
             this.button_crear_rol.UseVisualStyleBackColor = true;

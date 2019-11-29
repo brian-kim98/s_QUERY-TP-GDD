@@ -57,7 +57,7 @@ namespace FrbaOfertas2.Facturar
             ListadoFacturacionGenerada listado = new ListadoFacturacionGenerada(tablaFinal);
             listado.Show();
 
-
+            //creo que falta cerrar la base de datos.
             
         }
 

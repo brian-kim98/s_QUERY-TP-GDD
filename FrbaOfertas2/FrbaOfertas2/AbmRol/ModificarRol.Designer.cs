@@ -45,6 +45,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.label_nombre_viejo = new System.Windows.Forms.Label();
             this.label_estado_viejo = new System.Windows.Forms.Label();
+            this.checkBox_habilitado = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // textBox_nombre_nuevo
@@ -216,11 +217,22 @@
             this.label_estado_viejo.TabIndex = 23;
             this.label_estado_viejo.Text = "1";
             // 
+            // checkBox_habilitado
+            // 
+            this.checkBox_habilitado.AutoSize = true;
+            this.checkBox_habilitado.Location = new System.Drawing.Point(298, 122);
+            this.checkBox_habilitado.Name = "checkBox_habilitado";
+            this.checkBox_habilitado.Size = new System.Drawing.Size(92, 17);
+            this.checkBox_habilitado.TabIndex = 24;
+            this.checkBox_habilitado.Text = "Rol Habilitado";
+            this.checkBox_habilitado.UseVisualStyleBackColor = true;
+            // 
             // ModificarRol
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(426, 474);
+            this.Controls.Add(this.checkBox_habilitado);
             this.Controls.Add(this.label_estado_viejo);
             this.Controls.Add(this.label_nombre_viejo);
             this.Controls.Add(this.listBox1);
@@ -265,5 +277,6 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label_nombre_viejo;
         private System.Windows.Forms.Label label_estado_viejo;
+        private System.Windows.Forms.CheckBox checkBox_habilitado;
     }
 }

@@ -148,6 +148,11 @@ namespace FrbaOfertas2
 
                     connection.Close();
             */
+
+            this.Close();
+
+
+
         }
 
         private void listBox_funcionalidades_para_rol_SelectedIndexChanged(object sender, EventArgs e)

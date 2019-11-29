@@ -18,7 +18,7 @@ namespace FrbaOfertas2.Clases
         public String telefono { get; set; }
         public DateTime fecha_nacimiento { get; set; }
         public String saldo { get; set; }
-        public String habilitado { get; set; }
+        public bool habilitado { get; set; }
         public String direc_codigo { get; set; }
         public String usuario_codigo { get; set; }
 
@@ -26,8 +26,18 @@ namespace FrbaOfertas2.Clases
 
         #region Constructores
 
-        public Cliente()
+        public Cliente(String id_nuevo, String nombre_nuevo, String apellido_nuevo, String dni_nuevo, String mail_nuevo, String telefono_nuevo, DateTime fecha_nac , bool habilitado_nuevo, String id_direc)
         {
+            this.apellido = apellido_nuevo;
+            this.dni = dni_nuevo;
+            this.nombre = nombre_nuevo;
+            this.telefono = telefono_nuevo;
+            this.id = id_nuevo;
+            this.mail = mail_nuevo;
+            this.fecha_nacimiento = fecha_nac;
+            this.habilitado = habilitado_nuevo;
+            this.direc_codigo = id_direc;
+
 
         }
 

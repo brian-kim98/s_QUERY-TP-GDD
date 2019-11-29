@@ -253,5 +253,10 @@ namespace FrbaOfertas2.LoginYSeguridad
             
         }
 
+        private void textBox_usuario_TextChanged(object sender, EventArgs e)
+        {
+            textBox_usuario.Text = "hola";
+        }
+
     }
 }

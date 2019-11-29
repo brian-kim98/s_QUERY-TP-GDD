@@ -30,15 +30,17 @@ namespace FrbaOfertas2
 
             //Application.Run(new AltaRol_Form());
             //Application.Run(new RegistrarUsuario());
-//            Application.Run(new Login());
+             //Application.Run(new Login());
 
             //Application.Run(new CargarCredito());
             //Application.Run(new AltaCliente());
-            //Application.Run(new ListadoRoles());
+            //Application.Run(new ListadoClientes());
+
+            Application.Run(new ModificarCliente("2"));
 
             //Application.Run(new CreacionOferta(proveedor_prueba));
             //Application.Run(new FacturacionAProveedor());
-            Application.Run(new Listados());
+            //Application.Run(new Listados());
         }
     }
 }

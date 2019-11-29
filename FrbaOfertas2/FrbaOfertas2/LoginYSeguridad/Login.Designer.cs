@@ -101,6 +101,7 @@
             this.textBox_usuario.Name = "textBox_usuario";
             this.textBox_usuario.Size = new System.Drawing.Size(171, 20);
             this.textBox_usuario.TabIndex = 5;
+            this.textBox_usuario.TextChanged += new System.EventHandler(this.textBox_usuario_TextChanged);
             // 
             // textBox_contrasenia
             // 
