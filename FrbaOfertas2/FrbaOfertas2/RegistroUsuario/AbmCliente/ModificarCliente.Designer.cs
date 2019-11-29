@@ -55,11 +55,13 @@
             this.textBox_nombre1 = new System.Windows.Forms.TextBox();
             this.label_codigo_viejo = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.checkBox_habilitado = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.checkBox_habilitado);
             this.groupBox1.Controls.Add(this.button_modificar);
             this.groupBox1.Controls.Add(this.button_deshacer_cambios);
             this.groupBox1.Controls.Add(this.dateTimePicker_fecha_nacimiento);
@@ -336,6 +338,16 @@
             this.label1.TabIndex = 24;
             this.label1.Text = "Codigo Cliente";
             // 
+            // checkBox_habilitado
+            // 
+            this.checkBox_habilitado.AutoSize = true;
+            this.checkBox_habilitado.Location = new System.Drawing.Point(242, 424);
+            this.checkBox_habilitado.Name = "checkBox_habilitado";
+            this.checkBox_habilitado.Size = new System.Drawing.Size(108, 17);
+            this.checkBox_habilitado.TabIndex = 65;
+            this.checkBox_habilitado.Text = "Cliente Habilitado";
+            this.checkBox_habilitado.UseVisualStyleBackColor = true;
+            // 
             // ModificarCliente
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -380,5 +392,6 @@
         private System.Windows.Forms.TextBox textBox_localidad;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label_localidad;
+        private System.Windows.Forms.CheckBox checkBox_habilitado;
     }
 }

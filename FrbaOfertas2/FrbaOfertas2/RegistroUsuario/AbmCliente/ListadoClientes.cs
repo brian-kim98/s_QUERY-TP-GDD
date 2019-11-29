@@ -204,5 +204,21 @@ namespace FrbaOfertas2.RegistroUsuario.AbmCliente
 
         }
 
+        private void button_modificar_Click(object sender, EventArgs e)
+        {
+            int row_index = dataGridView_clientes.CurrentCell.RowIndex;
+            String row_codigo_cliente = dataGridView_clientes.CurrentRow.Cells["clie_codigo"].Value.ToString();
+
+            ModificarCliente formModificar = new ModificarCliente(row_codigo_cliente);
+            formModificar.FormClosed += new FormClosedEventHandler(afterCloseModificacionCliente);
+            formModificar.Show();
+        }
+
+        private void afterCloseModificacionCliente(Object sender, FormClosedEventArgs e)
+        {
+            this.mostrarTodos();
+        }
+
+
     }
 }

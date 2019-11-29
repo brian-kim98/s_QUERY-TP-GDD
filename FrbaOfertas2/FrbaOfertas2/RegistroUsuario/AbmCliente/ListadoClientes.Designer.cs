@@ -44,6 +44,7 @@
             this.nuevo_cliente = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.button_eliminar = new System.Windows.Forms.Button();
+            this.button_modificar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_clientes)).BeginInit();
             this.groupBox_filtros.SuspendLayout();
             this.SuspendLayout();
@@ -205,11 +206,22 @@
             this.button_eliminar.UseVisualStyleBackColor = true;
             this.button_eliminar.Click += new System.EventHandler(this.button_eliminar_Click);
             // 
+            // button_modificar
+            // 
+            this.button_modificar.Location = new System.Drawing.Point(330, 419);
+            this.button_modificar.Name = "button_modificar";
+            this.button_modificar.Size = new System.Drawing.Size(81, 35);
+            this.button_modificar.TabIndex = 17;
+            this.button_modificar.Text = "Modificar";
+            this.button_modificar.UseVisualStyleBackColor = true;
+            this.button_modificar.Click += new System.EventHandler(this.button_modificar_Click);
+            // 
             // ListadoClientes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(480, 518);
+            this.Controls.Add(this.button_modificar);
             this.Controls.Add(this.button_eliminar);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.nuevo_cliente);
@@ -244,5 +256,6 @@
         private System.Windows.Forms.Button nuevo_cliente;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button button_eliminar;
+        private System.Windows.Forms.Button button_modificar;
     }
 }

@@ -19,7 +19,7 @@ AS
 	END
 GO
 
-/*-----------------------------------------------------------ABM ROL-----------------------------------------------------------------------*/
+/*-----------------------------------------------------------ABM Cliente-----------------------------------------------------------------------*/
 
 IF EXISTS (SELECT name FROM sysobjects WHERE name='eliminarCliente' AND type='p')
 	DROP PROCEDURE S_QUERY.eliminarCliente
@@ -40,6 +40,46 @@ AS
 	END
 GO
 
+
+IF EXISTS (SELECT name FROM sysobjects WHERE name='modificarCliente' AND type='p')
+	DROP PROCEDURE S_QUERY.modificarCliente
+GO
+CREATE PROCEDURE S_QUERY.modificarCliente(@cliente_codigo_modif INT, @clie_nombre_modif NVARCHAR(255), @clie_apellido_modif NVARCHAR(255) , @clie_dni_modif NUMERIC(18,0), @clie_mail_modif NVARCHAR(255)
+		, @clie_telefono_modif NUMERIC(18,0) , @clie_fecha_nac_modif DATETIME, @clie_habilitado BIT, @clie_calle_modif VARCHAR(255) , @clie_localidad_modif VARCHAR(255) , 
+		@clie_nro_modif INT , @clie_depto_modif SMALLINT , @clie_piso_modif SMALLINT)
+AS
+	BEGIN
+		DECLARE @codigo_direccion INT;
+
+		UPDATE S_QUERY.Cliente 
+			SET clie_apellido = @clie_apellido_modif, 
+			clie_nombre = @clie_nombre_modif,
+			clie_dni = @clie_dni_modif,
+			clie_fecha_nacimiento= @clie_fecha_nac_modif,
+			clie_habilitado = @clie_habilitado,
+			clie_mail = @clie_mail_modif, 
+			clie_telefono = @clie_telefono_modif
+			WHERE clie_codigo = @cliente_codigo_modif;
+
+		SET @codigo_direccion = (SELECT TOP 1 direc_codigo FROM S_QUERY.Cliente WHERE clie_codigo = @cliente_codigo_modif);
+
+		UPDATE S_QUERY.Direccion
+			SET direc_calle = @clie_calle_modif,
+			direc_localidad = @clie_localidad_modif,
+			direc_nro = @clie_nro_modif
+			WHERE direc_codigo = @codigo_direccion;
+
+		IF @clie_depto_modif != NULL
+		BEGIN
+			UPDATE S_QUERY.Direccion
+				SET direc_depto = @clie_depto_modif, direc_piso = @clie_piso_modif
+				WHERE direc_codigo = @codigo_direccion;
+				 
+		END
+
+
+	END
+GO
 
 
 /*-----------------------------------------------------------ABM ROL-----------------------------------------------------------------------*/
