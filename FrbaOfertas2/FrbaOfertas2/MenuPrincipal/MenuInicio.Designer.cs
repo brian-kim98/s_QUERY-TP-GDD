@@ -33,9 +33,12 @@
             this.button_carga_credito = new System.Windows.Forms.Button();
             this.button_comprar_oferta = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.button_roles = new System.Windows.Forms.Button();
-            this.button_abmClientes = new System.Windows.Forms.Button();
             this.button_abmProvee = new System.Windows.Forms.Button();
+            this.button_abmClientes = new System.Windows.Forms.Button();
+            this.button_roles = new System.Windows.Forms.Button();
+            this.button_listadoEstadistico = new System.Windows.Forms.Button();
+            this.button_registrar_user = new System.Windows.Forms.Button();
+            this.button_facturacion = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -59,7 +62,7 @@
             this.button_crear_oferta.Size = new System.Drawing.Size(306, 35);
             this.button_crear_oferta.TabIndex = 0;
             this.button_crear_oferta.Tag = "Confeccion y publicacion de Ofertas";
-            this.button_crear_oferta.Text = "Crear Oferta";
+            this.button_crear_oferta.Text = "Confeccion y publicacion de Ofertas";
             this.button_crear_oferta.UseVisualStyleBackColor = false;
             this.button_crear_oferta.Visible = false;
             this.button_crear_oferta.VisibleChanged += new System.EventHandler(this.button_crear_oferta_Click);
@@ -95,6 +98,9 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.button_facturacion);
+            this.groupBox1.Controls.Add(this.button_registrar_user);
+            this.groupBox1.Controls.Add(this.button_listadoEstadistico);
             this.groupBox1.Controls.Add(this.button_abmProvee);
             this.groupBox1.Controls.Add(this.button_abmClientes);
             this.groupBox1.Controls.Add(this.button_roles);
@@ -108,19 +114,19 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Funcionalidades disponibles";
             // 
-            // button_roles
+            // button_abmProvee
             // 
-            this.button_roles.BackColor = System.Drawing.SystemColors.Control;
-            this.button_roles.Enabled = false;
-            this.button_roles.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button_roles.Location = new System.Drawing.Point(15, 141);
-            this.button_roles.Name = "button_roles";
-            this.button_roles.Size = new System.Drawing.Size(306, 35);
-            this.button_roles.TabIndex = 4;
-            this.button_roles.Text = "ABM Roles";
-            this.button_roles.UseVisualStyleBackColor = false;
-            this.button_roles.Visible = false;
-            this.button_roles.Click += new System.EventHandler(this.button_roles_Click);
+            this.button_abmProvee.BackColor = System.Drawing.SystemColors.Control;
+            this.button_abmProvee.Enabled = false;
+            this.button_abmProvee.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.button_abmProvee.Location = new System.Drawing.Point(15, 223);
+            this.button_abmProvee.Name = "button_abmProvee";
+            this.button_abmProvee.Size = new System.Drawing.Size(306, 35);
+            this.button_abmProvee.TabIndex = 6;
+            this.button_abmProvee.Text = "ABM Proveedores";
+            this.button_abmProvee.UseVisualStyleBackColor = false;
+            this.button_abmProvee.Visible = false;
+            this.button_abmProvee.Click += new System.EventHandler(this.button_abmProvee_Click);
             // 
             // button_abmClientes
             // 
@@ -136,19 +142,61 @@
             this.button_abmClientes.Visible = false;
             this.button_abmClientes.Click += new System.EventHandler(this.button_abmClientes_Click);
             // 
-            // button_abmProvee
+            // button_roles
             // 
-            this.button_abmProvee.BackColor = System.Drawing.SystemColors.Control;
-            this.button_abmProvee.Enabled = false;
-            this.button_abmProvee.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button_abmProvee.Location = new System.Drawing.Point(15, 223);
-            this.button_abmProvee.Name = "button_abmProvee";
-            this.button_abmProvee.Size = new System.Drawing.Size(306, 35);
-            this.button_abmProvee.TabIndex = 6;
-            this.button_abmProvee.Text = "ABM Proveedores";
-            this.button_abmProvee.UseVisualStyleBackColor = false;
-            this.button_abmProvee.Visible = false;
-            this.button_abmProvee.Click += new System.EventHandler(this.button_abmProvee_Click);
+            this.button_roles.BackColor = System.Drawing.SystemColors.Control;
+            this.button_roles.Enabled = false;
+            this.button_roles.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.button_roles.Location = new System.Drawing.Point(15, 141);
+            this.button_roles.Name = "button_roles";
+            this.button_roles.Size = new System.Drawing.Size(306, 35);
+            this.button_roles.TabIndex = 4;
+            this.button_roles.Text = "ABM Roles";
+            this.button_roles.UseVisualStyleBackColor = false;
+            this.button_roles.Visible = false;
+            this.button_roles.Click += new System.EventHandler(this.button_roles_Click);
+            // 
+            // button_listadoEstadistico
+            // 
+            this.button_listadoEstadistico.BackColor = System.Drawing.SystemColors.Control;
+            this.button_listadoEstadistico.Enabled = false;
+            this.button_listadoEstadistico.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.button_listadoEstadistico.Location = new System.Drawing.Point(15, 264);
+            this.button_listadoEstadistico.Name = "button_listadoEstadistico";
+            this.button_listadoEstadistico.Size = new System.Drawing.Size(306, 35);
+            this.button_listadoEstadistico.TabIndex = 7;
+            this.button_listadoEstadistico.Text = "Listados Estadisticos";
+            this.button_listadoEstadistico.UseVisualStyleBackColor = false;
+            this.button_listadoEstadistico.Visible = false;
+            this.button_listadoEstadistico.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // button_registrar_user
+            // 
+            this.button_registrar_user.BackColor = System.Drawing.SystemColors.Control;
+            this.button_registrar_user.Enabled = false;
+            this.button_registrar_user.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.button_registrar_user.Location = new System.Drawing.Point(15, 305);
+            this.button_registrar_user.Name = "button_registrar_user";
+            this.button_registrar_user.Size = new System.Drawing.Size(306, 35);
+            this.button_registrar_user.TabIndex = 8;
+            this.button_registrar_user.Text = "Registrar Usuario";
+            this.button_registrar_user.UseVisualStyleBackColor = false;
+            this.button_registrar_user.Visible = false;
+            this.button_registrar_user.Click += new System.EventHandler(this.button_registrar_user_Click);
+            // 
+            // button_facturacion
+            // 
+            this.button_facturacion.BackColor = System.Drawing.SystemColors.Control;
+            this.button_facturacion.Enabled = false;
+            this.button_facturacion.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.button_facturacion.Location = new System.Drawing.Point(15, 346);
+            this.button_facturacion.Name = "button_facturacion";
+            this.button_facturacion.Size = new System.Drawing.Size(306, 35);
+            this.button_facturacion.TabIndex = 9;
+            this.button_facturacion.Text = "Facturacion a Proveedor";
+            this.button_facturacion.UseVisualStyleBackColor = false;
+            this.button_facturacion.Visible = false;
+            this.button_facturacion.Click += new System.EventHandler(this.button2_Click);
             // 
             // MenuInicio
             // 
@@ -176,5 +224,8 @@
         private System.Windows.Forms.Button button_roles;
         private System.Windows.Forms.Button button_abmProvee;
         private System.Windows.Forms.Button button_abmClientes;
+        private System.Windows.Forms.Button button_listadoEstadistico;
+        private System.Windows.Forms.Button button_facturacion;
+        private System.Windows.Forms.Button button_registrar_user;
     }
 }

@@ -44,13 +44,15 @@
             this.label1 = new System.Windows.Forms.Label();
             this.textBox_maximo_compra = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // button_crear
             // 
-            this.button_crear.Location = new System.Drawing.Point(372, 298);
+            this.button_crear.Location = new System.Drawing.Point(358, 309);
             this.button_crear.Name = "button_crear";
-            this.button_crear.Size = new System.Drawing.Size(75, 23);
+            this.button_crear.Size = new System.Drawing.Size(89, 30);
             this.button_crear.TabIndex = 35;
             this.button_crear.Text = "Crear";
             this.button_crear.UseVisualStyleBackColor = true;
@@ -58,16 +60,16 @@
             // 
             // button_limpiar
             // 
-            this.button_limpiar.Location = new System.Drawing.Point(49, 298);
+            this.button_limpiar.Location = new System.Drawing.Point(49, 309);
             this.button_limpiar.Name = "button_limpiar";
-            this.button_limpiar.Size = new System.Drawing.Size(75, 23);
+            this.button_limpiar.Size = new System.Drawing.Size(81, 37);
             this.button_limpiar.TabIndex = 34;
             this.button_limpiar.Text = "Limpiar";
             this.button_limpiar.UseVisualStyleBackColor = true;
             // 
             // textBox_cantidad
             // 
-            this.textBox_cantidad.Location = new System.Drawing.Point(172, 234);
+            this.textBox_cantidad.Location = new System.Drawing.Point(145, 213);
             this.textBox_cantidad.Name = "textBox_cantidad";
             this.textBox_cantidad.Size = new System.Drawing.Size(66, 20);
             this.textBox_cantidad.TabIndex = 32;
@@ -75,21 +77,21 @@
             // textBox_precio_lista
             // 
             this.textBox_precio_lista.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.textBox_precio_lista.Location = new System.Drawing.Point(346, 184);
+            this.textBox_precio_lista.Location = new System.Drawing.Point(319, 163);
             this.textBox_precio_lista.Name = "textBox_precio_lista";
             this.textBox_precio_lista.Size = new System.Drawing.Size(92, 20);
             this.textBox_precio_lista.TabIndex = 30;
             // 
             // textBox_precio_oferta
             // 
-            this.textBox_precio_oferta.Location = new System.Drawing.Point(155, 184);
+            this.textBox_precio_oferta.Location = new System.Drawing.Point(128, 163);
             this.textBox_precio_oferta.Name = "textBox_precio_oferta";
             this.textBox_precio_oferta.Size = new System.Drawing.Size(92, 20);
             this.textBox_precio_oferta.TabIndex = 29;
             // 
             // dateTimePicker_fecha_vencimiento
             // 
-            this.dateTimePicker_fecha_vencimiento.Location = new System.Drawing.Point(185, 134);
+            this.dateTimePicker_fecha_vencimiento.Location = new System.Drawing.Point(158, 113);
             this.dateTimePicker_fecha_vencimiento.Name = "dateTimePicker_fecha_vencimiento";
             this.dateTimePicker_fecha_vencimiento.Size = new System.Drawing.Size(200, 20);
             this.dateTimePicker_fecha_vencimiento.TabIndex = 28;
@@ -97,14 +99,14 @@
             // 
             // dateTimePicker_fecha_publicacion
             // 
-            this.dateTimePicker_fecha_publicacion.Location = new System.Drawing.Point(185, 88);
+            this.dateTimePicker_fecha_publicacion.Location = new System.Drawing.Point(158, 67);
             this.dateTimePicker_fecha_publicacion.Name = "dateTimePicker_fecha_publicacion";
             this.dateTimePicker_fecha_publicacion.Size = new System.Drawing.Size(200, 20);
             this.dateTimePicker_fecha_publicacion.TabIndex = 27;
             // 
             // textBox_descripcion
             // 
-            this.textBox_descripcion.Location = new System.Drawing.Point(135, 47);
+            this.textBox_descripcion.Location = new System.Drawing.Point(108, 26);
             this.textBox_descripcion.Name = "textBox_descripcion";
             this.textBox_descripcion.Size = new System.Drawing.Size(303, 20);
             this.textBox_descripcion.TabIndex = 26;
@@ -113,7 +115,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(67, 237);
+            this.label7.Location = new System.Drawing.Point(40, 216);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(99, 13);
             this.label7.TabIndex = 25;
@@ -122,7 +124,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(267, 187);
+            this.label5.Location = new System.Drawing.Point(240, 166);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(73, 13);
             this.label5.TabIndex = 23;
@@ -131,7 +133,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(67, 187);
+            this.label4.Location = new System.Drawing.Point(40, 166);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(82, 13);
             this.label4.TabIndex = 22;
@@ -140,7 +142,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(67, 138);
+            this.label3.Location = new System.Drawing.Point(40, 117);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(112, 13);
             this.label3.TabIndex = 21;
@@ -149,7 +151,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(67, 92);
+            this.label2.Location = new System.Drawing.Point(40, 71);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(109, 13);
             this.label2.TabIndex = 20;
@@ -158,7 +160,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(67, 50);
+            this.label1.Location = new System.Drawing.Point(40, 29);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(63, 13);
             this.label1.TabIndex = 19;
@@ -166,7 +168,7 @@
             // 
             // textBox_maximo_compra
             // 
-            this.textBox_maximo_compra.Location = new System.Drawing.Point(372, 230);
+            this.textBox_maximo_compra.Location = new System.Drawing.Point(345, 209);
             this.textBox_maximo_compra.Name = "textBox_maximo_compra";
             this.textBox_maximo_compra.Size = new System.Drawing.Size(66, 20);
             this.textBox_maximo_compra.TabIndex = 37;
@@ -174,38 +176,49 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(267, 233);
+            this.label6.Location = new System.Drawing.Point(240, 212);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(82, 13);
             this.label6.TabIndex = 36;
             this.label6.Text = "Maximo Compra";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.textBox_maximo_compra);
+            this.groupBox1.Controls.Add(this.label6);
+            this.groupBox1.Controls.Add(this.textBox_cantidad);
+            this.groupBox1.Controls.Add(this.textBox_precio_lista);
+            this.groupBox1.Controls.Add(this.textBox_precio_oferta);
+            this.groupBox1.Controls.Add(this.dateTimePicker_fecha_vencimiento);
+            this.groupBox1.Controls.Add(this.dateTimePicker_fecha_publicacion);
+            this.groupBox1.Controls.Add(this.textBox_descripcion);
+            this.groupBox1.Controls.Add(this.label7);
+            this.groupBox1.Controls.Add(this.label5);
+            this.groupBox1.Controls.Add(this.label4);
+            this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Location = new System.Drawing.Point(27, 21);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(440, 279);
+            this.groupBox1.TabIndex = 38;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Creacion Ofertas";
             // 
             // CreacionOferta
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(496, 368);
-            this.Controls.Add(this.textBox_maximo_compra);
-            this.Controls.Add(this.label6);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.button_crear);
             this.Controls.Add(this.button_limpiar);
-            this.Controls.Add(this.textBox_cantidad);
-            this.Controls.Add(this.textBox_precio_lista);
-            this.Controls.Add(this.textBox_precio_oferta);
-            this.Controls.Add(this.dateTimePicker_fecha_vencimiento);
-            this.Controls.Add(this.dateTimePicker_fecha_publicacion);
-            this.Controls.Add(this.textBox_descripcion);
-            this.Controls.Add(this.label7);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
             this.Name = "CreacionOferta";
             this.Text = "CrearOferta";
             this.Load += new System.EventHandler(this.CrearOferta_Load);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -227,5 +240,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBox_maximo_compra;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.GroupBox groupBox1;
     }
 }

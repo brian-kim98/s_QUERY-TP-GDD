@@ -14,6 +14,7 @@ using FrbaOfertas2.AbmRol;
 using FrbaOfertas2.CargaCredito;
 using FrbaOfertas2.RegistroUsuario.AbmProveedor;
 using FrbaOfertas2.RegistroUsuario.AbmCliente;
+using FrbaOfertas2.ListadoEstadistico;
 
 namespace FrbaOfertas2.MenuPrincipal
 {
@@ -69,6 +70,22 @@ namespace FrbaOfertas2.MenuPrincipal
             if (listaFuncionalidades.Contains("ABM de Proveedor"))
             {
                 this.habilitar_boton(button_abmProvee);
+            }
+
+            if (listaFuncionalidades.Contains("Listado Estadistico"))
+            {
+                this.habilitar_boton(button_listadoEstadistico);
+            }
+
+            if (listaFuncionalidades.Contains("Registro de Usuario"))
+            {
+                this.habilitar_boton(button_registrar_user);
+            }
+
+
+            if (listaFuncionalidades.Contains("Facturacion a Proveedor"))
+            {
+                
             }
 
         }
@@ -183,6 +200,23 @@ namespace FrbaOfertas2.MenuPrincipal
         {
             ListadoClientes abmClientes = new ListadoClientes();
             abmClientes.Show();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Listados listadoEst = new Listados();
+            listadoEst.Show();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+           
+        }
+
+        private void button_registrar_user_Click(object sender, EventArgs e)
+        {
+            RegistrarUsuario nuevoRegistro = new RegistrarUsuario();
+            nuevoRegistro.Show();
         }
     }
 }
