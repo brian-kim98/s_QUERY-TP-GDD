@@ -250,5 +250,10 @@ namespace FrbaOfertas2.RegistroUsuario.AbmProveedor
             connection.Close();
         }
 
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }

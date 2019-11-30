@@ -116,7 +116,7 @@ namespace FrbaOfertas2.RegistroUsuario.AbmProveedor
 
         private void nuevo_cliente_Click(object sender, EventArgs e)
         {
-            AltaProveedor formAltaProve = new AltaProveedor();
+            ListadoSeleccionUsuario formAltaProve = new ListadoSeleccionUsuario("Proveedor");
             formAltaProve.FormClosed += new FormClosedEventHandler(afterCloseProveeAlta);
             formAltaProve.Show();
         }

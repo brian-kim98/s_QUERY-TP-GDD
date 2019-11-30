@@ -167,7 +167,7 @@ namespace FrbaOfertas2.RegistroUsuario.AbmCliente
 
         private void nuevo_cliente_Click(object sender, EventArgs e)
         {
-            AltaCliente clienteFormAlta = new AltaCliente();
+            ListadoSeleccionUsuario clienteFormAlta = new ListadoSeleccionUsuario("Cliente");
             clienteFormAlta.FormClosed += new FormClosedEventHandler(afterCloseClienteAlta);
             clienteFormAlta.Show();
         }

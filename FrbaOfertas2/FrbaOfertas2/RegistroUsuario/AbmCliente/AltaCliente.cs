@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Data.SqlClient;
 using FrbaOfertas2.LoginYSeguridad;
 using FrbaOfertas2.Clases;
+using System.Security.Cryptography;
 
 namespace FrbaOfertas2.RegistroUsuario.AbmCliente
 {
@@ -24,7 +25,7 @@ namespace FrbaOfertas2.RegistroUsuario.AbmCliente
         {
             InitializeComponent();
             usuario_registrar = nuevo_usuario;
-
+            label_user.Text = nuevo_usuario.username;
         }
 
         public AltaCliente()
@@ -53,16 +54,67 @@ namespace FrbaOfertas2.RegistroUsuario.AbmCliente
 
         private bool todosLosCamposCompletos()
         {
-            //modificar esto luego
+            if (
+                this.boxVacio(textBox_apellido) || this.boxVacio(textBox_nombre) || this.boxVacio(textBox_dni) ||
+                this.boxVacio(textBox_mail) || this.boxVacio(textBox_telefono) || this.boxVacio(textBox_calle) ||
+                this.boxVacio(textBox_numero) || this.boxVacio(textBox_localidad) || this.boxVacio(textBox_codigo_postal) ||
+                !this.chequearDepartamento()
+                )
+            {
+                MessageBox.Show("Hay Campos Incompletos.");
+                return false;
+
+            }
+            else
+            {
+                
+                return true;
+            }
             return true;
 
+        }
+
+        private bool chequearDepartamento(){
+
+            if (textBox_numero_piso.Text.ToString() == "" && textBox_departamento.Text.ToString() == "")
+            {
+
+                return true;
+            }
+            else if (textBox_numero_piso.Text.ToString() != "" && textBox_departamento.Text.ToString() != "")
+            {
+
+                return true;
+            }
+            else{
+                textBox_numero_piso.BackColor = Color.OrangeRed;
+                textBox_departamento.BackColor = Color.OrangeRed;
+                return false;
+            }
+        }
+
+        private bool boxVacio(TextBox box)
+        {
+            if (box.Text.ToString() == "")
+            {
+                box.BackColor = Color.OrangeRed;
+                return true;
+            }
+            else
+            {
+                box.BackColor = Color.White;
+            }
+
+            return false;
         }
 
         /// //////////////////////////////////////////////////////////////////////////////////////////////////////
 
         private bool verificarCamposNumericos()
         {
-            //modificar esto luego
+            
+
+
             return true;
 
         }
@@ -80,6 +132,8 @@ namespace FrbaOfertas2.RegistroUsuario.AbmCliente
 
                 SqlCommand procedure = Clases.BaseDeDato.crearConsulta("S_QUERY.insertarCliente");
                 procedure.CommandType = CommandType.StoredProcedure;
+
+
                 procedure.Parameters.AddWithValue("@usuario_nombre", SqlDbType.VarChar).Value = usuario_registrar.username;
                 procedure.Parameters.AddWithValue("@usuario_contraseña", SqlDbType.VarChar).Value = usuario_registrar.password;
                 procedure.Parameters.AddWithValue("@clie_nombre", SqlDbType.VarChar).Value = textBox_nombre.Text;
@@ -192,6 +246,20 @@ namespace FrbaOfertas2.RegistroUsuario.AbmCliente
             connection = new SqlConnection(connectionString);
 
             return connection;
+
+        }
+
+
+        private String encriptacion_password(String str)
+        {
+
+            SHA256 sha256 = SHA256Managed.Create();
+            ASCIIEncoding encoding = new ASCIIEncoding();
+            byte[] stream = null;
+            StringBuilder sb = new StringBuilder();
+            stream = sha256.ComputeHash(encoding.GetBytes(str));
+            for (int i = 0; i < stream.Length; i++) sb.AppendFormat("{0:x2}", stream[i]);
+            return sb.ToString();
 
         }
 

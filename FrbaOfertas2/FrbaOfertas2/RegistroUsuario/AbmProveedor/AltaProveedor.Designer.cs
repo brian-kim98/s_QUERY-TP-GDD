@@ -105,7 +105,7 @@
             // 
             this.textBox_cuit.Location = new System.Drawing.Point(105, 343);
             this.textBox_cuit.Margin = new System.Windows.Forms.Padding(2);
-            this.textBox_cuit.MaxLength = 11;
+            this.textBox_cuit.MaxLength = 13;
             this.textBox_cuit.Name = "textBox_cuit";
             this.textBox_cuit.Size = new System.Drawing.Size(275, 20);
             this.textBox_cuit.TabIndex = 70;
@@ -171,7 +171,7 @@
             // 
             // button_crear
             // 
-            this.button_crear.Location = new System.Drawing.Point(387, 462);
+            this.button_crear.Location = new System.Drawing.Point(354, 462);
             this.button_crear.Margin = new System.Windows.Forms.Padding(2);
             this.button_crear.Name = "button_crear";
             this.button_crear.Size = new System.Drawing.Size(83, 35);
@@ -316,6 +316,7 @@
             this.groupBox1.TabIndex = 79;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Registro Proveedor";
+            this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
             // comboBox_rubro
             // 
@@ -330,7 +331,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(482, 520);
+            this.ClientSize = new System.Drawing.Size(456, 520);
             this.Controls.Add(this.comboBox_rubro);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.textBox_numero);

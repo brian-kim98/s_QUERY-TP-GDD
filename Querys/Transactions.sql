@@ -185,6 +185,7 @@ GO
 /*-----------------------------------------------------------Nuevo Usuario-----------------------------------------------------------------------*/
 /*----SE INSERTARAN CON SU USUARIO Y SU DIRECCION--*/
 
+USE GD2C2019
 IF EXISTS (SELECT name FROM sysobjects WHERE name='insertarCliente' AND type='p')
 	DROP PROCEDURE S_QUERY.insertarCliente
 GO
@@ -194,11 +195,16 @@ AS
 	BEGIN
 		DECLARE @idUsuario INT
 		DECLARE @idCliente int
+		
+		SET @idUsuario = (SELECT TOP 1 usuario_codigo FROM S_QUERY.Usuario  WHERE usuario_nombre = @usuario_nombre AND usuario_contraseña= @usuario_contraseña);
 
-		INSERT INTO S_QUERY.Usuario(usuario_nombre, usuario_contraseña, usuario_habilitado)
-			VALUES (@usuario_nombre , @usuario_contraseña , '1')
+		IF @idUsuario IS NULL
+		BEGIN 
+			INSERT INTO S_QUERY.Usuario(usuario_nombre, usuario_contraseña, usuario_habilitado)
+				VALUES (@usuario_nombre , @usuario_contraseña , '1')
 
-		SELECT @idUsuario = SCOPE_IDENTITY()
+			SELECT @idUsuario = SCOPE_IDENTITY()
+		END
 
 		INSERT INTO S_QUERY.Cliente(clie_nombre, clie_apellido, clie_dni, clie_mail, clie_telefono, clie_fecha_nacimiento, clie_saldo, clie_habilitado, direc_codigo, usuario_codigo)
 			VALUES(@clie_nombre, @clie_apellido, @clie_dni, @clie_mail, @clie_telefono, @clie_fecha_nacimiento, @clie_saldo, '1', @direc_codigo, @idUsuario)
@@ -221,10 +227,16 @@ AS
 		DECLARE @idUsuario INT
 		DECLARE @idProveedor int
 
-		INSERT INTO S_QUERY.Usuario(usuario_nombre, usuario_contraseña, usuario_habilitado)
-			VALUES (@usuario_nombre_prov , @usuario_contraseña_prov , '1')
+		
+		SET @idUsuario = (SELECT TOP 1 usuario_codigo FROM S_QUERY.Usuario  WHERE usuario_nombre = @usuario_nombre_prov AND usuario_contraseña= @usuario_contraseña_prov);
 
-		SELECT @idUsuario = SCOPE_IDENTITY()
+		IF @idUsuario IS NULL
+		BEGIN 
+			INSERT INTO S_QUERY.Usuario(usuario_nombre, usuario_contraseña, usuario_habilitado)
+				VALUES (@usuario_nombre_prov , @usuario_contraseña_prov , '1')
+
+			SELECT @idUsuario = SCOPE_IDENTITY()
+		END
 
 		INSERT INTO S_QUERY.Proveedor(prov_razon_social, prov_cuit, prov_mail, prov_ciudad, prov_telefono, prov_nombre_contacto, prov_habilitado, rubro_codigo, direc_codigo, usuario_codigo)
 			VALUES(@razon_social_prov, @cuit_prov, @mail_prov, @ciudad_prov, @telefono_prov, @nombre_contacto_prov, '1', @rubro_codigo_prov, @direc_codigo_prov, @idUsuario)
