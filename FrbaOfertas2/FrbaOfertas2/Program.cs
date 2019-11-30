@@ -34,13 +34,13 @@ namespace FrbaOfertas2
             //Application.Run(new CargarCredito());
             //Application.Run(new AltaCliente());
             //Application.Run(new ListadoClientes());
-            Application.Run(new ListadoProveedores());
+            //Application.Run(new ListadoProveedores());
 
             //Application.Run(new ModificarProveedor("1"));
 
             //Application.Run(new CreacionOferta(proveedor_prueba));
             //Application.Run(new FacturacionAProveedor());
-            //Application.Run(new Listados());
+            Application.Run(new Listados());
         }
     }
 }

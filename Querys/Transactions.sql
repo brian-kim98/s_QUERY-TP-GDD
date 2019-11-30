@@ -292,7 +292,7 @@ CREATE FUNCTION S_QUERY.TOP5_PROVEEDORES_MAYOR_PORCENTAJE_DESCUENTO_OFRECIDO(@AN
 AS
 RETURN 
 (SELECT * FROM S_QUERY.Cliente)
-GO
+GO;
 
 USE GD2C2019
 CREATE FUNCTION S_QUERY.TOP5_PROVEEDORES_MAYOR_FACTURACION(@ANIO INT, @MES INT) RETURNS TABLE
@@ -305,7 +305,28 @@ JOIN S_QUERY.Factura f ON f.prov_codigo = p.prov_codigo
 WHERE YEAR(f.fact_periodo_fin) = @ANIO
 AND (@MES = 1 AND MONTH(f.fact_periodo_fin) IN ('1', '2', '3', '4', '5', '6')) OR (@MES = 7 AND MONTH(f.fact_periodo_fin) IN ('7', '8', '9', '10', '11', '12'))
 GROUP BY p.prov_codigo, p.prov_razon_social
-ORDER BY SUM(f.fact_total))
+ORDER BY SUM(f.fact_total) DESC) 
+GO
+
+
+CREATE FUNCTION S_QUERY.TOP5_PROVEEDORES_MAYOR_DESCUENTO_OFRECIDO_EN_OFERTAS(@ANIO INT, @MES INT) RETURNS TABLE
+AS
+RETURN
+(
+	SELECT TOP 5 
+		p.prov_codigo, 
+		p.prov_razon_social, 
+		(
+			select (CAST((min(o1.oferta_precio/o1.oferta_precio_lista) * 100) as varchar(80)) + '%')
+			from S_QUERY.Oferta o1
+			where o1.prov_codigo = p.prov_codigo) as [PORCENTAJE DESCUENTO OFRECIDO]
+	FROM S_QUERY.Proveedor p
+	JOIN S_QUERY.Oferta o ON o.prov_codigo = p.prov_codigo
+	WHERE YEAR(o.oferta_fecha) = @ANIO
+	AND (@MES = 1 AND MONTH(o.oferta_fecha) IN ('1', '2', '3', '4', '5', '6')) OR (@MES = 7 AND MONTH(o.oferta_fecha) IN ('7', '8', '9', '10', '11', '12'))
+	GROUP BY p.prov_codigo, p.prov_razon_social
+	ORDER BY 3 DESC
+)
 GO
 
 /*-------------------------------TRANSACTION-----------------------------*/

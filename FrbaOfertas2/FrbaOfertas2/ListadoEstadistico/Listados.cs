@@ -51,6 +51,32 @@ namespace FrbaOfertas2.ListadoEstadistico
 
                 dataGridView1.DataSource = salida;
             }
+
+            if (comboBox_tipoListado.SelectedItem.ToString() == "Mayor porcentaje descuento ofrecido en las ofertas")
+            {
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                SqlCommand command = new SqlCommand("SELECT * FROM S_QUERY.TOP5_PROVEEDORES_MAYOR_DESCUENTO_OFRECIDO_EN_OFERTAS(@ANIO, @MES)", bd.obtenerConexion());
+                SqlParameter semestre = new SqlParameter("@MES", SqlDbType.Int);
+                if (comboBox_semestre.SelectedItem.ToString() == "Primer Semestre")
+                { semestre.Value = 1; }
+                else
+                { semestre.Value = 7; }
+
+                SqlParameter anio = new SqlParameter("@ANIO", SqlDbType.Int);
+                anio.Value = int.Parse(textBox1_anio.Text);
+
+                MessageBox.Show(textBox1_anio.Text);
+
+                command.Parameters.Add(semestre);
+                command.Parameters.Add(anio);
+
+
+
+                DataTable salida = new DataTable();
+                salida = (DataTable)command.ExecuteScalar();
+
+                dataGridView1.DataSource = salida;
+            }
         }
 
         private void Listados_Load(object sender, EventArgs e)
