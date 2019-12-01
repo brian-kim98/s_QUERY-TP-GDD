@@ -34,13 +34,13 @@
             this.groupBox_filtros = new System.Windows.Forms.GroupBox();
             this.button_limpiar = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
-            this.comboBox_funcionalidades = new System.Windows.Forms.ComboBox();
             this.label_seleccion_habilitado = new System.Windows.Forms.Label();
-            this.comboBox_habilitados = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.textBox_texto_libre = new System.Windows.Forms.TextBox();
             this.button_buscar = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
+            this.textBox_maximo = new System.Windows.Forms.TextBox();
+            this.textBox_minimo = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_ofertas)).BeginInit();
             this.groupBox_filtros.SuspendLayout();
             this.SuspendLayout();
@@ -74,11 +74,11 @@
             // 
             // groupBox_filtros
             // 
+            this.groupBox_filtros.Controls.Add(this.textBox_minimo);
+            this.groupBox_filtros.Controls.Add(this.textBox_maximo);
             this.groupBox_filtros.Controls.Add(this.button_limpiar);
             this.groupBox_filtros.Controls.Add(this.label2);
-            this.groupBox_filtros.Controls.Add(this.comboBox_funcionalidades);
             this.groupBox_filtros.Controls.Add(this.label_seleccion_habilitado);
-            this.groupBox_filtros.Controls.Add(this.comboBox_habilitados);
             this.groupBox_filtros.Controls.Add(this.label1);
             this.groupBox_filtros.Controls.Add(this.textBox_texto_libre);
             this.groupBox_filtros.Controls.Add(this.button_buscar);
@@ -97,6 +97,7 @@
             this.button_limpiar.TabIndex = 7;
             this.button_limpiar.Text = "Limpiar";
             this.button_limpiar.UseVisualStyleBackColor = true;
+            this.button_limpiar.Click += new System.EventHandler(this.button_limpiar_Click);
             // 
             // label2
             // 
@@ -108,14 +109,6 @@
             this.label2.TabIndex = 6;
             this.label2.Text = "Precio Minimo";
             // 
-            // comboBox_funcionalidades
-            // 
-            this.comboBox_funcionalidades.FormattingEnabled = true;
-            this.comboBox_funcionalidades.Location = new System.Drawing.Point(6, 127);
-            this.comboBox_funcionalidades.Name = "comboBox_funcionalidades";
-            this.comboBox_funcionalidades.Size = new System.Drawing.Size(121, 21);
-            this.comboBox_funcionalidades.TabIndex = 5;
-            // 
             // label_seleccion_habilitado
             // 
             this.label_seleccion_habilitado.AutoSize = true;
@@ -125,14 +118,6 @@
             this.label_seleccion_habilitado.Size = new System.Drawing.Size(76, 13);
             this.label_seleccion_habilitado.TabIndex = 4;
             this.label_seleccion_habilitado.Text = "Precio Maximo";
-            // 
-            // comboBox_habilitados
-            // 
-            this.comboBox_habilitados.FormattingEnabled = true;
-            this.comboBox_habilitados.Location = new System.Drawing.Point(6, 83);
-            this.comboBox_habilitados.Name = "comboBox_habilitados";
-            this.comboBox_habilitados.Size = new System.Drawing.Size(121, 21);
-            this.comboBox_habilitados.TabIndex = 3;
             // 
             // label1
             // 
@@ -159,6 +144,7 @@
             this.button_buscar.TabIndex = 0;
             this.button_buscar.Text = "Buscar";
             this.button_buscar.UseVisualStyleBackColor = true;
+            this.button_buscar.Click += new System.EventHandler(this.button_buscar_Click);
             // 
             // label3
             // 
@@ -168,6 +154,20 @@
             this.label3.Size = new System.Drawing.Size(113, 13);
             this.label3.TabIndex = 12;
             this.label3.Text = "Seleccione una Oferta";
+            // 
+            // textBox_maximo
+            // 
+            this.textBox_maximo.Location = new System.Drawing.Point(6, 83);
+            this.textBox_maximo.Name = "textBox_maximo";
+            this.textBox_maximo.Size = new System.Drawing.Size(230, 20);
+            this.textBox_maximo.TabIndex = 8;
+            // 
+            // textBox_minimo
+            // 
+            this.textBox_minimo.Location = new System.Drawing.Point(9, 127);
+            this.textBox_minimo.Name = "textBox_minimo";
+            this.textBox_minimo.Size = new System.Drawing.Size(230, 20);
+            this.textBox_minimo.TabIndex = 9;
             // 
             // ListaOfertas
             // 
@@ -198,12 +198,12 @@
         private System.Windows.Forms.GroupBox groupBox_filtros;
         private System.Windows.Forms.Button button_limpiar;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ComboBox comboBox_funcionalidades;
         private System.Windows.Forms.Label label_seleccion_habilitado;
-        private System.Windows.Forms.ComboBox comboBox_habilitados;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBox_texto_libre;
         private System.Windows.Forms.Button button_buscar;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox textBox_minimo;
+        private System.Windows.Forms.TextBox textBox_maximo;
     }
 }

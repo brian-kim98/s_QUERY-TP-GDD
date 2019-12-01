@@ -62,8 +62,9 @@
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(89, 30);
             this.button2.TabIndex = 13;
-            this.button2.Text = "Limpiar";
+            this.button2.Text = "Volver";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // button1
             // 
@@ -132,15 +133,16 @@
             this.groupBox_compratOfera.TabIndex = 15;
             this.groupBox_compratOfera.TabStop = false;
             this.groupBox_compratOfera.Text = "Comprar Oferta";
+            this.groupBox_compratOfera.Enter += new System.EventHandler(this.groupBox_compratOfera_Enter);
             // 
             // label_precioTotal
             // 
             this.label_precioTotal.AutoSize = true;
             this.label_precioTotal.Location = new System.Drawing.Point(128, 285);
             this.label_precioTotal.Name = "label_precioTotal";
-            this.label_precioTotal.Size = new System.Drawing.Size(25, 13);
+            this.label_precioTotal.Size = new System.Drawing.Size(89, 13);
             this.label_precioTotal.TabIndex = 23;
-            this.label_precioTotal.Text = "100";
+            this.label_precioTotal.Text = "Número de oferta";
             // 
             // label6
             // 

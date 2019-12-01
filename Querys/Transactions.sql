@@ -264,6 +264,20 @@ GO*/
 
 /*-----------------------------------------------------------Carga Credito-----------------------------------------------------------------------*/
 
+IF EXISTS (SELECT name FROM sysobjects WHERE name='comprarOferta' AND type='p')
+	DROP PROCEDURE S_QUERY.comprarOferta
+GO
+CREATE PROCEDURE S_QUERY.comprarOferta(@cupon_fecha_compra DATE , @cupon_cantidad_compra INT,@clie_codigo_compra INT ,  @oferta_codigo_compra INT)
+AS
+	BEGIN
+		INSERT INTO S_QUERY.Cupon(cupon_fecha, cupon_cantidad, clie_codigo, oferta_codigo)
+			VALUES (@cupon_fecha_compra, @cupon_cantidad_compra, @clie_codigo_compra, @oferta_codigo_compra)
+
+	END
+GO
+
+/*-----------------------------------------------------------Carga Credito-----------------------------------------------------------------------*/
+
 IF EXISTS (SELECT name FROM sysobjects WHERE name='cargarCredito' AND type='p')
 	DROP PROCEDURE S_QUERY.cargarCredito
 GO
@@ -333,6 +347,28 @@ RETURN
 		GROUP BY p.prov_codigo, p.prov_razon_social
 		ORDER BY 3 DESC
 )
+GO
+
+/******************************************FACTURACION***********************************************************/
+CREATE FUNCTION S_QUERY.FACTURACION_PROVEEDOR(@PROVEEDOR INT, @INICIO DATETIME, @FIN DATETIME) RETURNS TABLE
+AS
+RETURN
+(
+ SELECT cup.cupon_codigo, cl.clie_nombre, cl.clie_apellido FROM S_QUERY.Cupon cup JOIN
+                S_QUERY.Cliente cl ON cl.clie_codigo = cup.clie_codigo
+                JOIN S_QUERY.Oferta ofer ON ofer.oferta_codigo = cup.oferta_codigo
+                WHERE (cup.cupon_fecha BETWEEN @INICIO
+                AND @FIN) AND ofer.prov_codigo = @PROVEEDOR
+)
+GO
+
+CREATE PROCEDURE S_QUERY.GENERAR_FACTURACION(@FECHA DATETIME, @INICIO DATETIME, @FIN DATETIME, @TOTAL FLOAT, @PROVEEDOR INT)
+AS
+ IF NOT EXISTS(SELECT 1 FROM Factura WHERE fact_fecha = @FECHA and fact_periodo_inicio = @INICIO and fact_periodo_fin = @FIN and fact_total = @TOTAL and prov_codigo = @PROVEEDOR)
+ BEGIN
+  INSERT INTO S_QUERY.Factura(fact_fecha, fact_periodo_inicio, fact_periodo_fin, fact_total, prov_codigo)
+  VALUES(@FECHA, @INICIO, @FIN, @TOTAL, @PROVEEDOR)
+ END
 GO
 
 /*-------------------------------TRANSACTION-----------------------------*/

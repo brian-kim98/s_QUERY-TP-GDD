@@ -68,6 +68,7 @@
             this.label_intentos.Name = "label_intentos";
             this.label_intentos.Size = new System.Drawing.Size(201, 13);
             this.label_intentos.TabIndex = 2;
+            this.label_intentos.Tag = "Cantidad de Intentos Fallidos Realizados:";
             this.label_intentos.Text = "Cantidad de Intentos Fallidos Realizados:";
             this.label_intentos.Visible = false;
             this.label_intentos.Click += new System.EventHandler(this.label3_Click);
@@ -115,7 +116,7 @@
             // label_alerta
             // 
             this.label_alerta.AutoSize = true;
-            this.label_alerta.Location = new System.Drawing.Point(114, 176);
+            this.label_alerta.Location = new System.Drawing.Point(44, 179);
             this.label_alerta.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_alerta.Name = "label_alerta";
             this.label_alerta.Size = new System.Drawing.Size(61, 13);

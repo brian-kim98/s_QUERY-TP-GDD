@@ -25,7 +25,9 @@ namespace FrbaOfertas2.ComprarOferta
         {
 
             clienteRegistrado = this.crearCliente(codigo_usuario);
+            
             InitializeComponent();
+            textBox_cliente.Text = clienteRegistrado.nombre;
         }
 
         private void label7_Click(object sender, EventArgs e)
@@ -51,6 +53,21 @@ namespace FrbaOfertas2.ComprarOferta
 
             if(this.chequearSaldo() && this.chequearDisponibilidad()){
 
+                bd.conectar();
+
+                SqlCommand procedure = Clases.BaseDeDato.crearConsulta("S_QUERY.comprarOferta");
+                procedure.CommandType = CommandType.StoredProcedure;
+                procedure.Parameters.AddWithValue("@cupon_fecha_compra", SqlDbType.Date).Value = dateTimePicker1.Value;
+                procedure.Parameters.AddWithValue("@cupon_cantidad_compra", SqlDbType.Int).Value = numericUpDown_cantidad.Value;
+                procedure.Parameters.AddWithValue("@clie_codigo_compra", SqlDbType.Int).Value = int.Parse(clienteRegistrado.id);
+                procedure.Parameters.AddWithValue("@oferta_codigo_compra", SqlDbType.Int).Value = int.Parse(ofertaSelected.oferta_codigo);
+
+
+                procedure.ExecuteNonQuery();
+
+                bd.desconectar();
+
+                this.Close();
 
             }
         }
@@ -138,6 +155,16 @@ namespace FrbaOfertas2.ComprarOferta
         {
             int precioActualizado = int.Parse(numericUpDown_cantidad.Value.ToString()) * int.Parse(ofertaSelected.precio);
             label_precioTotal.Text = precioActualizado.ToString();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void groupBox_compratOfera_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -39,5 +39,11 @@ namespace FrbaOfertas2.Facturar
             origen.confirmacionGeneracion();
 
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Close();
+           // origen.volverAAHabilitarCambios();
+        }
     }
 }

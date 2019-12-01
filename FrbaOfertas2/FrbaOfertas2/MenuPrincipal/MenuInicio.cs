@@ -15,6 +15,7 @@ using FrbaOfertas2.CargaCredito;
 using FrbaOfertas2.RegistroUsuario.AbmProveedor;
 using FrbaOfertas2.RegistroUsuario.AbmCliente;
 using FrbaOfertas2.ListadoEstadistico;
+using FrbaOfertas2.ComprarOferta;
 
 namespace FrbaOfertas2.MenuPrincipal
 {
@@ -169,7 +170,8 @@ namespace FrbaOfertas2.MenuPrincipal
 
         private void button_comprar_oferta_Click(object sender, EventArgs e)
         {
-
+            CompraOferta compraOfertaForm = new CompraOferta(codigo_user.ToString());
+            compraOfertaForm.Show();
         }
 
         private void button_roles_Click(object sender, EventArgs e)
@@ -182,7 +184,7 @@ namespace FrbaOfertas2.MenuPrincipal
         {
             CargarCredito nuevaCarga = new CargarCredito(codigo_user);
             nuevaCarga.Show();
-            this.Close();
+            
         }
 
         private void MenuInicio_Load(object sender, EventArgs e)

@@ -20,8 +20,8 @@ namespace FrbaOfertas2.LoginYSeguridad
         public Login()
         {
             InitializeComponent();
-            MessageBox.Show("Los Clientes y Proveedores que ya utilizaron previamente el sistema, tienen un usuario y contraseña \n\n  Clientes:\n   Usuario: Nombre del cliente\n   Password: Dni"
-                + "\n\n  Proveedor:\n   Usuario: Nombre del Proveedor\n   Password: CUIT");
+            MessageBox.Show("Los Clientes y Proveedores que ya utilizaron previamente el sistema, tienen un usuario y contraseña \n\n  Clientes:\n   Usuario: Dni\n   Password: Dni"
+                + "\n\n  Proveedor:\n   Usuario: CUIT\n   Password: CUIT");
         }
 
         private void label3_Click(object sender, EventArgs e)
@@ -38,7 +38,7 @@ namespace FrbaOfertas2.LoginYSeguridad
             {
                 String passwordEncontrada = this.buscarPassword(textBox_usuario.Text.ToString());
 
-             
+
 
                 if (encriptacion_password(textBox_contrasenia.Text.ToString()) == passwordEncontrada)
                 {
@@ -62,9 +62,10 @@ namespace FrbaOfertas2.LoginYSeguridad
                 else
                 {
                     label_intentos.Visible = true;
-                    label_intentos.Text = label_intentos.Text.ToString() + " " + contador;
+                    label_intentos.Text = label_intentos.Tag.ToString() + " " + contador;
                     MessageBox.Show("Contraseña incorrecta.");
                     contador++;
+                    break;
                 }
             }
 
@@ -172,7 +173,7 @@ namespace FrbaOfertas2.LoginYSeguridad
         private bool estaHabilitadoUsuario(String username)
         {
 
-            bool resultado;
+            bool resultado = false ;
 
             String query_buscar_usuario = "SELECT usuario_habilitado FROM S_QUERY.Usuario WHERE usuario_nombre = '" +
                 textBox_usuario.Text.ToString() + "'";
@@ -190,13 +191,27 @@ namespace FrbaOfertas2.LoginYSeguridad
 
                     sda_select.Fill(data_usuario);
 
-                    resultado = Convert.ToBoolean(data_usuario.Rows[0].ItemArray[0].ToString());
-
-
-                    if (!resultado)
+                    if (data_usuario.Rows.Count > 0)
                     {
-                        MessageBox.Show("Usuario Inhabilitado");
+
+                        resultado = Convert.ToBoolean(data_usuario.Rows[0].ItemArray[0].ToString());
+
+
+                        if (!resultado)
+                        {
+                            MessageBox.Show("Usuario Inhabilitado");
+                        }
+
                     }
+                    else
+                    {
+                        MessageBox.Show("No existe ese Usuario");
+
+                    }
+
+                   
+
+
                     
 
                 }

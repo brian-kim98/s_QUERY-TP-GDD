@@ -41,7 +41,7 @@ namespace FrbaOfertas2.Facturar
 
             BaseDeDato bd = new BaseDeDato();
             bd.conectar();
-            String cuponesEntreIntervalos =
+        /*    String cuponesEntreIntervalos =
                 "SELECT cup.cupon_codigo, cl.clie_nombre, cl.clie_apellido FROM S_QUERY.Cupon cup JOIN "
                 + "S_QUERY.Cliente cl ON cl.clie_codigo = cup.clie_codigo "
                 + "JOIN S_QUERY.Oferta ofer ON ofer.oferta_codigo = cup.oferta_codigo "
@@ -49,14 +49,18 @@ namespace FrbaOfertas2.Facturar
                 + "' AND '"
                 + dateTimePicker_fechaFin.Text + "') AND ofer.prov_codigo = "
                 + dt.Rows[comboBox_proveedores.SelectedIndex]["prov_codigo"].ToString();
+         */
             SqlDataAdapter adapter = new SqlDataAdapter();
+         
+  
+         
             SqlCommand command = new SqlCommand("SELECT * FROM S_QUERY.FACTURACION_PROVEEDOR(@PROVEEDOR, @INICIO, @FIN)", bd.obtenerConexion());
             SqlParameter proveedor = new SqlParameter("@PROVEEDOR", SqlDbType.Int);
             proveedor.Value = int.Parse(dt.Rows[comboBox_proveedores.SelectedIndex]["prov_codigo"].ToString());
             SqlParameter periodoInicio = new SqlParameter("@INICIO", SqlDbType.DateTime);
-            periodoInicio.Value = dateTimePicker_fechaInicio.Text;
+            periodoInicio.Value = dateTimePicker_fechaInicio.Value;
             SqlParameter periodoFin = new SqlParameter("@FIN", SqlDbType.DateTime);
-            periodoFin.Value = dateTimePicker_fechaFin.Text;
+            periodoFin.Value = dateTimePicker_fechaFin.Value;
 
             command.Parameters.Add(proveedor);
             command.Parameters.Add(periodoInicio);
@@ -67,7 +71,9 @@ namespace FrbaOfertas2.Facturar
             DataTable tablaFinal = new DataTable();
             adapter.Fill(tablaFinal);
 
-            ListadoFacturacionGenerada listado = new ListadoFacturacionGenerada(tablaFinal);
+            bd.desconectar();
+
+            ListadoFacturacionGenerada listado = new ListadoFacturacionGenerada(tablaFinal, this);
             listado.Show();
 
             //creo que falta cerrar la base de datos.
@@ -113,12 +119,20 @@ namespace FrbaOfertas2.Facturar
             SqlCommand procedure = Clases.BaseDeDato.crearConsulta("S_QUERY.GENERAR_FACTURACION");
             procedure.CommandType = CommandType.StoredProcedure;
             procedure.Parameters.AddWithValue("@FECHA", SqlDbType.DateTime).Value = "Aca va config xd";
-            procedure.Parameters.AddWithValue("@INICIO", SqlDbType.DateTime).Value = dateTimePicker_fechaInicio.Text;
-            procedure.Parameters.AddWithValue("@FIN", SqlDbType.DateTime).Value = dateTimePicker_fechaFin.Text;
+            procedure.Parameters.AddWithValue("@INICIO", SqlDbType.DateTime).Value = dateTimePicker_fechaInicio.Value;
+            procedure.Parameters.AddWithValue("@FIN", SqlDbType.DateTime).Value = dateTimePicker_fechaFin.Value;
             procedure.Parameters.AddWithValue("@PROVEEDOR", SqlDbType.Int).Value = int.Parse(dt.Rows[comboBox_proveedores.SelectedIndex]["prov_codigo"].ToString());
             procedure.ExecuteNonQuery();
             bd.desconectar();
             
         }
+
+        public void volverAHabilitarCambios()
+        {
+            dateTimePicker_fechaFin.Enabled = true;
+            dateTimePicker_fechaInicio.Enabled = true;
+            comboBox_proveedores.Enabled = true;
+        }
+
     }
 }
