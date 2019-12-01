@@ -30,6 +30,7 @@
         {
             this.dataGridView_listado = new System.Windows.Forms.DataGridView();
             this.button1 = new System.Windows.Forms.Button();
+            this.button_generar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_listado)).BeginInit();
             this.SuspendLayout();
             // 
@@ -52,11 +53,22 @@
             this.button1.Text = "VOLVER";
             this.button1.UseVisualStyleBackColor = true;
             // 
+            // button_generar
+            // 
+            this.button_generar.Location = new System.Drawing.Point(525, 464);
+            this.button_generar.Name = "button_generar";
+            this.button_generar.Size = new System.Drawing.Size(75, 23);
+            this.button_generar.TabIndex = 2;
+            this.button_generar.Text = "Generar";
+            this.button_generar.UseVisualStyleBackColor = true;
+            this.button_generar.Click += new System.EventHandler(this.button_generar_Click);
+            // 
             // ListadoFacturacionGenerada
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(612, 499);
+            this.Controls.Add(this.button_generar);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.dataGridView_listado);
             this.Name = "ListadoFacturacionGenerada";
@@ -71,5 +83,6 @@
 
         private System.Windows.Forms.DataGridView dataGridView_listado;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button_generar;
     }
 }
