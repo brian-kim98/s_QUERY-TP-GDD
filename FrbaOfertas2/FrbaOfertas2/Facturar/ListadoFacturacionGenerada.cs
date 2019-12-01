@@ -13,11 +13,13 @@ namespace FrbaOfertas2.Facturar
     public partial class ListadoFacturacionGenerada : Form
     {
         private DataTable tabla = new DataTable();
+        private FacturacionAProveedor origen;
 
-        public ListadoFacturacionGenerada(DataTable tablaAMostrar)
+        public ListadoFacturacionGenerada(DataTable tablaAMostrar, FacturacionAProveedor form)
         {
             InitializeComponent();
             tabla = tablaAMostrar;
+            origen = form;
 
         }
 
@@ -28,6 +30,13 @@ namespace FrbaOfertas2.Facturar
 
         private void dataGridView_listado_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+
+        }
+
+        private void button_generar_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            origen.confirmacionGeneracion();
 
         }
     }

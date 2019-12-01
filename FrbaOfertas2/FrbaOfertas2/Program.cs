@@ -29,7 +29,7 @@ namespace FrbaOfertas2
 
             //Application.Run(new AltaRol_Form());
             //Application.Run(new RegistrarUsuario());
-             Application.Run(new Login());
+            //Application.Run(new Login());
 
             //Application.Run(new CargarCredito());
             //Application.Run(new AltaCliente());
@@ -39,7 +39,7 @@ namespace FrbaOfertas2
             //Application.Run(new ModificarProveedor("1"));
 
             //Application.Run(new CreacionOferta(proveedor_prueba));
-            //Application.Run(new FacturacionAProveedor());
+            Application.Run(new FacturacionAProveedor());
             //Application.Run(new Listados());
         }
     }
