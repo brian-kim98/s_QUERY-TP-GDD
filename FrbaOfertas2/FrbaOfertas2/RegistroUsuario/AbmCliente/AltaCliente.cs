@@ -128,28 +128,40 @@ namespace FrbaOfertas2.RegistroUsuario.AbmCliente
 
                 BaseDeDato bd = new BaseDeDato();
 
-                bd.conectar();
+                try
+                {
+                    bd.conectar();
 
-                SqlCommand procedure = Clases.BaseDeDato.crearConsulta("S_QUERY.insertarCliente");
-                procedure.CommandType = CommandType.StoredProcedure;
+                    SqlCommand procedure = Clases.BaseDeDato.crearConsulta("S_QUERY.insertarCliente");
+                    procedure.CommandType = CommandType.StoredProcedure;
 
 
-                procedure.Parameters.AddWithValue("@usuario_nombre", SqlDbType.VarChar).Value = usuario_registrar.username;
-                procedure.Parameters.AddWithValue("@usuario_contraseña", SqlDbType.VarChar).Value = usuario_registrar.password;
-                procedure.Parameters.AddWithValue("@clie_nombre", SqlDbType.VarChar).Value = textBox_nombre.Text;
-                procedure.Parameters.AddWithValue("@clie_apellido", SqlDbType.VarChar).Value = textBox_apellido.Text;
-                procedure.Parameters.AddWithValue("@clie_dni", SqlDbType.Int).Value = (int)Convert.ToInt32(textBox_dni.Text);
-                procedure.Parameters.AddWithValue("@clie_mail", SqlDbType.VarChar).Value = textBox_mail.Text;
-                procedure.Parameters.AddWithValue("@clie_telefono", SqlDbType.Int).Value = (int)Convert.ToInt32(textBox_telefono.Text);
-                procedure.Parameters.AddWithValue("@clie_fecha_nacimiento", SqlDbType.Date).Value = dateTimePicker_fecha_nacimiento.Value;
-                procedure.Parameters.AddWithValue("@clie_saldo", SqlDbType.Float).Value = 200.00;
-                procedure.Parameters.AddWithValue("@direc_codigo", SqlDbType.Int).Value = id_direccion;
+                    procedure.Parameters.AddWithValue("@usuario_nombre", SqlDbType.VarChar).Value = usuario_registrar.username;
+                    procedure.Parameters.AddWithValue("@usuario_contraseña", SqlDbType.VarChar).Value = usuario_registrar.password;
+                    procedure.Parameters.AddWithValue("@clie_nombre", SqlDbType.VarChar).Value = textBox_nombre.Text;
+                    procedure.Parameters.AddWithValue("@clie_apellido", SqlDbType.VarChar).Value = textBox_apellido.Text;
+                    procedure.Parameters.AddWithValue("@clie_dni", SqlDbType.Int).Value = (int)Convert.ToInt32(textBox_dni.Text);
+                    procedure.Parameters.AddWithValue("@clie_mail", SqlDbType.VarChar).Value = textBox_mail.Text;
+                    procedure.Parameters.AddWithValue("@clie_telefono", SqlDbType.Int).Value = (int)Convert.ToInt32(textBox_telefono.Text);
+                    procedure.Parameters.AddWithValue("@clie_fecha_nacimiento", SqlDbType.Date).Value = dateTimePicker_fecha_nacimiento.Value;
+                    procedure.Parameters.AddWithValue("@clie_saldo", SqlDbType.Float).Value = 200.00;
+                    procedure.Parameters.AddWithValue("@direc_codigo", SqlDbType.Int).Value = id_direccion;
 
-                procedure.ExecuteNonQuery();
+                    procedure.ExecuteNonQuery();
 
-                bd.desconectar();
+                    bd.desconectar();
 
-                this.Close();
+                    this.Close();
+                }
+
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                    bd.desconectar();
+                }
+
+
+                
             }
         }
 
@@ -276,6 +288,22 @@ namespace FrbaOfertas2.RegistroUsuario.AbmCliente
         private void textBox_codigo_postal_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void button_limpiar_Click(object sender, EventArgs e)
+        {
+            textBox_apellido.Clear();
+            textBox_calle.Clear();
+            textBox_codigo_postal.Clear();
+            textBox_departamento.Clear();
+            textBox_dni.Clear();
+            textBox_localidad.Clear();
+            textBox_mail.Clear();
+            textBox_nombre.Clear();
+            textBox_numero.Clear();
+            textBox_numero_piso.Clear();
+            textBox_telefono.Clear();
+            dateTimePicker_fecha_nacimiento.ResetText();
         }
 
         /// //////////////////////////////////////////////////////////////////////////////////////////////////////

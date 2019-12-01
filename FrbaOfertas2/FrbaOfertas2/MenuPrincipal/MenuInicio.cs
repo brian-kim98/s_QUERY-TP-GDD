@@ -15,6 +15,8 @@ using FrbaOfertas2.CargaCredito;
 using FrbaOfertas2.RegistroUsuario.AbmProveedor;
 using FrbaOfertas2.RegistroUsuario.AbmCliente;
 using FrbaOfertas2.ListadoEstadistico;
+using FrbaOfertas2.ComprarOferta;
+using FrbaOfertas2.Facturar;
 
 namespace FrbaOfertas2.MenuPrincipal
 {
@@ -67,26 +69,70 @@ namespace FrbaOfertas2.MenuPrincipal
             }
 
 
-            if (listaFuncionalidades.Contains("ABM de Proveedor"))
+            if (listaFuncionalidades.Contains("ABM de Rol"))
             {
-                this.habilitar_boton(button_abmProvee);
+                this.habilitar_boton(button_roles);
             }
 
             if (listaFuncionalidades.Contains("Listado Estadistico"))
             {
                 this.habilitar_boton(button_listadoEstadistico);
             }
-
+/*
             if (listaFuncionalidades.Contains("Registro de Usuario"))
             {
                 this.habilitar_boton(button_registrar_user);
             }
-
+*/
 
             if (listaFuncionalidades.Contains("Facturacion a Proveedor"))
             {
-                
+                this.habilitar_boton(button_facturacion);
             }
+
+            this.habilitarFuncionalidadExtra();
+
+        }
+
+        private void habilitarFuncionalidadExtra()
+        {
+            if (this.sosUsuarioAdministrador(codigo_user))
+            {
+                this.habilitar_boton(button_administrarUsuarios);
+
+            }
+            else
+            {
+                this.habilitar_boton(button_modificarContrasenia);
+            }
+        }
+
+        private bool sosUsuarioAdministrador(int codigo_usuario)
+        {
+            BaseDeDato bd = new BaseDeDato();
+            bd.conectar();
+
+            SqlDataAdapter adapter = new SqlDataAdapter();
+            SqlCommand command = new SqlCommand("SELECT S_QUERY.sosUsuarioAdministrador(@usuario_codigo)", bd.obtenerConexion());
+            SqlParameter usuario_codigo = new SqlParameter("@usuario_codigo", SqlDbType.Int);
+            usuario_codigo.Value = codigo_user;
+
+            command.Parameters.Add(usuario_codigo);
+
+            if ((int)command.ExecuteScalar() == 1)
+            {
+                bd.desconectar();
+                return true;
+            }
+
+            else
+            {
+                bd.desconectar();
+                return false;
+            }
+
+            
+
 
         }
 
@@ -169,7 +215,7 @@ namespace FrbaOfertas2.MenuPrincipal
 
         private void button_comprar_oferta_Click(object sender, EventArgs e)
         {
-
+            CompraOferta comprarOferta = new CompraOferta();
         }
 
         private void button_roles_Click(object sender, EventArgs e)
@@ -182,7 +228,7 @@ namespace FrbaOfertas2.MenuPrincipal
         {
             CargarCredito nuevaCarga = new CargarCredito(codigo_user);
             nuevaCarga.Show();
-            this.Close();
+//            this.Close();
         }
 
         private void MenuInicio_Load(object sender, EventArgs e)
@@ -210,13 +256,24 @@ namespace FrbaOfertas2.MenuPrincipal
 
         private void button2_Click(object sender, EventArgs e)
         {
-           
+            FacturacionAProveedor facturacion = new FacturacionAProveedor();
+            facturacion.Show();
         }
 
         private void button_registrar_user_Click(object sender, EventArgs e)
         {
             RegistrarUsuario nuevoRegistro = new RegistrarUsuario();
             nuevoRegistro.Show();
+        }
+
+        private void button_modificarContrasenia_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button_administrarUsuarios_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

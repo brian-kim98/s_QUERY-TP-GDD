@@ -269,9 +269,9 @@ namespace FrbaOfertas2.AbmRol
 
         private void button_limpiar_Click(object sender, EventArgs e)
         {
-            textBox_texto_libre.Text = "";
+            textBox_texto_libre.Clear();
             comboBox_funcionalidades.SelectedItem = null;
-            comboBox_habilitados.Text = "";
+            comboBox_habilitados.SelectedItem = null;
 
         }
 

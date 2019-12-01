@@ -63,10 +63,10 @@ namespace FrbaOfertas2.RegistroUsuario.AbmCliente
 
         private void button_limpiar_Click(object sender, EventArgs e)
         {
-            textBox_apellido.Text = "";
-            textBox_nombre.Text = "";
-            textBox_dni.Text = "";
-            textBox_email.Text = "";
+            textBox_apellido.Clear();
+            textBox_nombre.Clear();
+            textBox_dni.Clear();
+            textBox_email.Clear();
         }
 
 

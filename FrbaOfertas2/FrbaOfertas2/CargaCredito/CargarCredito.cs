@@ -68,9 +68,13 @@ namespace FrbaOfertas2.CargaCredito
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void button_limpiar_Click(object sender, EventArgs e)
         {
-
+            textBox_cod_seguridad.Clear();
+            textBox_monto.Clear();
+            textBox_numero_tarjeta.Clear();
+            comboBox_tipo_pago.SelectedItem = null;
+            dateTimePicker_fecha.ResetText();
         }
 
 

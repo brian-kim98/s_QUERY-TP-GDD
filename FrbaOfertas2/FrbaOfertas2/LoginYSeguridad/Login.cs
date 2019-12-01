@@ -10,12 +10,13 @@ using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Security.Cryptography;
 using FrbaOfertas2.MenuPrincipal;
+using FrbaOfertas2.Clases;
 
 namespace FrbaOfertas2.LoginYSeguridad
 {
     public partial class Login : Form
     {
-        int contador = 0;
+        int contador = 3;
 
         public Login()
         {
@@ -29,113 +30,49 @@ namespace FrbaOfertas2.LoginYSeguridad
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void button_ingresar_Click(object sender, EventArgs e)
         {
+            BaseDeDato bd = new BaseDeDato();
+            bd.conectar();
 
-            bool habilitado = this.estaHabilitadoUsuario(textBox_usuario.Text.ToString());
+            SqlCommand procedure = Clases.BaseDeDato.crearConsulta("S_QUERY.loginYSeguridad");
+            procedure.CommandType = CommandType.StoredProcedure;
 
-            while ( habilitado  && contador < 3)
+            procedure.Parameters.AddWithValue("@usuario", SqlDbType.VarChar).Value = textBox_usuario.Text.ToString();
+            procedure.Parameters.AddWithValue("@contraseña_ingresada", SqlDbType.VarChar).Value = textBox_contrasenia.Text.ToString();
+            procedure.Parameters.Add("@ReturnVal", SqlDbType.Int);
+            procedure.Parameters["@ReturnVal"].Direction = ParameterDirection.ReturnValue;
+            procedure.ExecuteNonQuery();
+
+            int respuesta = Convert.ToInt16(procedure.Parameters["@ReturnVal"].Value);
+
+            bd.desconectar();
+
+            this.reaccionRespuesta(respuesta);
+        }
+
+        private void reaccionRespuesta(int respuesta)
+        {
+            switch (respuesta)
             {
-                String passwordEncontrada = this.buscarPassword(textBox_usuario.Text.ToString());
-
-             
-
-                if (encriptacion_password(textBox_contrasenia.Text.ToString()) == passwordEncontrada)
-                {
-//                    Menu menuParaUsuario = new Menu();
-//                    menuParaUsuario.View();
-
-                   // MenuProveedor menuParaMostrar
-
-                    //aca deberiamos crear el menu y pasarle el codigo de usuario por parametro
-
-
-                    int codigo_usuario = this.buscarCodigoUsuario(textBox_usuario.Text.ToString());
-
-                    MenuInicio mostrarMenu = new MenuInicio(codigo_usuario);
-                    
-                    mostrarMenu.Show();
-                    this.Hide();
+                case -2:
+                    MessageBox.Show("No existe ese usuario o está inhabilitado");
                     break;
-                }
-
-                else
-                {
-                    label_intentos.Visible = true;
-                    label_intentos.Text = label_intentos.Text.ToString() + " " + contador;
-                    MessageBox.Show("Contraseña incorrecta.");
-                    contador++;
-                }
-            }
-
-
-
-
-
-            if (contador == 3)
-            {
-                this.inhabilitarUsuario(textBox_usuario.Text.ToString());
-            }
-
-
-          
-
-        }
-
-        private SqlConnection ConnectionWithDatabase()
-        {
-            string connectionString;
-            SqlConnection connection;
-
-            connectionString = @"Data Source=.\SQLSERVER2012;Initial Catalog = GD2C2019;User ID=sa;Password=gestiondedatos";
-
-            connection = new SqlConnection(connectionString);
-
-            return connection;
-
-        }
-
-        private int buscarCodigoUsuario(String username)
-        {
-            int codigo_encontrado;
-
-            using(SqlConnection connection = ConnectionWithDatabase())
-            {
-                connection.Open();
-
-                String query_buscar_usuario_y_contrasenia = "SELECT usuario_codigo FROM S_QUERY.Usuario WHERE usuario_nombre = '" +
-                    textBox_usuario.Text.ToString() + "'";
-                SqlDataAdapter sda_select = new SqlDataAdapter(query_buscar_usuario_y_contrasenia, connection);
-                DataTable data_usuario = new DataTable();
-
-                sda_select.Fill(data_usuario);
-
-                codigo_encontrado = int.Parse(data_usuario.Rows[0].ItemArray[0].ToString());
-
-
-            }
-
-            return codigo_encontrado;
-        }
-
-        private String buscarPassword(String username)
-        {
-
-
-
-            using (SqlConnection connection = ConnectionWithDatabase())
-            {
-
-                connection.Open();
-
-                String query_buscar_usuario_y_contrasenia = "SELECT usuario_contraseña FROM S_QUERY.Usuario WHERE usuario_nombre = '" +
-                    textBox_usuario.Text.ToString() + "'";
-                SqlDataAdapter sda_select = new SqlDataAdapter(query_buscar_usuario_y_contrasenia, connection);
-                DataTable data_usuario = new DataTable();
-
-                sda_select.Fill(data_usuario);
-
-                return data_usuario.Rows[0].ItemArray[0].ToString();
+                case -1:
+                    this.mostrarLabelUsuarioDeshabilitado(textBox_usuario.Text.ToString());
+                    break;
+                case 0:
+//                    contador = contador - 1;
+//                    label_intentos.Visible = true;
+//                    label_intentos.Text = label_intentos.Tag.ToString() + " " + contador;
+                    MessageBox.Show("Contraseña incorrecta");
+                    break;
+                case 1:
+                    MessageBox.Show("Te loggeaste correctamente");
+                    MenuInicio menu = new MenuInicio(this.buscarCodigoUsuario(textBox_usuario.Text.ToString()));
+                    this.Hide();
+                    menu.Show();
+                    break;
             }
         }
 
@@ -154,7 +91,6 @@ namespace FrbaOfertas2.LoginYSeguridad
 
         private void inhabilitarUsuario(String username)
         {
-
             this.mostrarLabelUsuarioDeshabilitado(username);
         }
 
@@ -167,51 +103,6 @@ namespace FrbaOfertas2.LoginYSeguridad
         {
             label_alerta.Visible = true;
             label_alerta.Text = "El usuario \"" + username + "\" se encuentra inhabilitado"; 
-        }
-
-        private bool estaHabilitadoUsuario(String username)
-        {
-
-            bool resultado;
-
-            String query_buscar_usuario = "SELECT usuario_habilitado FROM S_QUERY.Usuario WHERE usuario_nombre = '" +
-                textBox_usuario.Text.ToString() + "'";
-
-            using (SqlConnection connection = ConnectionWithDatabase())
-            {
-
-                try
-                {
-                    connection.Open();
-
-
-                    SqlDataAdapter sda_select = new SqlDataAdapter(query_buscar_usuario, connection);
-                    DataTable data_usuario = new DataTable();
-
-                    sda_select.Fill(data_usuario);
-
-                    resultado = Convert.ToBoolean(data_usuario.Rows[0].ItemArray[0].ToString());
-
-
-                    if (!resultado)
-                    {
-                        MessageBox.Show("Usuario Inhabilitado");
-                    }
-                    
-
-                }
-                catch (SqlException)
-                {
-                    MessageBox.Show("Ocurrio un error");
-                    return false;
-                }
-
-
-            }
-
-
-            return resultado;
-
         }
 
        /* private bool estaHabilitadoUsuario(String username)
@@ -260,6 +151,27 @@ namespace FrbaOfertas2.LoginYSeguridad
         private void textBox_contrasenia_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private int buscarCodigoUsuario(String username)
+        {
+            int codigo_encontrado;
+            BaseDeDato bd = new BaseDeDato();
+            bd.conectar();
+
+            String query_buscar_usuario_y_contrasenia = "SELECT usuario_codigo FROM S_QUERY.Usuario WHERE usuario_nombre = '" +
+            textBox_usuario.Text.ToString() + "'";
+            SqlDataAdapter sda_select = new SqlDataAdapter(query_buscar_usuario_y_contrasenia, bd.obtenerConexion());
+            DataTable data_usuario = new DataTable();
+
+            sda_select.Fill(data_usuario);
+
+            bd.desconectar();
+
+            codigo_encontrado = int.Parse(data_usuario.Rows[0].ItemArray[0].ToString());
+
+
+            return codigo_encontrado;
         }
 
     }

@@ -154,6 +154,17 @@ namespace FrbaOfertas2.CrearOferta
 
         }
 
+        private void button_limpiar_Click(object sender, EventArgs e)
+        {
+            textBox_descripcion.Clear();
+            textBox_precio_lista.Clear();
+            textBox_precio_oferta.Clear();
+            textBox_cantidad.Clear();
+            textBox_maximo_compra.Clear();
+            dateTimePicker_fecha_publicacion.ResetText();
+            dateTimePicker_fecha_vencimiento.ResetText();
+        }
+
 
         /// //////////////////////////////////////////////////////////////////////////////////////////////////
     }

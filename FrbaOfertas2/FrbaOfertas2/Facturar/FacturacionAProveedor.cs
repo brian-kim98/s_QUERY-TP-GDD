@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Configuration;
 
 namespace FrbaOfertas2.Facturar
 {
@@ -35,40 +36,52 @@ namespace FrbaOfertas2.Facturar
             dateTimePicker_fechaInicio.Format = DateTimePickerFormat.Custom;
             dateTimePicker_fechaFin.Format = DateTimePickerFormat.Custom;
 
-            MessageBox.Show(dateTimePicker_fechaInicio.Text);
-            MessageBox.Show(dateTimePicker_fechaFin.Text);
-            MessageBox.Show(dt.Rows[comboBox_proveedores.SelectedIndex]["prov_codigo"].ToString());
-
             BaseDeDato bd = new BaseDeDato();
-            bd.conectar();
-            String cuponesEntreIntervalos =
-                "SELECT cup.cupon_codigo, cl.clie_nombre, cl.clie_apellido FROM S_QUERY.Cupon cup JOIN "
-                + "S_QUERY.Cliente cl ON cl.clie_codigo = cup.clie_codigo "
-                + "JOIN S_QUERY.Oferta ofer ON ofer.oferta_codigo = cup.oferta_codigo "
-                + "WHERE (cup.cupon_fecha BETWEEN '" + dateTimePicker_fechaInicio.Text
-                + "' AND '"
-                + dateTimePicker_fechaFin.Text + "') AND ofer.prov_codigo = "
-                + dt.Rows[comboBox_proveedores.SelectedIndex]["prov_codigo"].ToString();
-            SqlDataAdapter adapter = new SqlDataAdapter();
-            SqlCommand command = new SqlCommand("SELECT * FROM S_QUERY.FACTURACION_PROVEEDOR(@PROVEEDOR, @INICIO, @FIN)", bd.obtenerConexion());
-            SqlParameter proveedor = new SqlParameter("@PROVEEDOR", SqlDbType.Int);
-            proveedor.Value = int.Parse(dt.Rows[comboBox_proveedores.SelectedIndex]["prov_codigo"].ToString());
-            SqlParameter periodoInicio = new SqlParameter("@INICIO", SqlDbType.DateTime);
-            periodoInicio.Value = dateTimePicker_fechaInicio.Text;
-            SqlParameter periodoFin = new SqlParameter("@FIN", SqlDbType.DateTime);
-            periodoFin.Value = dateTimePicker_fechaFin.Text;
 
-            command.Parameters.Add(proveedor);
-            command.Parameters.Add(periodoInicio);
-            command.Parameters.Add(periodoFin);
+            try
+            {
+                bd.conectar();
+/*
+                String cuponesEntreIntervalos =
+                    "SELECT cup.cupon_codigo, cl.clie_nombre, cl.clie_apellido FROM S_QUERY.Cupon cup JOIN "
+                    + "S_QUERY.Cliente cl ON cl.clie_codigo = cup.clie_codigo "
+                    + "JOIN S_QUERY.Oferta ofer ON ofer.oferta_codigo = cup.oferta_codigo "
+                    + "WHERE (cup.cupon_fecha BETWEEN '" + dateTimePicker_fechaInicio.Text
+                    + "' AND '"
+                    + dateTimePicker_fechaFin.Text + "') AND ofer.prov_codigo = "
+                    + dt.Rows[comboBox_proveedores.SelectedIndex]["prov_codigo"].ToString();
+ */
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                SqlCommand command = new SqlCommand("SELECT * FROM S_QUERY.FACTURACION_PROVEEDOR(@PROVEEDOR, @INICIO, @FIN)", bd.obtenerConexion());
+                SqlParameter proveedor = new SqlParameter("@PROVEEDOR", SqlDbType.Int);
+                proveedor.Value = int.Parse(dt.Rows[comboBox_proveedores.SelectedIndex]["prov_codigo"].ToString());
+                SqlParameter periodoInicio = new SqlParameter("@INICIO", SqlDbType.DateTime);
+                periodoInicio.Value = dateTimePicker_fechaInicio.Value;
+                SqlParameter periodoFin = new SqlParameter("@FIN", SqlDbType.DateTime);
+                periodoFin.Value = dateTimePicker_fechaFin.Value;
 
-            adapter.SelectCommand = command;
+                command.Parameters.Add(proveedor);
+                command.Parameters.Add(periodoInicio);
+                command.Parameters.Add(periodoFin);
 
-            DataTable tablaFinal = new DataTable();
-            adapter.Fill(tablaFinal);
+                adapter.SelectCommand = command;
 
-            ListadoFacturacionGenerada listado = new ListadoFacturacionGenerada(tablaFinal);
-            listado.Show();
+                DataTable tablaFinal = new DataTable();
+                adapter.Fill(tablaFinal);
+
+                bd.desconectar();
+
+                ListadoFacturacionGenerada listado = new ListadoFacturacionGenerada(tablaFinal, this);
+                listado.Show();
+            }
+
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                bd.desconectar();
+            }
+
+            
 
             //creo que falta cerrar la base de datos.
             
@@ -112,13 +125,25 @@ namespace FrbaOfertas2.Facturar
             bd.conectar();
             SqlCommand procedure = Clases.BaseDeDato.crearConsulta("S_QUERY.GENERAR_FACTURACION");
             procedure.CommandType = CommandType.StoredProcedure;
-            procedure.Parameters.AddWithValue("@FECHA", SqlDbType.DateTime).Value = "Aca va config xd";
-            procedure.Parameters.AddWithValue("@INICIO", SqlDbType.DateTime).Value = dateTimePicker_fechaInicio.Text;
-            procedure.Parameters.AddWithValue("@FIN", SqlDbType.DateTime).Value = dateTimePicker_fechaFin.Text;
+            procedure.Parameters.AddWithValue("@FECHA", SqlDbType.DateTime).Value = ConfigurationSettings.AppSettings["fechaConfiguracion"].ToString();
+            procedure.Parameters.AddWithValue("@INICIO", SqlDbType.DateTime).Value = dateTimePicker_fechaInicio.Value;
+            procedure.Parameters.AddWithValue("@FIN", SqlDbType.DateTime).Value = dateTimePicker_fechaFin.Value;
             procedure.Parameters.AddWithValue("@PROVEEDOR", SqlDbType.Int).Value = int.Parse(dt.Rows[comboBox_proveedores.SelectedIndex]["prov_codigo"].ToString());
             procedure.ExecuteNonQuery();
             bd.desconectar();
             
+        }
+
+        private void button_limpiar_Click(object sender, EventArgs e)
+        {
+            dateTimePicker_fechaInicio.ResetText();
+            dateTimePicker_fechaFin.ResetText();
+            comboBox_proveedores.SelectedItem = null;
+        }
+
+        private void button_volver_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

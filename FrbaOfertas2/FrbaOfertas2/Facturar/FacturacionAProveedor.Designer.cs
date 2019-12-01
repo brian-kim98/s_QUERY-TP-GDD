@@ -34,9 +34,9 @@
             this.label2 = new System.Windows.Forms.Label();
             this.comboBox_proveedores = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.button_limpiar = new System.Windows.Forms.Button();
             this.button_generar = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.button_volver = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // dateTimePicker_fechaInicio
@@ -92,14 +92,15 @@
             this.label3.TabIndex = 5;
             this.label3.Text = "Proveedor a Facturar";
             // 
-            // button1
+            // button_limpiar
             // 
-            this.button1.Location = new System.Drawing.Point(12, 249);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 6;
-            this.button1.Text = "LIMPIAR";
-            this.button1.UseVisualStyleBackColor = true;
+            this.button_limpiar.Location = new System.Drawing.Point(12, 249);
+            this.button_limpiar.Name = "button_limpiar";
+            this.button_limpiar.Size = new System.Drawing.Size(75, 23);
+            this.button_limpiar.TabIndex = 6;
+            this.button_limpiar.Text = "LIMPIAR";
+            this.button_limpiar.UseVisualStyleBackColor = true;
+            this.button_limpiar.Click += new System.EventHandler(this.button_limpiar_Click);
             // 
             // button_generar
             // 
@@ -111,23 +112,24 @@
             this.button_generar.UseVisualStyleBackColor = true;
             this.button_generar.Click += new System.EventHandler(this.button_generar_Click);
             // 
-            // button3
+            // button_volver
             // 
-            this.button3.Location = new System.Drawing.Point(12, 12);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(89, 23);
-            this.button3.TabIndex = 8;
-            this.button3.Text = "VOLVER";
-            this.button3.UseVisualStyleBackColor = true;
+            this.button_volver.Location = new System.Drawing.Point(12, 12);
+            this.button_volver.Name = "button_volver";
+            this.button_volver.Size = new System.Drawing.Size(89, 23);
+            this.button_volver.TabIndex = 8;
+            this.button_volver.Text = "VOLVER";
+            this.button_volver.UseVisualStyleBackColor = true;
+            this.button_volver.Click += new System.EventHandler(this.button_volver_Click);
             // 
             // FacturacionAProveedor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(528, 284);
-            this.Controls.Add(this.button3);
+            this.Controls.Add(this.button_volver);
             this.Controls.Add(this.button_generar);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.button_limpiar);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.comboBox_proveedores);
             this.Controls.Add(this.label2);
@@ -150,8 +152,8 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox comboBox_proveedores;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button_limpiar;
         private System.Windows.Forms.Button button_generar;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button_volver;
     }
 }

@@ -41,8 +41,6 @@ namespace FrbaOfertas2.ListadoEstadistico
                 
                     SqlParameter anio = new SqlParameter("@ANIO", SqlDbType.Int);
                     anio.Value = int.Parse(textBox1_anio.Text);
-
-                    MessageBox.Show(textBox1_anio.Text);
        
                     command.Parameters.Add(semestre);
                     command.Parameters.Add(anio);
@@ -67,8 +65,6 @@ namespace FrbaOfertas2.ListadoEstadistico
 
                     SqlParameter anio = new SqlParameter("@ANIO", SqlDbType.Int);
                     anio.Value = int.Parse(textBox1_anio.Text);
-
-                    MessageBox.Show(textBox1_anio.Text);
 
                     command.Parameters.Add(semestre);
                     command.Parameters.Add(anio);

@@ -51,40 +51,43 @@ namespace FrbaOfertas2.RegistroUsuario.AbmProveedor
         private void button_crear_Click(object sender, EventArgs e)
         {
 
-            MessageBox.Show("rubro: " + comboBox_rubro.ValueMember.ToString());
-
-            
-
-
             if (this.todosLosCamposCompletos() && this.verificarCamposNumericos())
             {
 
                 int id_rubro = this.obtener_rubro(comboBox_rubro.Text.ToString());
-                MessageBox.Show("Hola");
                 int id_direccion = this.crear_direccion();
-                MessageBox.Show("Hola");
                 BaseDeDato bd = new BaseDeDato();
 
-                bd.conectar();
+                try
+                {
+                    bd.conectar();
 
-                SqlCommand procedure = Clases.BaseDeDato.crearConsulta("S_QUERY.insertarProveedor");
-                procedure.CommandType = CommandType.StoredProcedure;
-                procedure.Parameters.AddWithValue("@usuario_nombre_prov", SqlDbType.VarChar).Value = usuario_conectado.username;
-                procedure.Parameters.AddWithValue("@usuario_contraseña_prov", SqlDbType.VarChar).Value = usuario_conectado.password;
-                procedure.Parameters.AddWithValue("@razon_social_prov", SqlDbType.VarChar).Value = textBox_razonSocial.Text;
-                procedure.Parameters.AddWithValue("@cuit_prov", SqlDbType.VarChar).Value = textBox_cuit.Text;
-                procedure.Parameters.AddWithValue("@mail_prov", SqlDbType.VarChar).Value = textBox_mail.Text;
-                procedure.Parameters.AddWithValue("@ciudad_prov", SqlDbType.VarChar).Value = textBox_ciudad.Text;
-                procedure.Parameters.AddWithValue("@telefono_prov", SqlDbType.Int).Value = (int)Convert.ToInt32(textBox_telefono.Text);
-                procedure.Parameters.AddWithValue("@nombre_contacto_prov", SqlDbType.VarChar).Value = textBox_nombreContacto.Text;
-                procedure.Parameters.AddWithValue("@rubro_codigo_prov", SqlDbType.Int).Value = id_rubro;
-                procedure.Parameters.AddWithValue("@direc_codigo_prov", SqlDbType.Int).Value = id_direccion;
+                    SqlCommand procedure = Clases.BaseDeDato.crearConsulta("S_QUERY.insertarProveedor");
+                    procedure.CommandType = CommandType.StoredProcedure;
+                    procedure.Parameters.AddWithValue("@usuario_nombre_prov", SqlDbType.VarChar).Value = usuario_conectado.username;
+                    procedure.Parameters.AddWithValue("@usuario_contraseña_prov", SqlDbType.VarChar).Value = usuario_conectado.password;
+                    procedure.Parameters.AddWithValue("@razon_social_prov", SqlDbType.VarChar).Value = textBox_razonSocial.Text;
+                    procedure.Parameters.AddWithValue("@cuit_prov", SqlDbType.VarChar).Value = textBox_cuit.Text;
+                    procedure.Parameters.AddWithValue("@mail_prov", SqlDbType.VarChar).Value = textBox_mail.Text;
+                    procedure.Parameters.AddWithValue("@ciudad_prov", SqlDbType.VarChar).Value = textBox_ciudad.Text;
+                    procedure.Parameters.AddWithValue("@telefono_prov", SqlDbType.Int).Value = (int)Convert.ToInt32(textBox_telefono.Text);
+                    procedure.Parameters.AddWithValue("@nombre_contacto_prov", SqlDbType.VarChar).Value = textBox_nombreContacto.Text;
+                    procedure.Parameters.AddWithValue("@rubro_codigo_prov", SqlDbType.Int).Value = id_rubro;
+                    procedure.Parameters.AddWithValue("@direc_codigo_prov", SqlDbType.Int).Value = id_direccion;
 
-                procedure.ExecuteNonQuery();
+                    procedure.ExecuteNonQuery();
 
-                bd.desconectar();
+                    bd.desconectar();
 
-                this.Close();
+                    this.Close();
+                }
+
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                    bd.desconectar();
+                }
+                
             }
             
         }
@@ -253,6 +256,23 @@ namespace FrbaOfertas2.RegistroUsuario.AbmProveedor
         private void groupBox1_Enter(object sender, EventArgs e)
         {
 
+        }
+
+        private void button_limpiar_Click(object sender, EventArgs e)
+        {
+            textBox_calle.Clear();
+            textBox_ciudad.Clear();
+            textBox_codigoPostal.Clear();
+            textBox_cuit.Clear();
+            textBox_departamento.Clear();
+            textBox_localidad.Clear();
+            textBox_mail.Clear();
+            textBox_nombreContacto.Clear();
+            textBox_numero.Clear();
+            textBox_numero_piso.Clear();
+            textBox_razonSocial.Clear();
+            textBox_telefono.Clear();
+            comboBox_rubro.SelectedItem = null;
         }
 
     }

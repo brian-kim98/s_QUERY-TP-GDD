@@ -190,7 +190,7 @@
             this.button_limpiar.TabIndex = 25;
             this.button_limpiar.Text = "Limpiar";
             this.button_limpiar.UseVisualStyleBackColor = true;
-            this.button_limpiar.Click += new System.EventHandler(this.button1_Click);
+            this.button_limpiar.Click += new System.EventHandler(this.button_limpiar_Click);
             // 
             // comboBox_tipo_pago
             // 

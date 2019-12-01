@@ -1,9 +1,10 @@
 BEGIN TRANSACTION
 CREATE TABLE [GD2C2019].[S_QUERY].Usuario(
 	usuario_codigo INT IDENTITY(1,1) PRIMARY KEY,
-	usuario_nombre VARCHAR(20) NOT NULL,  
+	usuario_nombre VARCHAR(20) UNIQUE NOT NULL,  
 	usuario_contraseña VARCHAR(256) NOT NULL,
-	usuario_habilitado BIT NOT NULL
+	usuario_habilitado BIT NOT NULL,
+	usuario_intentos_posibles SMALLINT DEFAULT 3
 )
 GO
 
@@ -138,18 +139,6 @@ CREATE TABLE [GD2C2019].[S_QUERY].Cupon(
 	FOREIGN KEY (fact_numero) REFERENCES S_QUERY.Factura(fact_numero)
 )
 GO
-
-/*
-CREATE TABLE [GD2C2019].[S_QUERY].Item_Factura(
-	fact_numero BIGINT NOT NULL,
-	cupon_codigo INT NOT NULL,
-	item_precio FLOAT NOT NULL
-	PRIMARY KEY(fact_numero,cupon_codigo),
-	FOREIGN KEY(fact_numero) REFERENCES S_QUERY.Factura(fact_numero),
-	FOREIGN KEY(cupon_codigo) REFERENCES S_QUERY.Cupon(cupon_codigo)
-)
-GO
-*/
 
 CREATE TABLE [GD2C2019].[S_QUERY].Entrega(	
 	entrega_codigo INT IDENTITY(1,1) PRIMARY KEY,

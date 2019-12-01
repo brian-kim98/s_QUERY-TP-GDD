@@ -1,9 +1,6 @@
 
 /*--------------------procedures----------------------*/
 
-
-
-
 IF EXISTS (SELECT name FROM sysobjects WHERE name='crearDireccion' AND type='p')
 	DROP PROCEDURE S_QUERY.crearDireccion
 GO
@@ -18,6 +15,102 @@ AS
 		RETURN @idDireccion
 	END
 GO
+
+/************************************************************LOGIN Y SEGURIDAD********************************************************************/
+IF EXISTS (SELECT name FROM sysobjects WHERE name='loginYSeguridad' AND type='p')
+	DROP PROCEDURE S_QUERY.loginYSeguridad
+GO
+CREATE PROCEDURE S_QUERY.loginYSeguridad(@usuario varchar(20), @contraseña_ingresada varchar(256))
+AS
+	BEGIN
+		DECLARE @intentos_posibles smallint
+		DECLARE @contra_hasheada varchar(256)
+		DECLARE @contra_real varchar(256)
+		DECLARE @valor_retorno smallint
+		DECLARE @habilitado bit
+
+		SET @intentos_posibles = (select usuario_intentos_posibles from S_QUERY.Usuario where usuario_nombre = @usuario)
+		SET @contra_hasheada = lower(convert(varchar(256),HASHBYTES('SHA2_256',@contraseña_ingresada),2))
+		SET @contra_real = (select usuario_contraseña from S_QUERY.Usuario where usuario_nombre = @usuario)
+		SET @habilitado = (select usuario_habilitado from S_QUERY.Usuario where usuario_nombre = @usuario)
+
+		IF NOT EXISTS(select 1 from S_QUERY.Usuario where usuario_nombre = @usuario /*AND usuario_habilitado = 1*/)
+			SET @valor_retorno = -2
+
+		ELSE IF (@intentos_posibles > 0 and @habilitado = 1)
+			BEGIN
+				IF(@contra_real = @contra_hasheada)
+					BEGIN
+						SET @valor_retorno = 1
+						UPDATE S_QUERY.Usuario
+							SET usuario_intentos_posibles = 3
+							WHERE usuario_nombre = @usuario
+					END
+				ELSE
+					BEGIN
+						SET @valor_retorno = 0
+						UPDATE S_QUERY.Usuario
+							SET usuario_intentos_posibles = usuario_intentos_posibles - 1
+							WHERE usuario_nombre = @usuario
+					END
+			END
+		ELSE
+			BEGIN
+				UPDATE S_QUERY.Usuario
+				SET usuario_habilitado = 0
+				WHERE usuario_nombre = @usuario
+				SET @valor_retorno = -1
+			END
+	END
+	RETURN @valor_retorno
+GO
+
+/************************************************************REGISTRO USUARIO*********************************************************************/
+CREATE FUNCTION S_QUERY.verificarUsuario(@usuario varchar(20)) RETURNS INT
+AS
+	BEGIN
+		DECLARE @valor_retorno int
+	
+	BEGIN
+		IF EXISTS(SELECT 1 FROM S_QUERY.Usuario WHERE usuario_nombre = @usuario)
+			SET @valor_retorno = 1
+		ELSE
+			SET @valor_retorno = 0
+	END
+
+	
+	RETURN @valor_retorno
+	END
+GO
+
+IF EXISTS (SELECT name FROM sysobjects WHERE name='sosUsuarioAdministrador' )
+	DROP FUNCTION S_QUERY.sosUsuarioAdministrador
+GO
+CREATE FUNCTION S_QUERY.sosUsuarioAdministrador(@usuario_codigo int) RETURNS INT
+AS
+	BEGIN
+		DECLARE @valor_retorno INT
+
+	BEGIN
+		IF EXISTS
+		(
+		SELECT 1 FROM S_QUERY.RolXUsuario rxu
+		JOIN Rol r ON r.rol_codigo = rxu.rol_codigo
+		WHERE usuario_codigo = @usuario_codigo AND r.rol_nombre = 'Administrativo'
+		)
+			SET @valor_retorno = 1
+		
+		ELSE
+			SET @valor_retorno = -1
+	END
+	
+	RETURN @valor_retorno
+
+	END
+GO
+		
+
+
 
 /*-----------------------------------------------------------ABM Proveedor-----------------------------------------------------------------------*/
 
@@ -148,8 +241,6 @@ AS
 	END
 GO
 
-
-
 IF EXISTS (SELECT name FROM sysobjects WHERE name='insertarFuncionalidadPorRol' AND type='p')
 	DROP PROCEDURE S_QUERY.insertarFuncionalidadPorRol
 GO
@@ -161,8 +252,42 @@ AS
 	END
 GO
 
+CREATE PROCEDURE S_QUERY.eliminarRol(@id_rol int)
+AS
+	BEGIN
+		UPDATE S_QUERY.Rol
+			SET rol_estado = 0
+			WHERE rol_codigo = @id_rol
+	END
+GO
 
+CREATE TRIGGER S_QUERY.elimininacionRol ON S_QUERY.Rol
+INSTEAD OF UPDATE
+AS
+	BEGIN
+		DECLARE @rol_id INT
+		
+		DECLARE C_ROL CURSOR FOR
+		SELECT rol_codigo FROM inserted
 
+		OPEN C_ROL
+		FETCH NEXT FROM C_ROL INTO @rol_id
+		
+		WHILE @@FETCH_STATUS = 0
+			BEGIN
+				/*BEGIN TRANSACTION*/
+					DELETE S_QUERY.RolXUsuario
+					WHERE rol_codigo = @rol_id
+					
+					UPDATE S_QUERY.Rol
+					SET rol_estado = 0
+					WHERE rol_codigo = @rol_id
+				/*COMMIT*/
+				FETCH NEXT FROM C_ROL INTO @rol_id
+			END
+CLOSE C_ROL
+DEALLOCATE C_ROL					
+	
 
 
 /*-----------------------------------------------------------Creacion Ofertas-----------------------------------------------------------------------*/
@@ -287,14 +412,45 @@ AS
 	END
 GO
 
-/*--------------------------------------------------LISTADO ESTADISTICO---------------------------------------------------*/
-CREATE FUNCTION S_QUERY.TOP5_PROVEEDORES_MAYOR_PORCENTAJE_DESCUENTO_OFRECIDO(@ANIO INT, @MES INT) RETURNS TABLE
+/***************************************************FACTURACION PROVEEDOR**************************************************/
+IF EXISTS (SELECT name FROM sysobjects WHERE name='FACTURACION_PROVEEDOR' )
+	DROP FUNCTION S_QUERY.FACTURACION_PROVEEDOR
+GO
+CREATE FUNCTION S_QUERY.FACTURACION_PROVEEDOR(@PROVEEDOR INT, @INICIO DATETIME, @FIN DATETIME) RETURNS TABLE
 AS
-RETURN 
-(SELECT * FROM S_QUERY.Cliente)
-GO;
+	RETURN
+		(SELECT cup.cupon_codigo, cl.clie_nombre, cl.clie_apellido FROM S_QUERY.Cupon cup
+		JOIN S_QUERY.Cliente cl ON cl.clie_codigo = cup.clie_codigo
+		JOIN S_QUERY.Oferta ofer ON ofer.oferta_codigo = cup.oferta_codigo
+		WHERE (cup.cupon_fecha BETWEEN @INICIO AND @FIN) AND ofer.prov_codigo = @PROVEEDOR AND
+		cup.fact_numero IS NULL ) 
+GO
 
+IF EXISTS (SELECT name FROM sysobjects WHERE name='GENERAR_FACTURACION' AND type='p')
+	DROP PROCEDURE S_QUERY.GENERAR_FACTURACION
+GO
+CREATE PROCEDURE S_QUERY.GENERAR_FACTURACION(@FECHA DATETIME, @INICIO DATETIME, @FIN DATETIME, @PROVEEDOR INT)
+AS
+	BEGIN
+		IF NOT EXISTS(SELECT 1 FROM Factura WHERE fact_fecha = @FECHA and fact_periodo_inicio = @INICIO and fact_periodo_fin = @FIN and prov_codigo = @PROVEEDOR)
+			BEGIN
+				DECLARE @TOTAL FLOAT
+				SET @TOTAL = 
+					(
+						SELECT SUM(ofer.oferta_precio * cup.cupon_cantidad) FROM S_QUERY.Cupon cup
+						JOIN S_QUERY.Oferta ofer ON cup.oferta_codigo = ofer.oferta_codigo
+						WHERE (cup.cupon_fecha BETWEEN @INICIO AND @FIN) AND ofer.prov_codigo = @PROVEEDOR AND
+						cup.fact_numero IS NULL
+					)	
+			END
+	
 
+	INSERT INTO S_QUERY.Factura(fact_numero, fact_fecha, fact_periodo_inicio, fact_periodo_fin, fact_total, prov_codigo)
+	VALUES((SELECT TOP 1 fact_numero FROM S_QUERY.Factura ORDER BY fact_numero DESC) + 1,@FECHA, @INICIO, @FIN, @TOTAL, @PROVEEDOR)
+ END
+GO
+
+/*--------------------------------------------------LISTADO ESTADISTICO---------------------------------------------------*/
 USE GD2C2019;
 IF EXISTS (SELECT name FROM sysobjects WHERE name='TOP5_PROVEEDORES_MAYOR_FACTURACION' )
 	DROP FUNCTION S_QUERY.TOP5_PROVEEDORES_MAYOR_FACTURACION
@@ -491,7 +647,7 @@ BEGIN TRANSACTION
 		INSERT INTO S_QUERY.Factura(fact_numero, fact_fecha, prov_codigo, fact_total)
 			SELECT DISTINCT m.Factura_Nro, m.Factura_Fecha,
 				 (SELECT prov_codigo FROM S_QUERY.Proveedor
-				  WHERE prov_cuit = m.Provee_CUIT
+				  WHERE prov_cuit = m.Provee_CUIT AND prov_razon_social = m.Provee_RS
 				 ) as 'Codigo Proveedor',
 				 (SELECT SUM(k.Oferta_Precio) as 'Total'
 					FROM gd_esquema.Maestra k
@@ -537,19 +693,27 @@ BEGIN TRANSACTION
 			('ABM de Cliente'),
 			('ABM de Proveedor'),
 			('Cargar Credito'),
-			('Comprar Oferta'),
 			('Confeccion y publicacion de Ofertas'),
+			('Comprar Oferta'),
+			('Entrega/Consumo de Oferta'),
 			('Facturacion a Proveedor'),
 			('Listado Estadistico')
 
 		INSERT INTO S_QUERY.FuncionalidadXRol(func_codigo, rol_codigo)
-			VALUES('5' , (SELECT TOP 1 rol_codigo FROM S_QUERY.Rol WHERE rol_nombre = 'Proveedor' )),
+			VALUES('2' , (SELECT TOP 1 rol_codigo FROM S_QUERY.Rol WHERE rol_nombre = 'Administrativo' )),
+				('5' , (SELECT TOP 1 rol_codigo FROM S_QUERY.Rol WHERE rol_nombre = 'Administrativo' )),
 				('8' , (SELECT TOP 1 rol_codigo FROM S_QUERY.Rol WHERE rol_nombre = 'Proveedor' )),
 				('6' , (SELECT TOP 1 rol_codigo FROM S_QUERY.Rol WHERE rol_nombre = 'Cliente' )),
-				('4' , (SELECT TOP 1 rol_codigo FROM S_QUERY.Rol WHERE rol_nombre = 'Cliente' )),
-				('7' , (SELECT TOP 1 rol_codigo FROM S_QUERY.Rol WHERE rol_nombre = 'Cliente' ))
-					
-							
+				('4' , (SELECT TOP 1 rol_codigo FROM S_QUERY.Rol WHERE rol_nombre = 'Administrativo' )),
+				('7' , (SELECT TOP 1 rol_codigo FROM S_QUERY.Rol WHERE rol_nombre = 'Cliente' )),
+				('9' , (SELECT TOP 1 rol_codigo FROM S_QUERY.Rol WHERE rol_nombre = 'Proveedor' )),	
+				('10' , (SELECT TOP 1 rol_codigo FROM S_QUERY.Rol WHERE rol_nombre = 'Administrativo' )),			
+				('11' , (SELECT TOP 1 rol_codigo FROM S_QUERY.Rol WHERE rol_nombre = 'Administrativo' ))
+
+		INSERT INTO S_QUERY.Usuario(usuario_nombre,usuario_contraseña, usuario_habilitado)
+		VALUES('admin',lower(convert(varchar(256),HASHBYTES('SHA2_256',convert(varchar,'admin')),2)),1)
+		
+		INSERT INTO S_QUERY.RolXUsuario(rol_codigo,usuario_codigo)
+		VALUES((SELECT rol_codigo FROM S_QUERY.Rol WHERE rol_nombre = 'Administrativo'), 
+			   (SELECT usuario_codigo FROM S_QUERY.Usuario WHERE usuario_nombre = 'admin'))	
 COMMIT
-
-

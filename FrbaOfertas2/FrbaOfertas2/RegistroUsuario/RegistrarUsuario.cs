@@ -50,18 +50,18 @@ namespace FrbaOfertas2
 
         private void carga_comboBox_rol_asignado()
         {
-            SqlConnection connection = ConnectionWithDatabase();
-
-            String query_obtenerRoles = "SELECT rol_codigo, rol_nombre FROM S_QUERY.Rol";
-            SqlDataAdapter sda = new SqlDataAdapter(query_obtenerRoles, connection);
+            BaseDeDato bd = new BaseDeDato();
 
             try
             {
-                connection.Open();
+                bd.conectar();
+                String query_obtenerRoles = "SELECT rol_codigo, rol_nombre FROM S_QUERY.Rol";
+                SqlDataAdapter sda = new SqlDataAdapter(query_obtenerRoles, bd.obtenerConexion());
+
                 sda.Fill(tabla_rol);
 
             }
-
+     
             catch (SqlException se)
             {
                 MessageBox.Show("An error occured while connecting to database" + se.ToString());
@@ -74,27 +74,12 @@ namespace FrbaOfertas2
             comboBox_rol_asignado.DisplayMember = "rol_nombre";
             comboBox_rol_asignado.ValueMember = "rol_nombre";
 
-            connection.Close();
+            bd.desconectar();
         }
 
          /// //////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
-        /// //////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        private SqlConnection ConnectionWithDatabase()
-        {
-            string connectionString;
-            SqlConnection connection;
-
-            connectionString = @"Data Source=.\SQLSERVER2012;Initial Catalog = GD2C2019;User ID=sa;Password=gestiondedatos";
-
-            connection = new SqlConnection(connectionString);
-
-            return connection;
-
-        }
 
         /// //////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -109,8 +94,39 @@ namespace FrbaOfertas2
 
             BaseDeDato bd = new BaseDeDato();
 
-            
+            try
+            {
+                bd.conectar();
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                SqlCommand command = new SqlCommand("SELECT S_QUERY.verificarUsuario(@usuario)", bd.obtenerConexion());
+                SqlParameter usuario = new SqlParameter("@usuario", SqlDbType.VarChar);
+                usuario.Value = textBox_username.Text;
 
+                command.Parameters.Add(usuario);
+
+                int verificador = (int)command.ExecuteScalar();
+
+                switch (verificador)
+                {
+                    case 1:
+                        this.segundoPaso(bd);
+                        break;
+                    case -1:
+                        MessageBox.Show("Ya existe ese nombre de usuario, elija otro");
+                        bd.desconectar();
+                        break;
+                }
+            }
+
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                bd.desconectar();
+            }            
+        }
+
+        private void segundoPaso(BaseDeDato bd)
+        {
             String password_encriptado = this.encriptacion_password(textBox_password.Text.ToString());
 
             Usuario usuario_nuevo = new Usuario(password_encriptado, textBox_username.Text);
@@ -129,9 +145,8 @@ namespace FrbaOfertas2
                 this.Close();
             }
 
-
-            
-        } 
+            bd.desconectar();
+        }
 
         /// //////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -160,6 +175,18 @@ namespace FrbaOfertas2
         }
 
         private void comboBox1_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button_limpiar_Click(object sender, EventArgs e)
+        {
+            textBox_username.Clear();
+            textBox_password.Clear();
+            comboBox_rol_asignado.SelectedItem = null;
+        }
+
+        private void textBox_password_TextChanged(object sender, EventArgs e)
         {
 
         }

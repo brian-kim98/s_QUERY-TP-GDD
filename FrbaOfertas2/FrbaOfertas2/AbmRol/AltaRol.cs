@@ -43,33 +43,7 @@ namespace FrbaOfertas2
 
         }
 
-        /*        private void carga_comboBox_funcionalidades()
-                {
-                    SqlConnection connection = ConnectionWithDatabase();
-
-                    String query_obtenerFuncionalidades = "SELECT func_codigo, func_nombre FROM S_QUERY.Funcionalidad";
-                    SqlDataAdapter sda = new SqlDataAdapter(query_obtenerFuncionalidades, connection);
-
-                    try
-                    {
-                        connection.Open();
-                        sda.Fill(tabla_funcionalidades);
-
-                    }
-
-                    catch (SqlException se)
-                    {
-                        MessageBox.Show("An error occured while connecting to database" + se.ToString());
-                    }
-
-
-                    comboBox_funcionalidades.DataSource = tabla_funcionalidades;
-                    comboBox_funcionalidades.DisplayMember = "func_nombre";
-                    comboBox_funcionalidades.ValueMember = "func_nombre";
-
-                    connection.Close();
-                }
-        */
+       
         private void button_aniadir_funcionalidad_Click(object sender, EventArgs e)
         {
             listBox_funcionalidades_para_rol.Items.Add(comboBox_funcionalidades.SelectedValue);

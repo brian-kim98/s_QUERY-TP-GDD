@@ -26,5 +26,15 @@ namespace FrbaOfertas2.ComprarOferta
         {
 
         }
+
+        private void button_limpiar_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
