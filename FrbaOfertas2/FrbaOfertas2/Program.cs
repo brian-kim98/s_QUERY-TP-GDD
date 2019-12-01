@@ -12,6 +12,7 @@ using FrbaOfertas2.CargaCredito;
 using FrbaOfertas2.Facturar;
 using FrbaOfertas2.ListadoEstadistico;
 using FrbaOfertas2.RegistroUsuario.AbmProveedor;
+using FrbaOfertas2.ComprarOferta;
 
 namespace FrbaOfertas2
 {
@@ -29,7 +30,7 @@ namespace FrbaOfertas2
 
             //Application.Run(new AltaRol_Form());
             //Application.Run(new RegistrarUsuario());
-             Application.Run(new Login());
+             //Application.Run(new Login());
 
             //Application.Run(new CargarCredito());
             //Application.Run(new AltaCliente());
@@ -41,6 +42,7 @@ namespace FrbaOfertas2
             //Application.Run(new CreacionOferta(proveedor_prueba));
             //Application.Run(new FacturacionAProveedor());
             //Application.Run(new Listados());
+            Application.Run(new CompraOferta());
         }
     }
 }

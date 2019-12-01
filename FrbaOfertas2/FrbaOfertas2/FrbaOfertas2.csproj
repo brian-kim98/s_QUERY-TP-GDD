@@ -70,6 +70,7 @@
     </Compile>
     <Compile Include="Clases\BaseDeDato.cs" />
     <Compile Include="Clases\Cliente.cs" />
+    <Compile Include="Clases\Oferta.cs" />
     <Compile Include="Clases\Proveedor.cs" />
     <Compile Include="Clases\Usuario.cs" />
     <Compile Include="ComprarOferta\CompraOferta.cs">
@@ -77,6 +78,12 @@
     </Compile>
     <Compile Include="ComprarOferta\CompraOferta.Designer.cs">
       <DependentUpon>CompraOferta.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ComprarOferta\ListaOfertas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ComprarOferta\ListaOfertas.Designer.cs">
+      <DependentUpon>ListaOfertas.cs</DependentUpon>
     </Compile>
     <Compile Include="CrearOferta\CreacionOferta.cs">
       <SubType>Form</SubType>
@@ -184,6 +191,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ComprarOferta\CompraOferta.resx">
       <DependentUpon>CompraOferta.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ComprarOferta\ListaOfertas.resx">
+      <DependentUpon>ListaOfertas.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CrearOferta\CreacionOferta.resx">
       <DependentUpon>CreacionOferta.cs</DependentUpon>

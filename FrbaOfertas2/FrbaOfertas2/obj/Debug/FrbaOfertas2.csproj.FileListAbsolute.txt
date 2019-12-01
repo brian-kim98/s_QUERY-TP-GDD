@@ -55,3 +55,4 @@ D:\UTN\Gestión de Datos\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\Frba
 D:\UTN\Gestión de Datos\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.RegistroUsuario.AbmProveedor.ListadoProveedores.resources
 D:\UTN\Gestión de Datos\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.RegistroUsuario.AbmProveedor.ModificarProveedor.resources
 D:\UTN\Gestión de Datos\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.RegistroUsuario.ListadoSeleccionUsuario.resources
+C:\Users\Leon\Documents\Facultad\Tercer Año\Gestion de Datos\Repositorio_TP\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.ComprarOferta.ListaOfertas.resources

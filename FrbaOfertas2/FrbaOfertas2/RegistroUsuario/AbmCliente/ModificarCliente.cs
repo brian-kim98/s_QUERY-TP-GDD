@@ -203,7 +203,8 @@ namespace FrbaOfertas2.RegistroUsuario.AbmCliente
                   dr["clie_telefono"].ToString(),
                   fecha_nac,
                   bool.Parse(dr["clie_habilitado"].ToString()),
-                  dr["direc_codigo"].ToString());
+                  dr["direc_codigo"].ToString(),
+                  int.Parse(dr["clie_saldo"].ToString()));
 
             bd.desconectar();
 
