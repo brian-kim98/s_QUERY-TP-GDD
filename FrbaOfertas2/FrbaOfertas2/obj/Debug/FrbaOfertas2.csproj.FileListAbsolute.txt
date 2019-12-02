@@ -54,3 +54,5 @@ D:\UTN\Gestión de Datos\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\Frba
 D:\UTN\Gestión de Datos\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.RegistroUsuario.AbmProveedor.ListadoProveedores.resources
 D:\UTN\Gestión de Datos\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.RegistroUsuario.AbmProveedor.ModificarProveedor.resources
 D:\UTN\Gestión de Datos\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.RegistroUsuario.ListadoSeleccionUsuario.resources
+D:\UTN\Gestión de Datos\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.AdministracionUsuarios.AdministrarUsuarios.resources
+D:\UTN\Gestión de Datos\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.AdministracionUsuarios.ModificarContrasenia.resources

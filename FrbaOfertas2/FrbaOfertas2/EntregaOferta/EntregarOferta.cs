@@ -14,9 +14,12 @@ namespace FrbaOfertas2.EntregaOferta
 {
     public partial class EntregarOferta : Form
     {
-        public EntregarOferta()
+        int codigo_user;
+
+        public EntregarOferta(int codigo_usuario)
         {
             InitializeComponent();
+            codigo_user = codigo_usuario;
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -46,11 +49,32 @@ namespace FrbaOfertas2.EntregaOferta
             procedure.Parameters.AddWithValue("@entrega_fecha", SqlDbType.DateTime).Value = dateTimePicker_fechaConsumo.Value;
             procedure.Parameters.AddWithValue("@cupon_codigo", SqlDbType.Int).Value = textBox_codigoCupon.Text;
             procedure.Parameters.AddWithValue("@clie_codigo", SqlDbType.Int).Value = textBox_cliente.Text;
-            bd.ejecutarConsultaSinResultado(procedure);
 
-            textBox_codigoCupon.Enabled = false;
-            textBox_cliente.Enabled = false;
-            dateTimePicker_fechaConsumo.Enabled = false;
+            procedure.Parameters.AddWithValue("@usuario_codigo", SqlDbType.Int).Value = this.codigo_user;
+            procedure.Parameters.Add("@ReturnVal", SqlDbType.Int);
+            procedure.Parameters["@ReturnVal"].Direction = ParameterDirection.ReturnValue;
+            procedure.ExecuteNonQuery();
+
+            int resultado = Int32.Parse(procedure.Parameters["@ReturnVal"].Value.ToString());
+
+            bd.desconectar();
+
+            switch (resultado)
+            {
+                case 1:
+                    MessageBox.Show("Se ha consumido correctamente");
+                    break;
+                case 2:
+                    MessageBox.Show("No se puede consumir 2 veces");
+                    break;
+                case 3:
+                    MessageBox.Show("Esta vencido este cupon");
+                    break;
+                case 4:
+                    MessageBox.Show("No existe el cupon o no le pertenece al proveedor");
+                    break;
+            }
+
         }
 
         private bool todosLosCamposEstanCompletos()

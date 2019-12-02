@@ -170,7 +170,8 @@ namespace FrbaOfertas2.RegistroUsuario.AbmCliente
 
 
 
-        private bool cambioFechaCumple() {
+        private bool cambioFechaCumple()
+        {
             int result = DateTime.Compare(clienteConectado.fecha_nacimiento, dateTimePicker_fecha_nacimiento.Value);
 
             return result != 0;
@@ -203,7 +204,8 @@ namespace FrbaOfertas2.RegistroUsuario.AbmCliente
                   dr["clie_telefono"].ToString(),
                   fecha_nac,
                   bool.Parse(dr["clie_habilitado"].ToString()),
-                  dr["direc_codigo"].ToString());
+                  dr["direc_codigo"].ToString(),
+                  int.Parse(dr["clie_saldo"].ToString()));
 
             bd.desconectar();
 

@@ -444,7 +444,7 @@ AS
 			   @cupon_entrega = entr.entrega_codigo, @oferta_prov_codigo = ofer.prov_codigo
 		FROM S_QUERY.Cupon cup
 		JOIN S_QUERY.Oferta ofer on ofer.oferta_codigo = cup.cupon_codigo
-		LEFT JOIN S_QUERY.Entrega entr on etr.cupon_codigo = cup.cupon_codigo
+		LEFT JOIN S_QUERY.Entrega entr on entr.cupon_codigo = cup.cupon_codigo
 		WHERE cup.cupon_codigo = @cupon_codigo
 
 		IF @cup_codigo IS NOT NULL OR
@@ -610,7 +610,7 @@ BEGIN TRANSACTION
 					WHERE prov_cuit = @cuit
 
 				INSERT INTO S_QUERY.Usuario(usuario_nombre,usuario_contraseña, usuario_habilitado)
-					VALUES(@cuit, lower(convert(varchar(256),HASHBYTES('SHA2_256',@cuit),2)),1)
+					VALUES(@cuit, lower(convert(varchar(256),HASHBYTES('SHA2_256',convert(varchar,@cuit)),2)),1)
 				 SELECT @idUsuario = SCOPE_IDENTITY()
 				 UPDATE S_QUERY.Proveedor
 					SET usuario_codigo = @idUsuario

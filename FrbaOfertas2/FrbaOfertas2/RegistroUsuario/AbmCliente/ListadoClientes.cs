@@ -225,6 +225,11 @@ namespace FrbaOfertas2.RegistroUsuario.AbmCliente
 
         }
 
+        private void dataGridView_clientes_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
 
     }
 }

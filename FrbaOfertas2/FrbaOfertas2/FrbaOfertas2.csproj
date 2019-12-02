@@ -33,6 +33,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -62,6 +63,18 @@
     <Compile Include="AbmRol\ModificarRol.Designer.cs">
       <DependentUpon>ModificarRol.cs</DependentUpon>
     </Compile>
+    <Compile Include="AdministracionUsuarios\AdministrarUsuarios.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AdministracionUsuarios\AdministrarUsuarios.Designer.cs">
+      <DependentUpon>AdministrarUsuarios.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AdministracionUsuarios\ModificarContrasenia.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AdministracionUsuarios\ModificarContrasenia.Designer.cs">
+      <DependentUpon>ModificarContrasenia.cs</DependentUpon>
+    </Compile>
     <Compile Include="CargaCredito\CargarCredito.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -70,6 +83,7 @@
     </Compile>
     <Compile Include="Clases\BaseDeDato.cs" />
     <Compile Include="Clases\Cliente.cs" />
+    <Compile Include="Clases\Oferta.cs" />
     <Compile Include="Clases\Proveedor.cs" />
     <Compile Include="Clases\Usuario.cs" />
     <Compile Include="ComprarOferta\CompraOferta.cs">
@@ -77,6 +91,12 @@
     </Compile>
     <Compile Include="ComprarOferta\CompraOferta.Designer.cs">
       <DependentUpon>CompraOferta.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ComprarOferta\ListaOfertas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ComprarOferta\ListaOfertas.Designer.cs">
+      <DependentUpon>ListaOfertas.cs</DependentUpon>
     </Compile>
     <Compile Include="CrearOferta\CreacionOferta.cs">
       <SubType>Form</SubType>
@@ -178,6 +198,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AbmRol\ModificarRol.resx">
       <DependentUpon>ModificarRol.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AdministracionUsuarios\AdministrarUsuarios.resx">
+      <DependentUpon>AdministrarUsuarios.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AdministracionUsuarios\ModificarContrasenia.resx">
+      <DependentUpon>ModificarContrasenia.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CargaCredito\CargarCredito.resx">
       <DependentUpon>CargarCredito.cs</DependentUpon>

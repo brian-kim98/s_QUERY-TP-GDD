@@ -125,7 +125,7 @@ namespace FrbaOfertas2.Facturar
             bd.conectar();
             SqlCommand procedure = Clases.BaseDeDato.crearConsulta("S_QUERY.GENERAR_FACTURACION");
             procedure.CommandType = CommandType.StoredProcedure;
-            procedure.Parameters.AddWithValue("@FECHA", SqlDbType.DateTime).Value = ConfigurationSettings.AppSettings["fechaConfiguracion"].ToString();
+            procedure.Parameters.AddWithValue("@FECHA", SqlDbType.DateTime).Value = ConfigurationManager.AppSettings["fechaConfiguracion"].ToString();
             procedure.Parameters.AddWithValue("@INICIO", SqlDbType.DateTime).Value = dateTimePicker_fechaInicio.Value;
             procedure.Parameters.AddWithValue("@FIN", SqlDbType.DateTime).Value = dateTimePicker_fechaFin.Value;
             procedure.Parameters.AddWithValue("@PROVEEDOR", SqlDbType.Int).Value = int.Parse(dt.Rows[comboBox_proveedores.SelectedIndex]["prov_codigo"].ToString());
