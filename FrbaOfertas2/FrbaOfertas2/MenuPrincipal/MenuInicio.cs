@@ -17,6 +17,8 @@ using FrbaOfertas2.RegistroUsuario.AbmCliente;
 using FrbaOfertas2.ListadoEstadistico;
 using FrbaOfertas2.ComprarOferta;
 using FrbaOfertas2.Facturar;
+using FrbaOfertas2.EntregaOferta;
+
 
 namespace FrbaOfertas2.MenuPrincipal
 {
@@ -78,12 +80,12 @@ namespace FrbaOfertas2.MenuPrincipal
             {
                 this.habilitar_boton(button_listadoEstadistico);
             }
-/*
-            if (listaFuncionalidades.Contains("Registro de Usuario"))
+
+            if (listaFuncionalidades.Contains("Entrega/Consumo de Oferta"))
             {
-                this.habilitar_boton(button_registrar_user);
+                this.habilitar_boton(button_entregaOferta);
             }
-*/
+
 
             if (listaFuncionalidades.Contains("Facturacion a Proveedor"))
             {
@@ -216,6 +218,7 @@ namespace FrbaOfertas2.MenuPrincipal
         private void button_comprar_oferta_Click(object sender, EventArgs e)
         {
             CompraOferta comprarOferta = new CompraOferta();
+            comprarOferta.Show();
         }
 
         private void button_roles_Click(object sender, EventArgs e)
@@ -274,6 +277,12 @@ namespace FrbaOfertas2.MenuPrincipal
         private void button_administrarUsuarios_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void button_entregaOferta_Click(object sender, EventArgs e)
+        {
+            EntregarOferta entrega = new EntregarOferta();
+            entrega.Show();
         }
     }
 }

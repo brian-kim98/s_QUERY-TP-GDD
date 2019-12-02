@@ -41,6 +41,7 @@
             this.button_abmProvee = new System.Windows.Forms.Button();
             this.button_abmClientes = new System.Windows.Forms.Button();
             this.button_roles = new System.Windows.Forms.Button();
+            this.button_entregaOferta = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -104,6 +105,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.button_entregaOferta);
             this.groupBox1.Controls.Add(this.button_modificarContrasenia);
             this.groupBox1.Controls.Add(this.button_administrarUsuarios);
             this.groupBox1.Controls.Add(this.button_facturacion);
@@ -238,6 +240,16 @@
             this.button_roles.Visible = false;
             this.button_roles.Click += new System.EventHandler(this.button_roles_Click);
             // 
+            // button_entregaOferta
+            // 
+            this.button_entregaOferta.Location = new System.Drawing.Point(20, 476);
+            this.button_entregaOferta.Name = "button_entregaOferta";
+            this.button_entregaOferta.Size = new System.Drawing.Size(408, 44);
+            this.button_entregaOferta.TabIndex = 12;
+            this.button_entregaOferta.Text = "Entrega/Consumo de Oferta";
+            this.button_entregaOferta.UseVisualStyleBackColor = true;
+            this.button_entregaOferta.Click += new System.EventHandler(this.button_entregaOferta_Click);
+            // 
             // MenuInicio
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -270,5 +282,6 @@
         private System.Windows.Forms.Button button_registrar_user;
         private System.Windows.Forms.Button button_modificarContrasenia;
         private System.Windows.Forms.Button button_administrarUsuarios;
+        private System.Windows.Forms.Button button_entregaOferta;
     }
 }

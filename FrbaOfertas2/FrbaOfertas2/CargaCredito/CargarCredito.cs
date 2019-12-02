@@ -35,14 +35,14 @@ namespace FrbaOfertas2.CargaCredito
 
         private void carga_comboBox_tipo_pago()
         {
-            SqlConnection connection = ConnectionWithDatabase();
+            BaseDeDato bd = new BaseDeDato();
 
             String query_obtenerPagos = "SELECT tipo_pago_codigo, tipo_pago_nombre FROM S_QUERY.Tipo_Pago";
-            SqlDataAdapter sda = new SqlDataAdapter(query_obtenerPagos, connection);
+            SqlDataAdapter sda = new SqlDataAdapter(query_obtenerPagos, bd.obtenerConexion());
 
             try
             {
-                connection.Open();
+                bd.conectar();
                 sda.Fill(tabla_pagos);
 
             }
@@ -50,6 +50,7 @@ namespace FrbaOfertas2.CargaCredito
             catch (SqlException se)
             {
                 MessageBox.Show("An error occured while connecting to database" + se.ToString());
+                bd.desconectar();
             }
 
 
@@ -59,7 +60,7 @@ namespace FrbaOfertas2.CargaCredito
             comboBox_tipo_pago.DisplayMember = "tipo_pago_nombre";
             comboBox_tipo_pago.ValueMember = "tipo_pago_nombre";
 
-            connection.Close();
+            bd.desconectar();
         }
 
 
@@ -128,21 +129,6 @@ namespace FrbaOfertas2.CargaCredito
 
         /// //////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        private SqlConnection ConnectionWithDatabase()
-        {
-            string connectionString;
-            SqlConnection connection;
-
-            connectionString = @"Data Source=.\SQLSERVER2012;Initial Catalog = GD2C2019;User ID=sa;Password=gestiondedatos";
-
-            connection = new SqlConnection(connectionString);
-
-            return connection;
-
-        }
-
-        /// //////////////////////////////////////////////////////////////////////////////////////////////////////
-
         private void button_cargar_Click(object sender, EventArgs e)
         {
             if (!this.esUnCampoNumerico(textBox_monto))
@@ -166,69 +152,81 @@ namespace FrbaOfertas2.CargaCredito
 
                 BaseDeDato bd = new BaseDeDato();
 
-                bd.conectar();
-
-                SqlCommand procedure = Clases.BaseDeDato.crearConsulta("S_QUERY.cargarCredito");
-                procedure.CommandType = CommandType.StoredProcedure;
-                procedure.Parameters.AddWithValue("@fecha_de_carga", SqlDbType.Date).Value = dateTimePicker_fecha.Value;
-                procedure.Parameters.AddWithValue("@monto", SqlDbType.Float).Value = (float)Convert.ToDouble(textBox_monto.Text);
-                procedure.Parameters.AddWithValue("@clie_codigo_carga", SqlDbType.Int).Value = codigo_cliente;
-                
-                MessageBox.Show("no se que pasa");
-                if (comboBox_tipo_pago.Text.ToString() == "Crédito")
+                try
                 {
-                    MessageBox.Show("no se que pasa11");
-                    //ACA HAY UN ERROR QUE ME TIRA CON QUE LA CADENA NO ES CORRECTA
-                    procedure.Parameters.AddWithValue("@tarjeta_numero_carga", SqlDbType.Int).Value = (int)Convert.ToInt64(comboBox_tipo_pago.Text);
-                }else{
-                    MessageBox.Show("no se que pasa22");
-                    procedure.Parameters.AddWithValue("@tarjeta_numero_carga", SqlDbType.Int).Value = (object)DBNull.Value; 
+                    bd.conectar();
+
+                    SqlCommand procedure = Clases.BaseDeDato.crearConsulta("S_QUERY.cargarCredito");
+                    procedure.CommandType = CommandType.StoredProcedure;
+                    procedure.Parameters.AddWithValue("@fecha_de_carga", SqlDbType.Date).Value = dateTimePicker_fecha.Value;
+                    procedure.Parameters.AddWithValue("@monto", SqlDbType.Float).Value = (float)Convert.ToDouble(textBox_monto.Text);
+                    procedure.Parameters.AddWithValue("@clie_codigo_carga", SqlDbType.Int).Value = codigo_cliente;
+
+                    if (comboBox_tipo_pago.Text.ToString() == "Crédito")
+                    {
+                        MessageBox.Show("Entre a credito");
+                        procedure.Parameters.AddWithValue("@tarjeta_numero_carga", SqlDbType.Int).Value = textBox_numero_tarjeta.Text.ToString();
+                        MessageBox.Show("Sali del if");
+                    }
+
+                    else
+                    {
+                        procedure.Parameters.AddWithValue("@tarjeta_numero_carga", SqlDbType.Int).Value = (object)DBNull.Value;
+                    }
+
+
+                    procedure.Parameters.AddWithValue("@tipo_pago_carga", SqlDbType.Int).Value =
+                        /*this.buscarCodigoCarga(comboBox_tipo_pago.Text.ToString());*/ 2;
+                    MessageBox.Show("Agregue el tipo de pago");
+
+                    procedure.ExecuteNonQuery();
+                    MessageBox.Show("Entre a credito");
+
+                    bd.desconectar();
                 }
 
-                procedure.Parameters.AddWithValue("@tipo_pago_carga", SqlDbType.Int).Value = this.buscarCodigoCarga(comboBox_tipo_pago.Text.ToString());
-                MessageBox.Show("no se que pasa");
-
-                procedure.ExecuteNonQuery();
-                MessageBox.Show("no se que pasa");
-                bd.desconectar();
-
-                MessageBox.Show("no se que pasa");
-
-                //ACA FALTARIA AGARRAR EL PROCEDURE Y HACERLO; PERO NO TENGO NADA PARA PROBARLO POR NO TENER CLIENTES; VOY A TERMINAR ESA PARTE PRIMERO
-
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                    bd.desconectar();
+                }
 
             }
 
-
-
-
-
         }
-
-        /// //////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// 
 
         private int buscarCodigoCarga(String textoPago)
         {
             int codigo_encontrado;
 
-            using (SqlConnection connection = ConnectionWithDatabase())
-            {
-                connection.Open();
+            BaseDeDato bd = new BaseDeDato();
 
-                String query_buscar_pago_codigo = "SELECT tipo_pago_codigo FROM S_QUERY.Tipo_Pago WHERE tipo_pago_nombre = '" +
-                    textoPago + "'";
-                SqlDataAdapter sda_select = new SqlDataAdapter(query_buscar_pago_codigo, connection);
+            try
+            {
+                bd.conectar();
+
+                String query_buscar_pago_codigo = "SELECT tipo_pago_codigo FROM S_QUERY.Tipo_Pago WHERE tipo_pago_nombre = '" + textoPago + "'";
+                SqlDataAdapter sda_select = new SqlDataAdapter(query_buscar_pago_codigo, bd.obtenerConexion());
                 DataTable data_cliente = new DataTable();
 
                 sda_select.Fill(data_cliente);
 
                 codigo_encontrado = int.Parse(data_cliente.Rows[0].ItemArray[0].ToString());
 
+                bd.desconectar();
+
+                return codigo_encontrado;
 
             }
 
-            return codigo_encontrado;
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                bd.desconectar();
+                return -1;
+            }
+
+            
         }
 
         /// //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -248,23 +246,33 @@ namespace FrbaOfertas2.CargaCredito
         {
             int codigo_encontrado;
 
-            using (SqlConnection connection = ConnectionWithDatabase())
+            BaseDeDato bd = new BaseDeDato();
+
+            try
             {
-                connection.Open();
+                bd.conectar();
 
                 String query_buscar_codigo_cliente = "SELECT clie_codigo FROM S_QUERY.Cliente WHERE usuario_codigo = '" +
                     codigoUsuario.ToString() + "'";
-                SqlDataAdapter sda_select = new SqlDataAdapter(query_buscar_codigo_cliente, connection);
+                SqlDataAdapter sda_select = new SqlDataAdapter(query_buscar_codigo_cliente, bd.obtenerConexion());
                 DataTable data_cliente = new DataTable();
 
                 sda_select.Fill(data_cliente);
 
                 codigo_encontrado = int.Parse(data_cliente.Rows[0].ItemArray[0].ToString());
 
+                bd.desconectar();
+
+                return codigo_encontrado;
 
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return -1;
+            }
 
-            return codigo_encontrado;
+            
         }
 
         /// //////////////////////////////////////////////////////////////////////////////////////////////////////

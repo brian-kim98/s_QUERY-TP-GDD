@@ -396,22 +396,83 @@ CREATE PROCEDURE S_QUERY.cargarCredito(@fecha_de_carga DATE , @monto numeric(18,
 AS
 	BEGIN
 		
-		IF NOT EXISTS (SELECT tarjeta_numero FROM S_QUERY.Tarjeta WHERE tarjeta_numero=@tarjeta_numero_carga AND clie_codigo= @clie_codigo_carga)
+		IF @tipo_pago_carga = 2
 			BEGIN
-				INSERT INTO S_QUERY.Tarjeta(tarjeta_numero, clie_codigo)
-					VALUES(@tarjeta_numero_carga, @clie_codigo_carga)
+				IF NOT EXISTS (SELECT tarjeta_numero FROM S_QUERY.Tarjeta WHERE tarjeta_numero=@tarjeta_numero_carga AND clie_codigo= @clie_codigo_carga)
+					BEGIN
+						INSERT INTO S_QUERY.Tarjeta(tarjeta_numero, clie_codigo)
+							VALUES(@tarjeta_numero_carga, @clie_codigo_carga)
+					END
+
+				INSERT INTO S_QUERY.Carga(carga_fecha, carga_monto, clie_codigo, tarjeta_numero , tipo_pago_codigo)
+				 VALUES(@fecha_de_carga , @monto, @clie_codigo_carga , @tarjeta_numero_carga, @tipo_pago_carga )
+
+				UPDATE S_QUERY.Cliente
+					SET clie_saldo += @monto
+					WHERE clie_codigo = @clie_codigo_carga 
 			END
+		ELSE
+			BEGIN
+				
+				INSERT INTO S_QUERY.Carga(cargA_fecha,carga_monto,clie_codigo,tipo_pago_codigo)
+				VALUES(@fecha_de_carga,@monto,@clie_codigo_carga,@tipo_pago_carga)
+				
+				UPDATE S_QUERY.Cliente
+				SET clie_saldo += @monto
+				WHERE clie_codigo = @clie_codigo_carga 
 
-		INSERT INTO S_QUERY.Carga(carga_fecha, carga_monto, clie_codigo,  tarjeta_numero , tipo_pago_codigo)
-		 VALUES(@fecha_de_carga , @monto, @clie_codigo_carga , @tarjeta_numero_carga, @tipo_pago_carga )
-
-		UPDATE S_QUERY.Cliente
-			SET clie_saldo += @monto
-			WHERE clie_codigo = @clie_codigo_carga 
+			END
 
 	END
 GO
 
+/***************************************************CONSUMO OFERTA*********************************************************/
+IF EXISTS (SELECT name FROM sysobjects WHERE name='cargarCredito' AND type='p')
+	DROP PROCEDURE S_QUERY.cargarCredito
+GO
+
+CREATE PROCEDURE S_QUERY.ingresarEntregaOferta(@entrega_fecha DATETIME, @cupon_codigo INT, @clie_codigo INT, @prov_codigo INT)
+AS
+	BEGIN
+		
+		DECLARE @cup_codigo INT
+		DECLARE @cupon_fecha_vencimiento DATE
+		DECLARE @cupon_entrega INT
+		DECLARE @oferta_prov_codigo INT
+
+		SELECT @cup_codigo = cup.cupon_codigo, @cupon_fecha_vencimiento = ofer.oferta_fecha_vencimiento,
+			   @cupon_entrega = entr.entrega_codigo, @oferta_prov_codigo = ofer.prov_codigo
+		FROM S_QUERY.Cupon cup
+		JOIN S_QUERY.Oferta ofer on ofer.oferta_codigo = cup.cupon_codigo
+		LEFT JOIN S_QUERY.Entrega entr on etr.cupon_codigo = cup.cupon_codigo
+		WHERE cup.cupon_codigo = @cupon_codigo
+
+		IF @cup_codigo IS NOT NULL OR
+			@oferta_prov_codigo = @prov_codigo
+			BEGIN
+				IF @cupon_fecha_vencimiento >= @entrega_fecha
+					BEGIN
+						IF @cupon_entrega IS NULL
+							BEGIN
+								INSERT INTO S_QUERY.Entrega(entrega_fecha, cupon_codigo)
+								VALUES(@entrega_fecha, @cupon_codigo)
+							END
+						ELSE
+							BEGIN
+								/*NO SE PUEDE CONSUMIR 2 VECES*/
+							END
+					END
+				ELSE
+					BEGIN
+						/*esta vencido ese cupon*/
+					END
+			END
+		ELSE
+			BEGIN
+				/*No existe el cupon o no le pertenece al proveedor*/
+			END
+	END
+GO
 /***************************************************FACTURACION PROVEEDOR**************************************************/
 IF EXISTS (SELECT name FROM sysobjects WHERE name='FACTURACION_PROVEEDOR' )
 	DROP FUNCTION S_QUERY.FACTURACION_PROVEEDOR
@@ -702,10 +763,10 @@ BEGIN TRANSACTION
 		INSERT INTO S_QUERY.FuncionalidadXRol(func_codigo, rol_codigo)
 			VALUES('2' , (SELECT TOP 1 rol_codigo FROM S_QUERY.Rol WHERE rol_nombre = 'Administrativo' )),
 				('5' , (SELECT TOP 1 rol_codigo FROM S_QUERY.Rol WHERE rol_nombre = 'Administrativo' )),
-				('8' , (SELECT TOP 1 rol_codigo FROM S_QUERY.Rol WHERE rol_nombre = 'Proveedor' )),
+				('8' , (SELECT TOP 1 rol_codigo FROM S_QUERY.Rol WHERE rol_nombre = 'Cliente' )),
 				('6' , (SELECT TOP 1 rol_codigo FROM S_QUERY.Rol WHERE rol_nombre = 'Cliente' )),
 				('4' , (SELECT TOP 1 rol_codigo FROM S_QUERY.Rol WHERE rol_nombre = 'Administrativo' )),
-				('7' , (SELECT TOP 1 rol_codigo FROM S_QUERY.Rol WHERE rol_nombre = 'Cliente' )),
+				('7' , (SELECT TOP 1 rol_codigo FROM S_QUERY.Rol WHERE rol_nombre = 'Proveedor' )),
 				('9' , (SELECT TOP 1 rol_codigo FROM S_QUERY.Rol WHERE rol_nombre = 'Proveedor' )),	
 				('10' , (SELECT TOP 1 rol_codigo FROM S_QUERY.Rol WHERE rol_nombre = 'Administrativo' )),			
 				('11' , (SELECT TOP 1 rol_codigo FROM S_QUERY.Rol WHERE rol_nombre = 'Administrativo' ))

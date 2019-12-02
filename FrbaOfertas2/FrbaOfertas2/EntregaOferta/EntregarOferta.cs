@@ -43,7 +43,7 @@ namespace FrbaOfertas2.EntregaOferta
 
             SqlCommand procedure = Clases.BaseDeDato.crearConsulta("S_QUERY.ingresarEntregaOferta");
             procedure.CommandType = CommandType.StoredProcedure;
-            procedure.Parameters.AddWithValue("@entrega_fecha", SqlDbType.DateTime).Value = dateTimePicker_fechaConsumo.Text;
+            procedure.Parameters.AddWithValue("@entrega_fecha", SqlDbType.DateTime).Value = dateTimePicker_fechaConsumo.Value;
             procedure.Parameters.AddWithValue("@cupon_codigo", SqlDbType.Int).Value = textBox_codigoCupon.Text;
             procedure.Parameters.AddWithValue("@clie_codigo", SqlDbType.Int).Value = textBox_cliente.Text;
             bd.ejecutarConsultaSinResultado(procedure);
