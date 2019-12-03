@@ -26,6 +26,14 @@ namespace FrbaOfertas2.CrearOferta
             codigo_user = user_codigo;
         }
 
+        public CreacionOferta()
+        {
+            InitializeComponent();
+            codigo_user = 0;
+            textBox_codigoProveedor.Visible = true;
+            label_codigoProveedor.Visible = true;
+        }
+
         /// //////////////////////////////////////////////////////////////////////////////////////////////////
 
         private void textBox_descripcion_TextChanged(object sender, EventArgs e)
@@ -37,10 +45,7 @@ namespace FrbaOfertas2.CrearOferta
 
         private void CrearOferta_Load(object sender, EventArgs e)
         {
-            bd.conectar();
-            adapter = new SqlDataAdapter("SELECT func_codigo, func_nombre FROM S_QUERY.Funcionalidad", bd.obtenerConexion());
 
-            bd.desconectar();
         }
 
         /// //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -53,7 +58,37 @@ namespace FrbaOfertas2.CrearOferta
 
                 //textBox_nombre.Enabled = false;
                 BaseDeDato bd = new BaseDeDato();
-                try
+
+                if (this.codigo_user != 0)
+                {
+                    try
+                    {
+                        bd.conectar();
+                        SqlCommand procedure = Clases.BaseDeDato.crearConsulta("S_QUERY.insertarOfertaNueva");
+                        procedure.CommandType = CommandType.StoredProcedure;
+                        procedure.Parameters.AddWithValue("@oferta_descripcion", SqlDbType.VarChar).Value = textBox_descripcion.Text;
+                        procedure.Parameters.AddWithValue("@oferta_fecha", SqlDbType.DateTime).Value = dateTimePicker_fecha_publicacion.Value;
+                        procedure.Parameters.AddWithValue("@oferta_fecha_vencimiento", SqlDbType.DateTime).Value = dateTimePicker_fecha_vencimiento.Value;
+                        procedure.Parameters.AddWithValue("@oferta_precio", SqlDbType.Float).Value = (float)Convert.ToDouble(textBox_precio_oferta.Text);
+                        procedure.Parameters.AddWithValue("@oferta_precio_lista", SqlDbType.Float).Value = (float)Convert.ToDouble(textBox_precio_lista.Text);
+                        procedure.Parameters.AddWithValue("@oferta_cantidad_disponible", SqlDbType.Int).Value = (int)Convert.ToInt32(textBox_cantidad.Text);
+                        procedure.Parameters.AddWithValue("@oferta_maximo_compra", SqlDbType.Int).Value = (int)Convert.ToInt32(textBox_maximo_compra.Text);
+                        procedure.Parameters.AddWithValue("@user_codigo", SqlDbType.Int).Value = codigo_user;
+
+                        procedure.ExecuteNonQuery();
+
+                        bd.desconectar();
+                        MessageBox.Show("Oferta ingresada con exito!");
+                    }
+
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                        bd.desconectar();
+                    }
+                }
+
+                else
                 {
                     bd.conectar();
                     SqlCommand procedure = Clases.BaseDeDato.crearConsulta("S_QUERY.insertarOfertaNueva");
@@ -62,22 +97,18 @@ namespace FrbaOfertas2.CrearOferta
                     procedure.Parameters.AddWithValue("@oferta_fecha", SqlDbType.DateTime).Value = dateTimePicker_fecha_publicacion.Value;
                     procedure.Parameters.AddWithValue("@oferta_fecha_vencimiento", SqlDbType.DateTime).Value = dateTimePicker_fecha_vencimiento.Value;
                     procedure.Parameters.AddWithValue("@oferta_precio", SqlDbType.Float).Value = (float)Convert.ToDouble(textBox_precio_oferta.Text);
-                    procedure.Parameters.AddWithValue("@oferta_precio_lista", SqlDbType.Float).Value =(float)Convert.ToDouble(textBox_precio_lista.Text);
+                    procedure.Parameters.AddWithValue("@oferta_precio_lista", SqlDbType.Float).Value = (float)Convert.ToDouble(textBox_precio_lista.Text);
                     procedure.Parameters.AddWithValue("@oferta_cantidad_disponible", SqlDbType.Int).Value = (int)Convert.ToInt32(textBox_cantidad.Text);
                     procedure.Parameters.AddWithValue("@oferta_maximo_compra", SqlDbType.Int).Value = (int)Convert.ToInt32(textBox_maximo_compra.Text);
-                    procedure.Parameters.AddWithValue("@user_codigo", SqlDbType.Int).Value = codigo_user; 
+                    procedure.Parameters.AddWithValue("@user_codigo", SqlDbType.Int).Value = (int)Convert.ToInt32(textBox_codigoProveedor.Text);
 
                     procedure.ExecuteNonQuery();
-                 
+
                     bd.desconectar();
                     MessageBox.Show("Oferta ingresada con exito!");
                 }
 
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                    bd.desconectar();
-                }
+                
 
             }
 

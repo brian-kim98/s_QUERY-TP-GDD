@@ -27,12 +27,14 @@ namespace FrbaOfertas2.MenuPrincipal
         private BaseDeDato bd = new BaseDeDato();
         SqlDataAdapter adapter;
         int codigo_user;
+        bool sosAdmin;
 
         public MenuInicio(int codigo_usuario)
         {
             InitializeComponent();
             codigo_user = codigo_usuario;
             this.habilitar_funcionalidades(codigo_usuario);
+            sosAdmin = this.sosUsuarioAdministrador(codigo_usuario);
         
         }
 
@@ -106,6 +108,7 @@ namespace FrbaOfertas2.MenuPrincipal
             if (this.sosUsuarioAdministrador(codigo_user))
             {
                 this.habilitar_boton(button_administrarUsuarios);
+                this.habilitar_boton(button_crear_oferta);
 
             }
             else
@@ -217,8 +220,18 @@ namespace FrbaOfertas2.MenuPrincipal
 
         private void button_crear_oferta_Click(object sender, EventArgs e)
         {
-            CreacionOferta crearOferta = new CreacionOferta(codigo_user);
-            crearOferta.Show();
+            if (this.sosAdmin)
+            {
+                CreacionOferta crearOferta = new CreacionOferta();
+                crearOferta.Show();
+            }
+
+            else
+            {
+                CreacionOferta crearOferta = new CreacionOferta(codigo_user);
+                crearOferta.Show();
+            }
+            
         
         }
 

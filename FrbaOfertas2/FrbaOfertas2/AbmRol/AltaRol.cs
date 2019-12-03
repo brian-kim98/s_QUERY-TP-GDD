@@ -46,12 +46,18 @@ namespace FrbaOfertas2
        
         private void button_aniadir_funcionalidad_Click(object sender, EventArgs e)
         {
-            listBox_funcionalidades_para_rol.Items.Add(comboBox_funcionalidades.SelectedValue);
 
-            func_codigo_aux.Add(dt.Rows[comboBox_funcionalidades.SelectedIndex].Field<int>(0));
+                listBox_funcionalidades_para_rol.Items.Add(comboBox_funcionalidades.SelectedValue);
 
-            dt.Rows.RemoveAt(comboBox_funcionalidades.SelectedIndex);
-            comboBox_funcionalidades.DataSource = dt;
+                func_codigo_aux.Add(dt.Rows[comboBox_funcionalidades.SelectedIndex].Field<int>(0));
+
+                dt.Rows.RemoveAt(comboBox_funcionalidades.SelectedIndex);
+                comboBox_funcionalidades.DataSource = dt;
+
+            if(comboBox_funcionalidades.Items.Count == 0){
+                button_aniadir_funcionalidad.Enabled = false;
+            }
+            
         }
 
         private void button_crear_rol_Click(object sender, EventArgs e)

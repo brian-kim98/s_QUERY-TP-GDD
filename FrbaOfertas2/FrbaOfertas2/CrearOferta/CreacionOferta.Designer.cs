@@ -45,13 +45,15 @@
             this.textBox_maximo_compra = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label_codigoProveedor = new System.Windows.Forms.Label();
+            this.textBox_codigoProveedor = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // button_crear
             // 
             this.button_crear.Location = new System.Drawing.Point(477, 380);
-            this.button_crear.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button_crear.Margin = new System.Windows.Forms.Padding(4);
             this.button_crear.Name = "button_crear";
             this.button_crear.Size = new System.Drawing.Size(119, 37);
             this.button_crear.TabIndex = 35;
@@ -62,7 +64,7 @@
             // button_limpiar
             // 
             this.button_limpiar.Location = new System.Drawing.Point(65, 380);
-            this.button_limpiar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button_limpiar.Margin = new System.Windows.Forms.Padding(4);
             this.button_limpiar.Name = "button_limpiar";
             this.button_limpiar.Size = new System.Drawing.Size(108, 46);
             this.button_limpiar.TabIndex = 34;
@@ -73,16 +75,16 @@
             // textBox_cantidad
             // 
             this.textBox_cantidad.Location = new System.Drawing.Point(193, 262);
-            this.textBox_cantidad.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox_cantidad.Margin = new System.Windows.Forms.Padding(4);
             this.textBox_cantidad.Name = "textBox_cantidad";
-            this.textBox_cantidad.Size = new System.Drawing.Size(87, 22);
+            this.textBox_cantidad.Size = new System.Drawing.Size(99, 22);
             this.textBox_cantidad.TabIndex = 32;
             // 
             // textBox_precio_lista
             // 
             this.textBox_precio_lista.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.textBox_precio_lista.Location = new System.Drawing.Point(425, 201);
-            this.textBox_precio_lista.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox_precio_lista.Margin = new System.Windows.Forms.Padding(4);
             this.textBox_precio_lista.Name = "textBox_precio_lista";
             this.textBox_precio_lista.Size = new System.Drawing.Size(121, 22);
             this.textBox_precio_lista.TabIndex = 30;
@@ -90,7 +92,7 @@
             // textBox_precio_oferta
             // 
             this.textBox_precio_oferta.Location = new System.Drawing.Point(171, 201);
-            this.textBox_precio_oferta.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox_precio_oferta.Margin = new System.Windows.Forms.Padding(4);
             this.textBox_precio_oferta.Name = "textBox_precio_oferta";
             this.textBox_precio_oferta.Size = new System.Drawing.Size(121, 22);
             this.textBox_precio_oferta.TabIndex = 29;
@@ -98,7 +100,7 @@
             // dateTimePicker_fecha_vencimiento
             // 
             this.dateTimePicker_fecha_vencimiento.Location = new System.Drawing.Point(211, 139);
-            this.dateTimePicker_fecha_vencimiento.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dateTimePicker_fecha_vencimiento.Margin = new System.Windows.Forms.Padding(4);
             this.dateTimePicker_fecha_vencimiento.Name = "dateTimePicker_fecha_vencimiento";
             this.dateTimePicker_fecha_vencimiento.Size = new System.Drawing.Size(265, 22);
             this.dateTimePicker_fecha_vencimiento.TabIndex = 28;
@@ -107,7 +109,7 @@
             // dateTimePicker_fecha_publicacion
             // 
             this.dateTimePicker_fecha_publicacion.Location = new System.Drawing.Point(211, 82);
-            this.dateTimePicker_fecha_publicacion.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dateTimePicker_fecha_publicacion.Margin = new System.Windows.Forms.Padding(4);
             this.dateTimePicker_fecha_publicacion.Name = "dateTimePicker_fecha_publicacion";
             this.dateTimePicker_fecha_publicacion.Size = new System.Drawing.Size(265, 22);
             this.dateTimePicker_fecha_publicacion.TabIndex = 27;
@@ -115,7 +117,7 @@
             // textBox_descripcion
             // 
             this.textBox_descripcion.Location = new System.Drawing.Point(144, 32);
-            this.textBox_descripcion.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox_descripcion.Margin = new System.Windows.Forms.Padding(4);
             this.textBox_descripcion.Name = "textBox_descripcion";
             this.textBox_descripcion.Size = new System.Drawing.Size(403, 22);
             this.textBox_descripcion.TabIndex = 26;
@@ -183,10 +185,10 @@
             // 
             // textBox_maximo_compra
             // 
-            this.textBox_maximo_compra.Location = new System.Drawing.Point(460, 257);
-            this.textBox_maximo_compra.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox_maximo_compra.Location = new System.Drawing.Point(441, 257);
+            this.textBox_maximo_compra.Margin = new System.Windows.Forms.Padding(4);
             this.textBox_maximo_compra.Name = "textBox_maximo_compra";
-            this.textBox_maximo_compra.Size = new System.Drawing.Size(87, 22);
+            this.textBox_maximo_compra.Size = new System.Drawing.Size(106, 22);
             this.textBox_maximo_compra.TabIndex = 37;
             // 
             // label6
@@ -201,6 +203,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.textBox_codigoProveedor);
+            this.groupBox1.Controls.Add(this.label_codigoProveedor);
             this.groupBox1.Controls.Add(this.textBox_maximo_compra);
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.textBox_cantidad);
@@ -216,13 +220,31 @@
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(36, 26);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox1.Size = new System.Drawing.Size(587, 343);
             this.groupBox1.TabIndex = 38;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Creacion Ofertas";
+            // 
+            // label_codigoProveedor
+            // 
+            this.label_codigoProveedor.AutoSize = true;
+            this.label_codigoProveedor.Location = new System.Drawing.Point(56, 302);
+            this.label_codigoProveedor.Name = "label_codigoProveedor";
+            this.label_codigoProveedor.Size = new System.Drawing.Size(122, 17);
+            this.label_codigoProveedor.TabIndex = 38;
+            this.label_codigoProveedor.Text = "Codigo Proveedor";
+            this.label_codigoProveedor.Visible = false;
+            // 
+            // textBox_codigoProveedor
+            // 
+            this.textBox_codigoProveedor.Location = new System.Drawing.Point(193, 302);
+            this.textBox_codigoProveedor.Name = "textBox_codigoProveedor";
+            this.textBox_codigoProveedor.Size = new System.Drawing.Size(99, 22);
+            this.textBox_codigoProveedor.TabIndex = 39;
+            this.textBox_codigoProveedor.Visible = false;
             // 
             // CreacionOferta
             // 
@@ -232,7 +254,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.button_crear);
             this.Controls.Add(this.button_limpiar);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "CreacionOferta";
             this.Text = "CrearOferta";
             this.Load += new System.EventHandler(this.CrearOferta_Load);
@@ -261,5 +283,7 @@
         private System.Windows.Forms.TextBox textBox_maximo_compra;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.TextBox textBox_codigoProveedor;
+        private System.Windows.Forms.Label label_codigoProveedor;
     }
 }

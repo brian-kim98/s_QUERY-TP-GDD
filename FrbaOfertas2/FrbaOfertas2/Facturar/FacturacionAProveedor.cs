@@ -122,15 +122,30 @@ namespace FrbaOfertas2.Facturar
         public void confirmacionGeneracion()
         {
             BaseDeDato bd = new BaseDeDato();
-            bd.conectar();
-            SqlCommand procedure = Clases.BaseDeDato.crearConsulta("S_QUERY.GENERAR_FACTURACION");
-            procedure.CommandType = CommandType.StoredProcedure;
-            procedure.Parameters.AddWithValue("@FECHA", SqlDbType.DateTime).Value = ConfigurationManager.AppSettings["fechaConfiguracion"].ToString();
-            procedure.Parameters.AddWithValue("@INICIO", SqlDbType.DateTime).Value = dateTimePicker_fechaInicio.Value;
-            procedure.Parameters.AddWithValue("@FIN", SqlDbType.DateTime).Value = dateTimePicker_fechaFin.Value;
-            procedure.Parameters.AddWithValue("@PROVEEDOR", SqlDbType.Int).Value = int.Parse(dt.Rows[comboBox_proveedores.SelectedIndex]["prov_codigo"].ToString());
-            procedure.ExecuteNonQuery();
-            bd.desconectar();
+
+            try
+            {
+                bd.conectar();
+                SqlCommand procedure = Clases.BaseDeDato.crearConsulta("S_QUERY.GENERAR_FACTURACION");
+                procedure.CommandType = CommandType.StoredProcedure;
+                procedure.Parameters.AddWithValue("@FECHA", SqlDbType.DateTime).Value = ConfigurationManager.AppSettings["fechaConfiguracion"].ToString();
+                procedure.Parameters.AddWithValue("@INICIO", SqlDbType.DateTime).Value = dateTimePicker_fechaInicio.Value;
+                procedure.Parameters.AddWithValue("@FIN", SqlDbType.DateTime).Value = dateTimePicker_fechaFin.Value;
+                procedure.Parameters.AddWithValue("@PROVEEDOR", SqlDbType.Int).Value = int.Parse(dt.Rows[comboBox_proveedores.SelectedIndex]["prov_codigo"].ToString());
+                procedure.ExecuteNonQuery();
+                bd.desconectar();
+                MessageBox.Show("Se ha generado con éxito");
+                this.Close();
+            }
+
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                bd.desconectar();
+            }
+            
+
+
             
         }
 
