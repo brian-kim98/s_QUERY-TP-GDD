@@ -55,7 +55,7 @@ namespace FrbaOfertas2
             try
             {
                 bd.conectar();
-                String query_obtenerRoles = "SELECT rol_codigo, rol_nombre FROM S_QUERY.Rol";
+                String query_obtenerRoles = "SELECT rol_codigo, rol_nombre FROM S_QUERY.Rol WHERE rol_nombre != 'Administrativo'";
                 SqlDataAdapter sda = new SqlDataAdapter(query_obtenerRoles, bd.obtenerConexion());
 
                 sda.Fill(tabla_rol);
@@ -106,12 +106,14 @@ namespace FrbaOfertas2
 
                 int verificador = (int)command.ExecuteScalar();
 
+
+
                 switch (verificador)
                 {
-                    case 1:
+                    case 0:
                         this.segundoPaso(bd);
                         break;
-                    case -1:
+                    case 1:
                         MessageBox.Show("Ya existe ese nombre de usuario, elija otro");
                         bd.desconectar();
                         break;
@@ -135,6 +137,7 @@ namespace FrbaOfertas2
                 AltaCliente alta = new AltaCliente(usuario_nuevo);
                 alta.Show();
                 this.Close();
+                bd.desconectar();
             }
 
 
@@ -143,9 +146,10 @@ namespace FrbaOfertas2
                 AltaProveedor alta = new AltaProveedor(usuario_nuevo);
                 alta.Show();
                 this.Close();
+                bd.desconectar();
             }
 
-            bd.desconectar();
+            
         }
 
         /// //////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -164,25 +164,26 @@ namespace FrbaOfertas2.CargaCredito
 
                     if (comboBox_tipo_pago.Text.ToString() == "Crédito")
                     {
-                        MessageBox.Show("Entre a credito");
+
                         procedure.Parameters.AddWithValue("@tarjeta_numero_carga", SqlDbType.Int).Value = textBox_numero_tarjeta.Text.ToString();
-                        MessageBox.Show("Sali del if");
+
+                        procedure.Parameters.AddWithValue("@tipo_pago_carga", SqlDbType.Int).Value =
+                            /*this.buscarCodigoCarga(comboBox_tipo_pago.Text.ToString());*/ 2;
                     }
 
                     else
                     {
                         procedure.Parameters.AddWithValue("@tarjeta_numero_carga", SqlDbType.Int).Value = (object)DBNull.Value;
+                        procedure.Parameters.AddWithValue("@tipo_pago_carga", SqlDbType.Int).Value = 1;
                     }
 
 
-                    procedure.Parameters.AddWithValue("@tipo_pago_carga", SqlDbType.Int).Value =
-                        /*this.buscarCodigoCarga(comboBox_tipo_pago.Text.ToString());*/ 2;
-                    MessageBox.Show("Agregue el tipo de pago");
-
                     procedure.ExecuteNonQuery();
-                    MessageBox.Show("Entre a credito");
+
 
                     bd.desconectar();
+                    MessageBox.Show("Se cargo correctamente.");
+                    this.Close();
                 }
 
                 catch (Exception ex)
@@ -234,7 +235,38 @@ namespace FrbaOfertas2.CargaCredito
 
         private bool todosCamposCompletos()
         {
+
+            if(boxVacio(comboBox_tipo_pago.Text) || boxVacio(textBox_monto.Text)) {
+                MessageBox.Show("Hay campos vacios.");
+                return false;
+            }
+            else if (comboBox_tipo_pago.Text.ToString() == "Crédito")
+            {
+
+                if(boxVacio(textBox_numero_tarjeta.Text) || boxVacio(textBox_cod_seguridad.Text)){
+                    MessageBox.Show("Hay campos Vacios.");
+                    return false;
+                }else if(!esUnCampoNumerico(textBox_numero_tarjeta) || !esUnCampoNumerico(textBox_cod_seguridad)){
+
+                    MessageBox.Show("Hay campos numericos erroneos.");
+                    return false;
+                }
+                
+                return true;
+
+            }else{
+
+                return true;
+            }
+
+
             return true;
+        }
+
+        private bool boxVacio(String texto)
+        {
+            return texto == "";
+
         }
 
 

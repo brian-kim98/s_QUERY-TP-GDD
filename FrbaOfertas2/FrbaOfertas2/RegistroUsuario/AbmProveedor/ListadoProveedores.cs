@@ -136,9 +136,9 @@ namespace FrbaOfertas2.RegistroUsuario.AbmProveedor
             try
             {
                 bd.conectar();
-                SqlCommand procedure = Clases.BaseDeDato.crearConsulta("S_QUERY.eliminarProveedor");
+                SqlCommand procedure = Clases.BaseDeDato.crearConsulta("S_QUERY.bajaLogicaProveedor");
                 procedure.CommandType = CommandType.StoredProcedure;
-                procedure.Parameters.AddWithValue("@proveedor_codigo_eliminar", SqlDbType.Int).Value = (int)Convert.ToInt32(row_codigo_prove);
+                procedure.Parameters.AddWithValue("@usuario_codigo_bajaproveedor", SqlDbType.Int).Value = (int)Convert.ToInt32(row_codigo_prove);
 
                 procedure.ExecuteNonQuery();
 

@@ -149,7 +149,9 @@ namespace FrbaOfertas2.MenuPrincipal
                 + "JOIN S_QUERY.FuncionalidadXRol fr ON fr.func_codigo = f.func_codigo "
                 + "JOIN S_QUERY.Rol r ON r.rol_codigo = fr.rol_codigo "
                 + "JOIN S_QUERY.RolXUsuario u ON r.rol_codigo = u.rol_codigo "
-                + "WHERE u.usuario_codigo = '" + codigo_usuario.ToString() + "'";
+                + "WHERE u.usuario_codigo = '" + codigo_usuario.ToString() + "'" 
+                + "AND u.rol_habilitado = 1";
+           
 
             try
             {
@@ -285,6 +287,11 @@ namespace FrbaOfertas2.MenuPrincipal
         {
             EntregarOferta entrega = new EntregarOferta(codigo_user);
             entrega.Show();
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 }

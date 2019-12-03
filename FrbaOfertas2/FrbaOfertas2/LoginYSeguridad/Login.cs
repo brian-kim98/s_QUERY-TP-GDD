@@ -21,8 +21,8 @@ namespace FrbaOfertas2.LoginYSeguridad
         public Login()
         {
             InitializeComponent();
-            MessageBox.Show("Los Clientes y Proveedores que ya utilizaron previamente el sistema, tienen un usuario y contraseña \n\n  Clientes:\n   Usuario: Nombre del cliente\n   Password: Dni"
-                + "\n\n  Proveedor:\n   Usuario: Nombre del Proveedor\n   Password: CUIT");
+            MessageBox.Show("Los Clientes y Proveedores que ya utilizaron previamente el sistema, tienen un usuario y contraseña \n\n  Clientes:\n   Usuario: DNI\n   Password: DNI"
+                + "\n\n  Proveedor:\n   Usuario: CUIT\n   Password: CUIT \n\n  Administrador:\n   Usuario: admin\n   Password: admin");
         }
 
         private void label3_Click(object sender, EventArgs e)

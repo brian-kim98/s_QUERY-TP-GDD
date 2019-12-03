@@ -185,9 +185,9 @@ namespace FrbaOfertas2.RegistroUsuario.AbmCliente
             try
             {
                 bd.conectar();
-                SqlCommand procedure = Clases.BaseDeDato.crearConsulta("S_QUERY.eliminarCliente");
+                SqlCommand procedure = Clases.BaseDeDato.crearConsulta("S_QUERY.bajaLogicaCliente");
                 procedure.CommandType = CommandType.StoredProcedure;
-                procedure.Parameters.AddWithValue("@usuario_codigo_eliminar", SqlDbType.Int).Value = (int)Convert.ToInt32(row_codigo_cliente);
+                procedure.Parameters.AddWithValue("@usuario_codigo_bajacliente", SqlDbType.Int).Value = (int)Convert.ToInt32(row_codigo_cliente);
 
                 procedure.ExecuteNonQuery();
 

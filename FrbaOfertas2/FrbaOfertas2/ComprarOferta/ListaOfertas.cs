@@ -31,7 +31,7 @@ namespace FrbaOfertas2.ComprarOferta
         {
             bd.conectar();
 
-            String query_select_ofertas = "SELECT oferta_codigo,  oferta_descripcion, oferta_precio, oferta_precio_lista FROM S_QUERY.Oferta WHERE oferta_fecha <= '" + fechaCompra.ToShortDateString() + "' AND oferta_fecha_vencimiento >= '" + fechaCompra.ToShortDateString() + "'";
+            String query_select_ofertas = "SELECT oferta_codigo,  oferta_descripcion, oferta_precio, oferta_precio_lista FROM S_QUERY.Oferta WHERE oferta_fecha <= '" + fechaCompra.ToString("yyyy/MM/dd") + "' AND oferta_fecha_vencimiento >= '" + fechaCompra.ToString("yyyy/MM/dd") + "'";
 
             SqlCommand comando = new SqlCommand(query_select_ofertas, bd.obtenerConexion());
 
@@ -109,7 +109,7 @@ namespace FrbaOfertas2.ComprarOferta
         {
             bd.conectar();
 
-            String query_select_ofertas = "SELECT oferta_codigo,  oferta_descripcion, oferta_precio, oferta_precio_lista FROM S_QUERY.Oferta WHERE oferta_fecha <= '" + fechaCompra.ToShortDateString() + "' AND oferta_fecha_vencimiento >= '" + fechaCompra.ToShortDateString() + "'";
+            String query_select_ofertas = "SELECT oferta_codigo,  oferta_descripcion, oferta_precio, oferta_precio_lista FROM S_QUERY.Oferta WHERE oferta_fecha <= '" + fechaCompra.ToString("yyyy/MM/dd") + "' AND oferta_fecha_vencimiento >= '" + fechaCompra.ToString("yyyy/MM/dd") + "'";
 
 
             if (this.chequearCamposNumericos())

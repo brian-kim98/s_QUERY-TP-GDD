@@ -41,9 +41,6 @@ ELSE
 	END
 GO
 
-if exists (select * from sys.procedures where name = 'calcularPrecioPasaje')
-	drop procedure [LEISTE_EL_CODIGO?].calcularPrecioPasaje
-
 --..............................................CREACION DE TABLAS..................................................--
 BEGIN TRANSACTION
 CREATE TABLE [GD2C2019].[S_QUERY].Usuario(
@@ -207,6 +204,7 @@ GO
 CREATE TABLE [GD2C2019].[S_QUERY].RolXUsuario(	
 	rol_codigo INT,
 	usuario_codigo INT,
+	rol_habilitado BIT DEFAULT 1,
 	PRIMARY KEY(rol_codigo, usuario_codigo),
 	FOREIGN KEY (rol_codigo) REFERENCES S_QUERY.Rol(rol_codigo),
 	FOREIGN KEY (usuario_codigo) REFERENCES S_QUERY.Usuario(usuario_codigo)
@@ -439,6 +437,7 @@ BEGIN TRANSACTION
 		INSERT INTO S_QUERY.FuncionalidadXRol(func_codigo, rol_codigo)
 			VALUES
 				('2' , (SELECT TOP 1 rol_codigo FROM S_QUERY.Rol WHERE rol_nombre = 'Administrativo' )),
+				('3' , (SELECT TOP 1 rol_codigo FROM S_QUERY.Rol WHERE rol_nombre = 'Administrativo' )),
 				('5' , (SELECT TOP 1 rol_codigo FROM S_QUERY.Rol WHERE rol_nombre = 'Administrativo' )),
 				('8' , (SELECT TOP 1 rol_codigo FROM S_QUERY.Rol WHERE rol_nombre = 'Cliente' )),
 				('6' , (SELECT TOP 1 rol_codigo FROM S_QUERY.Rol WHERE rol_nombre = 'Cliente' )),
@@ -525,6 +524,11 @@ AS
 GO
 
 /************************************************************REGISTRO USUARIO*********************************************************************/
+
+USE GD2C2019
+IF EXISTS (SELECT name FROM sysobjects WHERE name='verificarUsuario' )
+	DROP FUNCTION S_QUERY.verificarUsuario
+GO
 CREATE FUNCTION S_QUERY.verificarUsuario(@usuario varchar(20)) RETURNS INT
 AS
 	BEGIN
@@ -570,23 +574,28 @@ GO
 		
 
 
-
 /*-----------------------------------------------------------ABM Proveedor-----------------------------------------------------------------------*/
 
-IF EXISTS (SELECT name FROM sysobjects WHERE name='eliminarProveedor' AND type='p')
-	DROP PROCEDURE S_QUERY.eliminarProveedor
+
+
+IF EXISTS (SELECT name FROM sysobjects WHERE name='bajaLogicaProveedor' AND type='p')
+	DROP PROCEDURE S_QUERY.bajaLogicaProveedor
 GO
-CREATE PROCEDURE S_QUERY.eliminarProveedor(@proveedor_codigo_eliminar INT)
+CREATE PROCEDURE S_QUERY.bajaLogicaProveedor(@usuario_codigo_bajaproveedor INT)
 AS
 	BEGIN
-		DELETE FROM S_QUERY.RolXUsuario WHERE rol_codigo = (SELECT TOP 1 rol_codigo FROM S_QUERY.Rol WHERE rol_nombre = 'Cliente' ORDER BY rol_nombre) AND
-			usuario_codigo = (SELECT TOP 1 usuario_codigo FROM S_QUERY.Proveedor WHERE prov_codigo = @proveedor_codigo_eliminar);
 
-		UPDATE S_QUERY.Oferta 
-		SET prov_codigo = null
-		WHERE prov_codigo = @proveedor_codigo_eliminar;
+		DECLARE @codigo_rol_proveedor INT
+		SET @codigo_rol_proveedor = (SELECT TOP 1 rol_codigo FROM S_QUERY.Rol WHERE rol_nombre = 'Proveedor' )
 
-		DELETE FROM S_QUERY.Proveedor WHERE prov_codigo = @proveedor_codigo_eliminar;
+		UPDATE S_QUERY.Proveedor
+		SET prov_habilitado = 0
+		WHERE prov_codigo = @usuario_codigo_bajaproveedor
+
+		UPDATE S_QUERY.RolXUsuario
+		SET rol_habilitado = 0
+		WHERE usuario_codigo = @usuario_codigo_bajaproveedor
+		AND rol_codigo = @codigo_rol_proveedor
 
 
 	END
@@ -603,6 +612,18 @@ CREATE PROCEDURE S_QUERY.modificarProveedor(@prov_codigo_modif INT, @prov_razon_
 AS
 	BEGIN
 		DECLARE @codigo_direccion INT;
+
+		
+		DECLARE @usuario_proveedor_modif INT
+		SET @usuario_proveedor_modif = (SELECT TOP 1 usuario_codigo FROM S_QUERY.Proveedor WHERE  prov_codigo = @prov_codigo_modif)
+
+		DECLARE @codigo_rol_proveedor_modif INT
+		SET @codigo_rol_proveedor_modif = (SELECT TOP 1 rol_codigo FROM S_QUERY.Rol WHERE rol_nombre = 'Proveedor' )
+
+		UPDATE S_QUERY.RolXUsuario
+		SET rol_habilitado = @prov_habilitado_modif 
+		WHERE usuario_codigo = @usuario_proveedor_modif
+		AND rol_codigo = @codigo_rol_proveedor_modif
 
 		UPDATE S_QUERY.Proveedor 
 			SET prov_razon_social = @prov_razon_social_modif, 
@@ -629,24 +650,30 @@ GO
 
 /*-----------------------------------------------------------ABM Cliente-----------------------------------------------------------------------*/
 
-IF EXISTS (SELECT name FROM sysobjects WHERE name='eliminarCliente' AND type='p')
-	DROP PROCEDURE S_QUERY.eliminarCliente
+IF EXISTS (SELECT name FROM sysobjects WHERE name='bajaLogicaCliente' AND type='p')
+	DROP PROCEDURE S_QUERY.bajaLogicaCliente
 GO
-CREATE PROCEDURE S_QUERY.eliminarCliente(@usuario_codigo_eliminar INT)
+CREATE PROCEDURE S_QUERY.bajaLogicaCliente(@usuario_codigo_bajacliente INT)
 AS
 	BEGIN
-		DELETE FROM S_QUERY.RolXUsuario WHERE rol_codigo = (SELECT TOP 1 rol_codigo FROM S_QUERY.Rol WHERE rol_nombre = 'Cliente' ORDER BY rol_nombre) AND
-			usuario_codigo = (SELECT TOP 1 usuario_codigo FROM S_QUERY.Cliente WHERE clie_codigo = @usuario_codigo_eliminar);
 
-		UPDATE S_QUERY.Cupon 
-		SET clie_codigo = null
-		WHERE clie_codigo = @usuario_codigo_eliminar;
+		DECLARE @codigo_rol_cliente INT
+		SET @codigo_rol_cliente = (SELECT TOP 1 rol_codigo FROM S_QUERY.Rol WHERE rol_nombre = 'Cliente' )
 
-		DELETE FROM S_QUERY.Cliente WHERE clie_codigo = @usuario_codigo_eliminar;
+		UPDATE S_QUERY.RolXUsuario
+		SET rol_habilitado = 0
+		WHERE usuario_codigo = @usuario_codigo_bajacliente
+		AND rol_codigo = @codigo_rol_cliente
 
+
+		UPDATE S_QUERY.Cliente
+		SET clie_habilitado = 0
+		WHERE clie_codigo = @usuario_codigo_bajacliente
 
 	END
 GO
+
+
 
 
 IF EXISTS (SELECT name FROM sysobjects WHERE name='modificarCliente' AND type='p')
@@ -657,7 +684,19 @@ CREATE PROCEDURE S_QUERY.modificarCliente(@cliente_codigo_modif INT, @clie_nombr
 		@clie_nro_modif INT , @clie_depto_modif SMALLINT , @clie_piso_modif SMALLINT)
 AS
 	BEGIN
-		DECLARE @codigo_direccion INT;
+		DECLARE @codigo_direccion INT
+
+		DECLARE @usuario_cliente_modif INT
+		SET @usuario_cliente_modif = (SELECT TOP 1 usuario_codigo FROM S_QUERY.Cliente WHERE clie_codigo = @cliente_codigo_modif)
+
+		DECLARE @codigo_rol_cliente_modif INT
+		SET @codigo_rol_cliente_modif = (SELECT TOP 1 rol_codigo FROM S_QUERY.Rol WHERE rol_nombre = 'Cliente' )
+
+		UPDATE S_QUERY.RolXUsuario
+		SET rol_habilitado = @clie_habilitado
+		WHERE usuario_codigo = @usuario_cliente_modif
+		AND rol_codigo = @codigo_rol_cliente_modif
+
 
 		UPDATE S_QUERY.Cliente 
 			SET clie_apellido = @clie_apellido_modif, 
@@ -700,6 +739,26 @@ AS
 	END
 GO
 
+
+IF EXISTS (SELECT name FROM sysobjects WHERE name='eliminarRol' AND type='p')
+	DROP PROCEDURE S_QUERY.eliminarRol
+GO
+CREATE PROCEDURE S_QUERY.eliminarRol(@codigo_rol_eliminar INT)
+AS
+	BEGIN
+
+		DELETE FROM S_QUERY.RolXUsuario
+		WHERE rol_codigo = @codigo_rol_eliminar
+
+		UPDATE S_QUERY.Rol
+		SET rol_estado = 0
+		WHERE rol_codigo = @codigo_rol_eliminar
+
+	END
+GO
+
+
+
 IF EXISTS (SELECT name FROM sysobjects WHERE name='insertarFuncionalidadPorRol' AND type='p')
 	DROP PROCEDURE S_QUERY.insertarFuncionalidadPorRol
 GO
@@ -711,14 +770,7 @@ AS
 	END
 GO
 
-CREATE PROCEDURE S_QUERY.eliminarRol(@id_rol int)
-AS
-	BEGIN
-		UPDATE S_QUERY.Rol
-			SET rol_estado = 0
-			WHERE rol_codigo = @id_rol
-	END
-GO
+
 
 CREATE TRIGGER S_QUERY.elimininacionRol ON S_QUERY.Rol
 INSTEAD OF UPDATE
@@ -744,25 +796,31 @@ AS
 				/*COMMIT*/
 				FETCH NEXT FROM C_ROL INTO @rol_id
 			END
-CLOSE C_ROL
-DEALLOCATE C_ROL					
+	CLOSE C_ROL
+	DEALLOCATE C_ROL
+	END					
+GO
+
 	
+
 
 
 /*-----------------------------------------------------------Creacion Ofertas-----------------------------------------------------------------------*/
 
-
+USE GD2C2019
 IF EXISTS (SELECT name FROM sysobjects WHERE name='insertarOfertaNueva' AND type='p')
 	DROP PROCEDURE S_QUERY.insertarOfertaNueva
 GO
 CREATE PROCEDURE S_QUERY.insertarOfertaNueva(@oferta_descripcion VARCHAR(255) , @oferta_fecha DATE , @oferta_fecha_vencimiento DATE  , @oferta_precio FLOAT , 
-	@oferta_precio_lista FLOAT , @oferta_cantidad_disponible INT , @oferta_maximo_compra INT , @prov_codigo INT)
+	@oferta_precio_lista FLOAT , @oferta_cantidad_disponible INT , @oferta_maximo_compra INT , @user_codigo INT)
 AS
 	BEGIN 
+		DECLARE @codigo_prov INT
+		SET @codigo_prov = (SELECT S_QUERY.obtenerCodigoProveedor(@user_codigo) )
 		INSERT INTO S_QUERY.Oferta(oferta_descripcion , oferta_fecha , oferta_fecha_vencimiento, 
 			oferta_precio , oferta_precio_lista, oferta_cantidad_disponible, oferta_maximo_compra, prov_codigo)
 		VALUES(@oferta_descripcion , @oferta_fecha , @oferta_fecha_vencimiento , 
-			@oferta_precio , @oferta_precio_lista , @oferta_cantidad_disponible, @oferta_maximo_compra,  @prov_codigo  )
+			@oferta_precio , @oferta_precio_lista , @oferta_cantidad_disponible, @oferta_maximo_compra, @codigo_prov  )
 	END
 GO
 
@@ -891,7 +949,7 @@ IF EXISTS (SELECT name FROM sysobjects WHERE name='ingresarEntregaOferta' AND ty
 	DROP PROCEDURE S_QUERY.ingresarEntregaOferta
 GO
 
-CREATE PROCEDURE S_QUERY.ingresarEntregaOferta(@entrega_fecha DATETIME, @cupon_codigo INT, @clie_codigo INT, @usuario_codigo INT)
+CREATE PROCEDURE S_QUERY.ingresarEntregaOferta(@entrega_fecha DATETIME, @cupon_codigo INT, @usuario_codigo INT)
 
 AS
 	BEGIN
@@ -1050,6 +1108,10 @@ AS
 GO
 
 /*--------------------------------------------------modificar contrasenia--------------------------------------------------*/
+
+IF EXISTS (SELECT name FROM sysobjects WHERE name='compararContrasenias' )
+	DROP FUNCTION S_QUERY.compararContrasenias
+GO
 CREATE FUNCTION S_QUERY.compararContrasenias(@usuario_id int, @contrasenia_prevista varchar(256)) RETURNS INT
 AS
 	BEGIN
@@ -1066,6 +1128,25 @@ AS
 	RETURN @retorno
 	END
 	
+GO
+
+/*--------------------------------------------------modificar contrasenia--------------------------------------------------*/
+
+IF EXISTS (SELECT name FROM sysobjects WHERE name='comprarOferta' AND type='p')
+    DROP PROCEDURE S_QUERY.comprarOferta
+GO
+CREATE PROCEDURE S_QUERY.comprarOferta(@cupon_fecha_compra DATE , @cupon_cantidad_compra INT,@clie_codigo_compra INT ,  @oferta_codigo_compra INT)
+AS
+    BEGIN
+
+		UPDATE S_QUERY.Oferta
+		SET oferta_cantidad_disponible -= @cupon_cantidad_compra
+		WHERE oferta_codigo = @oferta_codigo_compra
+		
+        INSERT INTO S_QUERY.Cupon(cupon_fecha, cupon_cantidad, clie_codigo, oferta_codigo)
+            VALUES (@cupon_fecha_compra, @cupon_cantidad_compra, @clie_codigo_compra, @oferta_codigo_compra)
+
+    END
 GO
 
 

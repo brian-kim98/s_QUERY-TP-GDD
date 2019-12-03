@@ -18,11 +18,12 @@ namespace FrbaOfertas2.CrearOferta
         private BaseDeDato bd = new BaseDeDato();
         SqlDataAdapter adapter;
         int codigo_proveedor;
+        int codigo_user;
 
-        public CreacionOferta(int cod_provee)
+        public CreacionOferta(int user_codigo)
         {
             InitializeComponent();
-            codigo_proveedor = cod_provee;
+            codigo_user = user_codigo;
         }
 
         /// //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -64,7 +65,7 @@ namespace FrbaOfertas2.CrearOferta
                     procedure.Parameters.AddWithValue("@oferta_precio_lista", SqlDbType.Float).Value =(float)Convert.ToDouble(textBox_precio_lista.Text);
                     procedure.Parameters.AddWithValue("@oferta_cantidad_disponible", SqlDbType.Int).Value = (int)Convert.ToInt32(textBox_cantidad.Text);
                     procedure.Parameters.AddWithValue("@oferta_maximo_compra", SqlDbType.Int).Value = (int)Convert.ToInt32(textBox_maximo_compra.Text);
-                    procedure.Parameters.AddWithValue("@prov_codigo", SqlDbType.Int).Value = codigo_proveedor; 
+                    procedure.Parameters.AddWithValue("@user_codigo", SqlDbType.Int).Value = codigo_user; 
 
                     procedure.ExecuteNonQuery();
                  

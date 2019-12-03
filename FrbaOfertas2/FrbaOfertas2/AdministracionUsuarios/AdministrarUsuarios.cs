@@ -83,5 +83,10 @@ namespace FrbaOfertas2.AdministracionUsuarios
             }
             
         }
+
+        private void button_terminar_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

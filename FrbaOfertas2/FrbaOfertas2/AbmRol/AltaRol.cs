@@ -70,7 +70,7 @@ namespace FrbaOfertas2
                     procedure.Parameters["@ReturnVal"].Direction = ParameterDirection.ReturnValue;
                     procedure.ExecuteNonQuery();
                     int idRol = Convert.ToInt32(procedure.Parameters["@ReturnVal"].Value);
-                    MessageBox.Show("ID encontrado = " + idRol);
+           
                     bd.desconectar();
                     for (int i = 0; i < listBox_funcionalidades_para_rol.Items.Count; i++)
                     {

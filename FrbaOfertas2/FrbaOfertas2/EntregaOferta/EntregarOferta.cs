@@ -48,7 +48,6 @@ namespace FrbaOfertas2.EntregaOferta
             procedure.CommandType = CommandType.StoredProcedure;
             procedure.Parameters.AddWithValue("@entrega_fecha", SqlDbType.DateTime).Value = dateTimePicker_fechaConsumo.Value;
             procedure.Parameters.AddWithValue("@cupon_codigo", SqlDbType.Int).Value = textBox_codigoCupon.Text;
-            procedure.Parameters.AddWithValue("@clie_codigo", SqlDbType.Int).Value = textBox_cliente.Text;
 
             procedure.Parameters.AddWithValue("@usuario_codigo", SqlDbType.Int).Value = this.codigo_user;
             procedure.Parameters.Add("@ReturnVal", SqlDbType.Int);
@@ -79,16 +78,16 @@ namespace FrbaOfertas2.EntregaOferta
 
         private bool todosLosCamposEstanCompletos()
         {
-            return textBox_cliente.Text != "" && textBox_codigoCupon.Text != "" && dateTimePicker_fechaConsumo.Text != "";
+            return  textBox_codigoCupon.Text != "" && dateTimePicker_fechaConsumo.Text != "";
         }
 
         private void button_limpiar_Click(object sender, EventArgs e)
         {
-            textBox_cliente.Clear();
+           
             textBox_codigoCupon.Clear();
             dateTimePicker_fechaConsumo.ResetText();
             textBox_codigoCupon.Enabled = true;
-            textBox_cliente.Enabled = true;
+       
             dateTimePicker_fechaConsumo.Enabled = true;
         }
     }

@@ -32,10 +32,9 @@ namespace FrbaOfertas2.RegistroUsuario
         {
             bd.conectar();
             //hay que hacer que esta query de abajo solo te agarre los que no sean clientes.
-            String query_select_rol = "  SELECT usuario.usuario_codigo, usuario.usuario_nombre, usuario.usuario_contraseña FROM S_QUERY.Usuario usuario JOIN S_QUERY.RolXUsuario RolXu ON usuario.usuario_codigo = RolXu.usuario_codigo"
-                + " JOIN S_QUERY.Rol rol ON rol.rol_codigo = RolXu.rol_codigo"
-                + " WHERE rol.rol_nombre  != '" + rolNombre + "' " 
-                + "    AND usuario.usuario_codigo NOT IN (SELECT usuario1.usuario_codigo FROM S_QUERY.Usuario usuario1 JOIN S_QUERY.RolXUsuario RolXu1 ON usuario1.usuario_codigo = RolXu1.usuario_codigo "
+            String query_select_rol = "  SELECT usuario.usuario_codigo, usuario.usuario_nombre, usuario.usuario_contraseña FROM S_QUERY.Usuario usuario LEFT JOIN S_QUERY.RolXUsuario RolXu ON usuario.usuario_codigo = RolXu.usuario_codigo"
+                + " LEFT JOIN S_QUERY.Rol rol ON rol.rol_codigo = RolXu.rol_codigo"
+                + "    WHERE usuario.usuario_codigo NOT IN (SELECT usuario1.usuario_codigo FROM S_QUERY.Usuario usuario1 JOIN S_QUERY.RolXUsuario RolXu1 ON usuario1.usuario_codigo = RolXu1.usuario_codigo "
             + "JOIN S_QUERY.Rol rol1 ON rol1.rol_codigo = RolXu1.rol_codigo WHERE rol1.rol_nombre  = '" + rolNombre + "' ) ";
             SqlCommand comando = new SqlCommand(query_select_rol, bd.obtenerConexion());
 
@@ -101,9 +100,10 @@ namespace FrbaOfertas2.RegistroUsuario
 
             bd.conectar();
 
-            String query_select_users = "  SELECT usuario.usuario_codigo, usuario_nombre, usuario_contraseña FROM S_QUERY.Usuario usuario JOIN S_QUERY.RolXUsuario RolXu ON usuario.usuario_codigo = RolXu.usuario_codigo"
-                + " JOIN S_QUERY.Rol rol ON rol.rol_codigo = RolXu.rol_codigo"
-                + " WHERE rol.rol_nombre = '" + rolNombre + "'";
+            String query_select_users = "  SELECT usuario.usuario_codigo, usuario_nombre, usuario_contraseña FROM S_QUERY.Usuario usuario LEFT JOIN S_QUERY.RolXUsuario RolXu ON usuario.usuario_codigo = RolXu.usuario_codigo"
+                + " LEFT JOIN S_QUERY.Rol rol ON rol.rol_codigo = RolXu.rol_codigo"
+                 + "    WHERE usuario.usuario_codigo NOT IN (SELECT usuario1.usuario_codigo FROM S_QUERY.Usuario usuario1 JOIN S_QUERY.RolXUsuario RolXu1 ON usuario1.usuario_codigo = RolXu1.usuario_codigo "
+            + "JOIN S_QUERY.Rol rol1 ON rol1.rol_codigo = RolXu1.rol_codigo WHERE rol1.rol_nombre  = '" + rolNombre + "' ) "; ;
 
             if(this.camposBuscarCompletos()){
 

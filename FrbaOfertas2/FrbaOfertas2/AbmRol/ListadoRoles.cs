@@ -118,40 +118,29 @@ namespace FrbaOfertas2.AbmRol
         private void button2_Click(object sender, EventArgs e)
         {
 
-            //NO ME SALE QUE SE BORRREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE LA CONCHA DE TU MADRE ALL BOYS
-            SqlConnection connection = ConnectionWithDatabase();
-            connection.Open();
-
             int row_index = dataGridView_rol.CurrentCell.RowIndex;
+            String row_codigo_rol = dataGridView_rol.CurrentRow.Cells["rol_codigo"].Value.ToString();
 
-            String row_codigo = dataGridView_rol.CurrentRow.Cells["rol_codigo"].Value.ToString();
-            String row_nombre = dataGridView_rol.CurrentRow.Cells["rol_nombre"].Value.ToString();
-            String row_estado = dataGridView_rol.CurrentRow.Cells["rol_estado"].Value.ToString();
+            try
+            {
+                bd.conectar();
+                SqlCommand procedure = Clases.BaseDeDato.crearConsulta("S_QUERY.eliminarRol");
+                procedure.CommandType = CommandType.StoredProcedure;
+                procedure.Parameters.AddWithValue("@codigo_rol_eliminar", SqlDbType.Int).Value = (int)Convert.ToInt32(row_codigo_rol);
 
+                procedure.ExecuteNonQuery();
 
+                bd.desconectar();
+                MessageBox.Show("Se elimino el Rol.");
+            }
 
-            
-            String query_delete_FuncionalidadxRol = "DELETE FROM S_QUERY.FuncionalidadxRol WHERE rol_codigo = '" + row_codigo +"'";
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                bd.desconectar();
+            }
 
-            String query_delete_rol = "DELETE FROM S_QUERY.Rol WHERE rol_codigo='" + row_codigo +"';";
-
-            SqlCommand comando_delete_rol = new SqlCommand(query_delete_rol, connection);
-            SqlCommand comando_delete_funcionalidadxrol = new SqlCommand(query_delete_FuncionalidadxRol , connection);
-
-            SqlDataAdapter adaptador = new SqlDataAdapter();
-
-            adaptador.DeleteCommand = comando_delete_funcionalidadxrol;
-            adaptador.DeleteCommand.ExecuteNonQuery();
-            adaptador.DeleteCommand.Dispose();
-
-            adaptador.DeleteCommand = comando_delete_rol;
-            adaptador.DeleteCommand.ExecuteNonQuery();
-            adaptador.DeleteCommand.Dispose();
-
-            
-            MessageBox.Show("Se elimino el Rol elegido.");
-
-            dataGridView_rol.Rows.RemoveAt(row_index);
+           
         }
 
 
