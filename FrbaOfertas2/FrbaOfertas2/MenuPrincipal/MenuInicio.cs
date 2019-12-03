@@ -19,6 +19,7 @@ using FrbaOfertas2.ComprarOferta;
 using FrbaOfertas2.Facturar;
 using FrbaOfertas2.EntregaOferta;
 using FrbaOfertas2.AdministracionUsuarios;
+using FrbaOfertas2.LoginYSeguridad;
 
 namespace FrbaOfertas2.MenuPrincipal
 {
@@ -28,13 +29,15 @@ namespace FrbaOfertas2.MenuPrincipal
         SqlDataAdapter adapter;
         int codigo_user;
         bool sosAdmin;
+        Login volverAlLogin;
 
-        public MenuInicio(int codigo_usuario)
+        public MenuInicio(int codigo_usuario, Login login)
         {
             InitializeComponent();
             codigo_user = codigo_usuario;
             this.habilitar_funcionalidades(codigo_usuario);
             sosAdmin = this.sosUsuarioAdministrador(codigo_usuario);
+            volverAlLogin = login;
         
         }
 
@@ -310,6 +313,13 @@ namespace FrbaOfertas2.MenuPrincipal
         private void groupBox1_Enter(object sender, EventArgs e)
         {
 
+        }
+
+        private void MenuInicio_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            MessageBox.Show("Se cierra la sesión ! \nHasta luego !");
+            volverAlLogin.limpiate();
+            volverAlLogin.Show();
         }
     }
 }

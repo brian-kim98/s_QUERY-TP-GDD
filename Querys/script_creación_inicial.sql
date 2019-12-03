@@ -460,6 +460,7 @@ COMMIT
 /*-----------------------------------------------------------------------------------------------------------*/
 /*----------------------------------------------Procedures---------------------------------------------------*/
 /*-----------------------------------------------------------------------------------------------------------*/
+USE GD2C2019
 IF EXISTS (SELECT name FROM sysobjects WHERE name='crearDireccion' AND type='p')
 	DROP PROCEDURE S_QUERY.crearDireccion
 GO
@@ -476,6 +477,7 @@ AS
 GO
 
 /************************************************************LOGIN Y SEGURIDAD********************************************************************/
+USE GD2C2019
 IF EXISTS (SELECT name FROM sysobjects WHERE name='loginYSeguridad' AND type='p')
 	DROP PROCEDURE S_QUERY.loginYSeguridad
 GO
@@ -546,7 +548,7 @@ AS
 	RETURN @valor_retorno
 	END
 GO
-
+USE GD2C2019
 IF EXISTS (SELECT name FROM sysobjects WHERE name='sosUsuarioAdministrador' )
 	DROP FUNCTION S_QUERY.sosUsuarioAdministrador
 GO
@@ -578,7 +580,7 @@ GO
 /*-----------------------------------------------------------ABM Proveedor-----------------------------------------------------------------------*/
 
 
-
+USE GD2C2019
 IF EXISTS (SELECT name FROM sysobjects WHERE name='bajaLogicaProveedor' AND type='p')
 	DROP PROCEDURE S_QUERY.bajaLogicaProveedor
 GO
@@ -603,7 +605,7 @@ AS
 GO
 
 
-
+USE GD2C2019
 IF EXISTS (SELECT name FROM sysobjects WHERE name='modificarProveedor' AND type='p')
 	DROP PROCEDURE S_QUERY.modificarProveedor
 GO
@@ -650,7 +652,7 @@ AS
 GO
 
 /*-----------------------------------------------------------ABM Cliente-----------------------------------------------------------------------*/
-
+USE GD2C2019
 IF EXISTS (SELECT name FROM sysobjects WHERE name='bajaLogicaCliente' AND type='p')
 	DROP PROCEDURE S_QUERY.bajaLogicaCliente
 GO
@@ -676,7 +678,7 @@ GO
 
 
 
-
+USE GD2C2019
 IF EXISTS (SELECT name FROM sysobjects WHERE name='modificarCliente' AND type='p')
 	DROP PROCEDURE S_QUERY.modificarCliente
 GO
@@ -725,7 +727,7 @@ GO
 
 
 /*-----------------------------------------------------------ABM ROL-----------------------------------------------------------------------*/
-
+USE GD2C2019
 IF EXISTS (SELECT name FROM sysobjects WHERE name='insertarRolNuevo' AND type='p')
 	DROP PROCEDURE S_QUERY.insertarRolNuevo
 GO
@@ -740,7 +742,7 @@ AS
 	END
 GO
 
-
+USE GD2C2019
 IF EXISTS (SELECT name FROM sysobjects WHERE name='eliminarRol' AND type='p')
 	DROP PROCEDURE S_QUERY.eliminarRol
 GO
@@ -759,7 +761,7 @@ AS
 GO
 
 
-
+USE GD2C2019
 IF EXISTS (SELECT name FROM sysobjects WHERE name='insertarFuncionalidadPorRol' AND type='p')
 	DROP PROCEDURE S_QUERY.insertarFuncionalidadPorRol
 GO
@@ -771,39 +773,41 @@ AS
 	END
 GO
 
-
-
+USE GD2C2019
+IF EXISTS (SELECT name FROM sysobjects WHERE name='elimininacionRol')
+	DROP TRIGGER S_QUERY.elimininacionRol
+GO
 CREATE TRIGGER S_QUERY.elimininacionRol ON S_QUERY.Rol
 INSTEAD OF UPDATE
 AS
 	BEGIN
 		DECLARE @rol_id INT
+		DECLARE @rol_estado BIT
+		DECLARE @rol_nombre varchar(50)
 		
 		DECLARE C_ROL CURSOR FOR
-		SELECT rol_codigo FROM inserted
+		SELECT ins.rol_codigo, ins.rol_estado, ins.rol_nombre FROM inserted ins
 
 		OPEN C_ROL
-		FETCH NEXT FROM C_ROL INTO @rol_id
+		FETCH NEXT FROM C_ROL INTO @rol_id, @rol_estado, @rol_nombre
 		
 		WHILE @@FETCH_STATUS = 0
 			BEGIN
-				/*BEGIN TRANSACTION*/
-					DELETE S_QUERY.RolXUsuario
-					WHERE rol_codigo = @rol_id
-					
-					UPDATE S_QUERY.Rol
-					SET rol_estado = 0
-					WHERE rol_codigo = @rol_id
-				/*COMMIT*/
-				FETCH NEXT FROM C_ROL INTO @rol_id
+				IF(@rol_estado = 0)
+					BEGIN
+						DELETE S_QUERY.RolXUsuario
+						WHERE rol_codigo = @rol_id
+					END
+				UPDATE S_QUERY.Rol
+				SET rol_estado = @rol_estado, rol_nombre = @rol_nombre
+				WHERE rol_codigo = @rol_id
+		
+				FETCH NEXT FROM C_ROL INTO @rol_id, @rol_estado, @rol_nombre
 			END
 	CLOSE C_ROL
 	DEALLOCATE C_ROL
 	END					
 GO
-
-	
-
 
 
 /*-----------------------------------------------------------Creacion Ofertas-----------------------------------------------------------------------*/
@@ -859,7 +863,7 @@ AS
 GO
 
 
-
+USE GD2C2019
 IF EXISTS (SELECT name FROM sysobjects WHERE name='insertarProveedor' AND type='p')
 	DROP PROCEDURE S_QUERY.insertarProveedor
 GO
@@ -906,7 +910,7 @@ AS
 GO*/
 
 /*-----------------------------------------------------------Carga Credito-----------------------------------------------------------------------*/
-
+USE GD2C2019
 IF EXISTS (SELECT name FROM sysobjects WHERE name='cargarCredito' AND type='p')
 	DROP PROCEDURE S_QUERY.cargarCredito
 GO
@@ -1003,6 +1007,7 @@ AS
 	END
 GO
 
+USE GD2C2019
 IF EXISTS (SELECT name FROM sysobjects WHERE name='obtenerCodigoProveedor' )
 	DROP FUNCTION S_QUERY.obtenerCodigoProveedor
 GO
@@ -1017,6 +1022,7 @@ AS
 GO
 
 /***************************************************FACTURACION PROVEEDOR**************************************************/
+USE GD2C2019
 IF EXISTS (SELECT name FROM sysobjects WHERE name='FACTURACION_PROVEEDOR' )
 	DROP FUNCTION S_QUERY.FACTURACION_PROVEEDOR
 GO
@@ -1030,6 +1036,7 @@ AS
 		cup.fact_numero IS NULL ) 
 GO
 
+USE GD2C2019
 IF EXISTS (SELECT name FROM sysobjects WHERE name='GENERAR_FACTURACION' AND type='p')
 	DROP PROCEDURE S_QUERY.GENERAR_FACTURACION
 GO
@@ -1073,7 +1080,7 @@ GO
 
 
 
-
+USE GD2C2019
 IF EXISTS (SELECT name FROM sysobjects WHERE name='TOP5_PROVEEDORES_MAYOR_DESCUENTO_OFRECIDO_EN_OFERTAS' )
 	DROP FUNCTION S_QUERY.TOP5_PROVEEDORES_MAYOR_DESCUENTO_OFRECIDO_EN_OFERTAS
 GO
@@ -1096,6 +1103,7 @@ RETURN
 GO
 
 /*----------------------------------------------------administracion usuarios------------------------------------------------*/
+USE GD2C2019
 IF EXISTS (SELECT name FROM sysobjects WHERE name='cambiarContraseniaUsuario' AND type='p')
 	DROP PROCEDURE S_QUERY.cambiarContraseniaUsuario
 GO
@@ -1109,7 +1117,7 @@ AS
 GO
 
 /*--------------------------------------------------modificar contrasenia--------------------------------------------------*/
-
+USE GD2C2019
 IF EXISTS (SELECT name FROM sysobjects WHERE name='compararContrasenias' )
 	DROP FUNCTION S_QUERY.compararContrasenias
 GO
@@ -1131,8 +1139,8 @@ AS
 	
 GO
 
-/*--------------------------------------------------modificar contrasenia--------------------------------------------------*/
-
+/*--------------------------------------------------comprar oferta--------------------------------------------------*/
+USE GD2C2019
 IF EXISTS (SELECT name FROM sysobjects WHERE name='comprarOferta' AND type='p')
     DROP PROCEDURE S_QUERY.comprarOferta
 GO
@@ -1140,20 +1148,23 @@ CREATE PROCEDURE S_QUERY.comprarOferta(@cupon_fecha_compra DATE , @cupon_cantida
 AS
     BEGIN
 
-		UPDATE S_QUERY.Oferta
+		UPDATE S_QUERY.Oferta 
 		SET oferta_cantidad_disponible -= @cupon_cantidad_compra
 		WHERE oferta_codigo = @oferta_codigo_compra
 		
         INSERT INTO S_QUERY.Cupon(cupon_fecha, cupon_cantidad, clie_codigo, oferta_codigo)
             VALUES (@cupon_fecha_compra, @cupon_cantidad_compra, @clie_codigo_compra, @oferta_codigo_compra)
 
+		UPDATE S_QUERY.Cliente
+		SET clie_saldo -= (SELECT (@cupon_cantidad_compra * oferta_precio) FROM S_QUERY.Oferta WHERE oferta_codigo = @oferta_codigo_compra)
+
     END
 GO
 
 /*-------------------------------------------------DAR DE BAJA USUARIO------------------------------------------*/
 USE GD2C2019
-IF EXISTS (SELECT name FROM sysobjects WHERE name='comprarOferta' AND type='p')
-    DROP PROCEDURE S_QUERY.comprarOferta
+IF EXISTS (SELECT name FROM sysobjects WHERE name='darDeBajaUsuario')
+    DROP PROCEDURE S_QUERY.darDeBajaUsuario
 GO
 
 CREATE PROCEDURE S_QUERY.darDeBajaUsuario(@usuario_id INT)

@@ -69,7 +69,7 @@ namespace FrbaOfertas2.LoginYSeguridad
                     break;
                 case 1:
                     MessageBox.Show("Te loggeaste correctamente");
-                    MenuInicio menu = new MenuInicio(this.buscarCodigoUsuario(textBox_usuario.Text.ToString()));
+                    MenuInicio menu = new MenuInicio(this.buscarCodigoUsuario(textBox_usuario.Text.ToString()), this);
                     this.Hide();
                     menu.Show();
                     break;
@@ -172,6 +172,12 @@ namespace FrbaOfertas2.LoginYSeguridad
 
 
             return codigo_encontrado;
+        }
+
+        public void limpiate()
+        {
+            textBox_usuario.Clear();
+            textBox_contrasenia.Clear();
         }
 
     }
