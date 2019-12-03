@@ -48,7 +48,8 @@ CREATE TABLE [GD2C2019].[S_QUERY].Usuario(
 	usuario_nombre VARCHAR(20) UNIQUE NOT NULL,  
 	usuario_contraseña VARCHAR(256) NOT NULL,
 	usuario_habilitado BIT NOT NULL,
-	usuario_intentos_posibles SMALLINT DEFAULT 3
+	usuario_intentos_posibles SMALLINT DEFAULT 3,
+	usuario_baja_logica CHAR DEFAULT 'N'
 )
 GO
 
@@ -1149,5 +1150,17 @@ AS
     END
 GO
 
+/*-------------------------------------------------DAR DE BAJA USUARIO------------------------------------------*/
+USE GD2C2019
+IF EXISTS (SELECT name FROM sysobjects WHERE name='comprarOferta' AND type='p')
+    DROP PROCEDURE S_QUERY.comprarOferta
+GO
 
-
+CREATE PROCEDURE S_QUERY.darDeBajaUsuario(@usuario_id INT)
+AS
+	BEGIN
+		UPDATE S_QUERY.Usuario
+		SET usuario_baja_logica = 'S'
+		WHERE usuario_codigo = @usuario_id
+	END
+GO

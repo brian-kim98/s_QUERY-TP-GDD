@@ -69,14 +69,6 @@ namespace FrbaOfertas2.ComprarOferta
 
         private Oferta crearOferta()
         {
-
-            if (dataGridView_ofertas.CurrentCell.RowIndex == null)
-            {
-                MessageBox.Show("Debe Seleccionar una Oferta");
-                return null;
-            }
-            else
-            {
                 int row_index = dataGridView_ofertas.CurrentCell.RowIndex;
                 String row_codigo_Oferta = dataGridView_ofertas.CurrentRow.Cells["oferta_codigo"].Value.ToString();
 
@@ -102,7 +94,7 @@ namespace FrbaOfertas2.ComprarOferta
 
                 return nuevoOferta;
 
-            }
+            
         }
 
         private void button_buscar_Click(object sender, EventArgs e)

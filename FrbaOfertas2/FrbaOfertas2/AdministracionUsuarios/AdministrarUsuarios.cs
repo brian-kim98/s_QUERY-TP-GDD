@@ -88,5 +88,28 @@ namespace FrbaOfertas2.AdministracionUsuarios
         {
             this.Close();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            BaseDeDato bd = new BaseDeDato();
+
+            try
+            {
+                bd.conectar();
+
+                SqlCommand procedure = Clases.BaseDeDato.crearConsulta("S_QUERY.darDeBajaUsuario");
+                procedure.CommandType = CommandType.StoredProcedure;
+                procedure.Parameters.AddWithValue("@usuario_id", SqlDbType.Int).Value = dataGridView_usuarios.CurrentRow.Cells["usuario_codigo"].Value;
+                procedure.ExecuteNonQuery();
+                bd.desconectar();
+
+                MessageBox.Show("Se ha dado de baja con exito");
+            }
+
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
     }
 }

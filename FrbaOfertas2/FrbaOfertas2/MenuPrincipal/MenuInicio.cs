@@ -92,6 +92,11 @@ namespace FrbaOfertas2.MenuPrincipal
                 this.habilitar_boton(button_facturacion);
             }
 
+            if (listaFuncionalidades.Contains("Registro de Usuario"))
+            {
+                this.habilitar_boton(button_registrar_user);
+            }
+
             this.habilitarFuncionalidadExtra();
 
         }
