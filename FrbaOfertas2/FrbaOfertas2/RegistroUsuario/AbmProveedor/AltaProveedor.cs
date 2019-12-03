@@ -36,14 +36,67 @@ namespace FrbaOfertas2.RegistroUsuario.AbmProveedor
         /// 
         private bool todosLosCamposCompletos()
         {
-            return true;
+
+            if (!this.boxVacio(textBox_calle) && !this.boxVacio(textBox_ciudad) && !this.boxVacio(textBox_codigoPostal) && !this.boxVacio(textBox_cuit)
+                && !this.boxVacio(textBox_localidad) && !this.boxVacio(textBox_mail) && !this.boxVacio(textBox_nombreContacto) && !this.boxVacio(textBox_numero)
+                && !this.boxVacio(textBox_razonSocial) && !this.boxVacio(textBox_telefono))
+            {
+               
+                return true;
+            }
+            else
+            {
+                MessageBox.Show("Hay campos Vacios.");
+                return false;
+            }
+
         }
 
         /// ////////////////////////////////////////////////////////////////////////////////////////////////////
 
         private bool verificarCamposNumericos()
         {
+            if (!this.esUnCampoNumerico(textBox_telefono) || !this.esUnCampoNumerico(textBox_numero) || !this.esUnCampoNumerico(textBox_codigoPostal) )
+            {
+                MessageBox.Show("Hay Campos numericos Erroneos");
+                return false;
+            }
+
             return true;
+        }
+
+        private bool esUnCampoNumerico(TextBox casilla_texto)
+        {
+
+            double valorDouble = 0.0;
+
+            float valorFloat = (float)valorDouble;
+
+            bool respuesta = float.TryParse(casilla_texto.Text, out valorFloat);
+
+            if (!respuesta)
+            {
+                casilla_texto.BackColor = SystemColors.ControlDark;
+            }
+
+            return respuesta;
+
+        }
+
+
+        private bool boxVacio(TextBox box)
+        {
+            if (box.Text.ToString() == "")
+            {
+                box.BackColor = Color.OrangeRed;
+                return true;
+            }
+            else
+            {
+                box.BackColor = Color.White;
+            }
+
+            return false;
         }
 
         /// ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -111,37 +164,50 @@ namespace FrbaOfertas2.RegistroUsuario.AbmProveedor
         {
 
             BaseDeDato bd = new BaseDeDato();
-
-            bd.conectar();
-
-            SqlCommand procedure = Clases.BaseDeDato.crearConsulta("S_QUERY.crearDireccion");
-            procedure.CommandType = CommandType.StoredProcedure;
-            procedure.Parameters.AddWithValue("@direc_localidad", SqlDbType.VarChar).Value = textBox_localidad.Text;
-            procedure.Parameters.AddWithValue("@direc_calle", SqlDbType.VarChar).Value = textBox_calle.Text;
-            procedure.Parameters.AddWithValue("@direc_nro", SqlDbType.Int).Value = (int)Convert.ToInt16(textBox_numero.Text);
-
-            if (textBox_numero_piso.Text != "" && textBox_departamento.Text != "")
+            int codigo_direccion = 0;
+            try
             {
+                bd.conectar();
 
-                procedure.Parameters.AddWithValue("@direc_piso", SqlDbType.Int).Value = (int)Convert.ToInt16(textBox_numero_piso.Text);
-                procedure.Parameters.AddWithValue("@direc_depto", SqlDbType.Int).Value = (int)Convert.ToInt16(textBox_departamento.Text);
+                SqlCommand procedure = Clases.BaseDeDato.crearConsulta("S_QUERY.crearDireccion");
+                procedure.CommandType = CommandType.StoredProcedure;
+                procedure.Parameters.AddWithValue("@direc_localidad", SqlDbType.VarChar).Value = textBox_localidad.Text;
+                procedure.Parameters.AddWithValue("@direc_calle", SqlDbType.VarChar).Value = textBox_calle.Text;
+                procedure.Parameters.AddWithValue("@direc_nro", SqlDbType.Int).Value = (int)Convert.ToInt16(textBox_numero.Text);
 
+                if (textBox_numero_piso.Text != "" && textBox_departamento.Text != "")
+                {
+
+                    procedure.Parameters.AddWithValue("@direc_piso", SqlDbType.Int).Value = (int)Convert.ToInt16(textBox_numero_piso.Text);
+                    procedure.Parameters.AddWithValue("@direc_depto", SqlDbType.Int).Value = (int)Convert.ToInt16(textBox_departamento.Text);
+
+                }
+                else
+                {
+                    procedure.Parameters.AddWithValue("@direc_piso", SqlDbType.Int).Value = (object)DBNull.Value;
+                    procedure.Parameters.AddWithValue("@direc_depto", SqlDbType.Int).Value = (object)DBNull.Value;
+                }
+
+                procedure.Parameters.Add("@ReturnVal", SqlDbType.Int);
+                procedure.Parameters["@ReturnVal"].Direction = ParameterDirection.ReturnValue;
+                procedure.ExecuteNonQuery();
+
+                codigo_direccion = Convert.ToInt32(procedure.Parameters["@ReturnVal"].Value);
+
+                bd.desconectar();
+
+                
             }
-            else
+
+            catch (Exception ex)
             {
-                procedure.Parameters.AddWithValue("@direc_piso", SqlDbType.Int).Value = (object)DBNull.Value;
-                procedure.Parameters.AddWithValue("@direc_depto", SqlDbType.Int).Value = (object)DBNull.Value;
+                MessageBox.Show(ex.Message);
+                bd.desconectar();
             }
 
-            procedure.Parameters.Add("@ReturnVal", SqlDbType.Int);
-            procedure.Parameters["@ReturnVal"].Direction = ParameterDirection.ReturnValue;
-            procedure.ExecuteNonQuery();
-
-            int codigo_direccion = Convert.ToInt32(procedure.Parameters["@ReturnVal"].Value);
-
-            bd.desconectar();
 
             return codigo_direccion;
+            
 
         }
 

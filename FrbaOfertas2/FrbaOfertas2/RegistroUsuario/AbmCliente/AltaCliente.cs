@@ -112,10 +112,30 @@ namespace FrbaOfertas2.RegistroUsuario.AbmCliente
 
         private bool verificarCamposNumericos()
         {
-            
-
+            if (!this.esUnCampoNumerico(textBox_codigo_postal) || !this.esUnCampoNumerico(textBox_numero) || !this.esUnCampoNumerico(textBox_dni) || !this.esUnCampoNumerico(textBox_telefono)   )
+            {
+                MessageBox.Show("Hay Campos numericos Erroneos");
+                return false;
+            }
 
             return true;
+        }
+
+        private bool esUnCampoNumerico(TextBox casilla_texto)
+        {
+
+            double valorDouble = 0.0;
+
+            float valorFloat = (float)valorDouble;
+
+            bool respuesta = float.TryParse(casilla_texto.Text, out valorFloat);
+
+            if (!respuesta)
+            {
+                casilla_texto.BackColor = SystemColors.ControlDark;
+            }
+
+            return respuesta;
 
         }
 
@@ -172,36 +192,48 @@ namespace FrbaOfertas2.RegistroUsuario.AbmCliente
         {
             BaseDeDato bd = new BaseDeDato();
 
-            bd.conectar();
+            int codigo_direccion = 0;
 
-            SqlCommand procedure = Clases.BaseDeDato.crearConsulta("S_QUERY.crearDireccion");
-            procedure.CommandType = CommandType.StoredProcedure;
-            procedure.Parameters.AddWithValue("@direc_localidad", SqlDbType.VarChar).Value = textBox_localidad.Text;
-            procedure.Parameters.AddWithValue("@direc_calle", SqlDbType.VarChar).Value = textBox_calle.Text;
-            procedure.Parameters.AddWithValue("@direc_nro", SqlDbType.Int).Value = (int)Convert.ToInt16(textBox_numero.Text);
-
-            if (textBox_numero_piso.Text != "" && textBox_departamento.Text != "")
+            try
             {
+                bd.conectar();
 
-                procedure.Parameters.AddWithValue("@direc_piso", SqlDbType.Int).Value = (int)Convert.ToInt16(textBox_numero_piso.Text);
-                procedure.Parameters.AddWithValue("@direc_depto", SqlDbType.Int).Value = (int)Convert.ToInt16(textBox_departamento.Text);
+                SqlCommand procedure = Clases.BaseDeDato.crearConsulta("S_QUERY.crearDireccion");
+                procedure.CommandType = CommandType.StoredProcedure;
+                procedure.Parameters.AddWithValue("@direc_localidad", SqlDbType.VarChar).Value = textBox_localidad.Text;
+                procedure.Parameters.AddWithValue("@direc_calle", SqlDbType.VarChar).Value = textBox_calle.Text;
+                procedure.Parameters.AddWithValue("@direc_nro", SqlDbType.Int).Value = (int)Convert.ToInt16(textBox_numero.Text);
 
+                if (textBox_numero_piso.Text != "" && textBox_departamento.Text != "")
+                {
+
+                    procedure.Parameters.AddWithValue("@direc_piso", SqlDbType.Int).Value = (int)Convert.ToInt16(textBox_numero_piso.Text);
+                    procedure.Parameters.AddWithValue("@direc_depto", SqlDbType.Int).Value = (int)Convert.ToInt16(textBox_departamento.Text);
+
+                }
+                else
+                {
+                    procedure.Parameters.AddWithValue("@direc_piso", SqlDbType.Int).Value = (object)DBNull.Value;
+                    procedure.Parameters.AddWithValue("@direc_depto", SqlDbType.Int).Value = (object)DBNull.Value;
+                }
+
+                procedure.Parameters.Add("@ReturnVal", SqlDbType.Int);
+                procedure.Parameters["@ReturnVal"].Direction = ParameterDirection.ReturnValue;
+                procedure.ExecuteNonQuery();
+
+                codigo_direccion = Convert.ToInt32(procedure.Parameters["@ReturnVal"].Value);
+
+                bd.desconectar();
+
+                return codigo_direccion;
+
+            }catch(Exception ex){
+                MessageBox.Show(ex.Message);
             }
-            else
-            {
-                procedure.Parameters.AddWithValue("@direc_piso", SqlDbType.Int).Value = (object)DBNull.Value;
-                procedure.Parameters.AddWithValue("@direc_depto", SqlDbType.Int).Value = (object)DBNull.Value;
-            }
-
-            procedure.Parameters.Add("@ReturnVal", SqlDbType.Int);
-            procedure.Parameters["@ReturnVal"].Direction = ParameterDirection.ReturnValue;
-            procedure.ExecuteNonQuery();
-
-            int codigo_direccion = Convert.ToInt32(procedure.Parameters["@ReturnVal"].Value);
-
-            bd.desconectar();
 
             return codigo_direccion;
+
+
         }
         
         /// //////////////////////////////////////////////////////////////////////////////////////////////////////

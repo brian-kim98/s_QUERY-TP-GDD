@@ -173,7 +173,7 @@ namespace FrbaOfertas2
         {
 
             return textBox_username.Text != "" &&
-                textBox_username.Text != "" &&
+                textBox_password.Text != "" &&
                 comboBox_rol_asignado.SelectedIndex > -1;
 
         }

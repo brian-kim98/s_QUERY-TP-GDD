@@ -165,7 +165,7 @@ namespace FrbaOfertas2.CrearOferta
         {
             int valorNumerico = 0;
             bool respuesta =  int.TryParse(numeroString ,out valorNumerico);
-            MessageBox.Show("entero");
+         
             return respuesta;
         }
 
@@ -177,7 +177,6 @@ namespace FrbaOfertas2.CrearOferta
 
             bool respuesta=  float.TryParse(numeroString, out valorFloat);
 
-            MessageBox.Show("float");
             return respuesta;
         }
 

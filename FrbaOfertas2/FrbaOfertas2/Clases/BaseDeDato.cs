@@ -14,7 +14,7 @@ namespace FrbaOfertas2.Clases
         #region Atributos
         SqlCommand sp;
 
-        public static string configuracionConexionSql = @"Data Source=.\SQLSERVER2012;Initial Catalog = GD2C2019;User ID=sa;Password=gestiondedatos";
+        public static string configuracionConexionSql = @"Data Source=localhost\SQLSERVER2012;Persist Security Info=True;User ID=gdCupon2019;Password=gd2019";
         public static SqlConnection conexion = new SqlConnection(configuracionConexionSql);
 
         public String getConfig()

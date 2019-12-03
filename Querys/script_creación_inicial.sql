@@ -364,7 +364,7 @@ BEGIN TRANSACTION
 		INSERT INTO S_QUERY.Oferta(oferta_codigo_viejo, oferta_descripcion, oferta_fecha, oferta_fecha_vencimiento, oferta_precio,
 									oferta_precio_lista, oferta_cantidad_disponible, oferta_maximo_compra, prov_codigo)
 			SELECT DISTINCT Oferta_Codigo, Oferta_Descripcion, Oferta_Fecha, Oferta_Fecha_Venc, Oferta_Precio,
-							Oferta_Precio_Ficticio, 0, Oferta_Cantidad,
+							Oferta_Precio_Ficticio, Oferta_Cantidad /*habiamos puesto 0 antes*/, Oferta_Cantidad,
 							(SELECT prov_codigo FROM S_QUERY.Proveedor
 							 WHERE prov_cuit = Provee_CUIT)
 			FROM gd_esquema.Maestra
@@ -372,7 +372,7 @@ BEGIN TRANSACTION
 			AND Factura_Nro IS NULL
 			AND Oferta_Codigo IS NOT NULL
 			ORDER BY Oferta_Codigo ASC
-
+			/*oferta cantidad maxima y oferta cantidad (stock) las pusimos como iguales*/
 
 /*-------------------------------------------Facturas-------------------------------------------------------*/
 		INSERT INTO S_QUERY.Factura(fact_numero, fact_fecha, prov_codigo, fact_total)
@@ -1043,21 +1043,33 @@ GO
 CREATE PROCEDURE S_QUERY.GENERAR_FACTURACION(@FECHA DATETIME, @INICIO DATETIME, @FIN DATETIME, @PROVEEDOR INT)
 AS
 	BEGIN
-		IF NOT EXISTS(SELECT 1 FROM Factura WHERE fact_fecha = @FECHA and fact_periodo_inicio = @INICIO and fact_periodo_fin = @FIN and prov_codigo = @PROVEEDOR)
-			BEGIN
-				DECLARE @TOTAL FLOAT
-				SET @TOTAL = 
-					(
-						SELECT SUM(ofer.oferta_precio * cup.cupon_cantidad) FROM S_QUERY.Cupon cup
-						JOIN S_QUERY.Oferta ofer ON cup.oferta_codigo = ofer.oferta_codigo
-						WHERE (cup.cupon_fecha BETWEEN @INICIO AND @FIN) AND ofer.prov_codigo = @PROVEEDOR AND
-						cup.fact_numero IS NULL
-					)	
-			END
-	
+		
+		DECLARE @cupones_facturado TABLE( cupon_codigo_facturado INT)
+		DECLARE @fact_nueva_numero INT
 
-	INSERT INTO S_QUERY.Factura(fact_numero, fact_fecha, fact_periodo_inicio, fact_periodo_fin, fact_total, prov_codigo)
-	VALUES((SELECT TOP 1 fact_numero FROM S_QUERY.Factura ORDER BY fact_numero DESC) + 1,@FECHA, @INICIO, @FIN, @TOTAL, @PROVEEDOR)
+		DECLARE @TOTAL FLOAT
+		SET @TOTAL = 
+			ISNULL((
+				SELECT SUM(ofer.oferta_precio * cup.cupon_cantidad) FROM S_QUERY.Cupon cup
+				JOIN S_QUERY.Oferta ofer ON cup.oferta_codigo = ofer.oferta_codigo
+				WHERE (cup.cupon_fecha BETWEEN @INICIO AND @FIN) AND ofer.prov_codigo = @PROVEEDOR AND
+				cup.fact_numero IS NULL
+			),0)
+				
+		INSERT INTO @cupones_facturado(cupon_codigo_facturado)
+			SELECT cup.cupon_codigo FROM S_QUERY.Cupon cup
+			JOIN S_QUERY.Oferta ofer ON cup.oferta_codigo = ofer.oferta_codigo
+			WHERE (cup.cupon_fecha BETWEEN @INICIO AND @FIN) AND ofer.prov_codigo = @PROVEEDOR AND
+			cup.fact_numero IS NULL
+		
+		SET @fact_nueva_numero = (SELECT TOP 1 fact_numero FROM S_QUERY.Factura ORDER BY fact_numero DESC) + 1
+			
+		INSERT INTO S_QUERY.Factura(fact_numero, fact_fecha, fact_periodo_inicio, fact_periodo_fin, fact_total, prov_codigo)
+		VALUES(@fact_nueva_numero,@FECHA, @INICIO, @FIN, @TOTAL, @PROVEEDOR)
+
+		UPDATE S_QUERY.Cupon
+		SET fact_numero = @fact_nueva_numero
+		WHERE EXISTS (SELECT 1 FROM @cupones_facturado WHERE cupon_codigo_facturado = cupon_codigo)
  END
 GO
 
@@ -1148,6 +1160,8 @@ CREATE PROCEDURE S_QUERY.comprarOferta(@cupon_fecha_compra DATE , @cupon_cantida
 AS
     BEGIN
 
+		DECLARE @Codigo_comprado INT
+
 		UPDATE S_QUERY.Oferta 
 		SET oferta_cantidad_disponible -= @cupon_cantidad_compra
 		WHERE oferta_codigo = @oferta_codigo_compra
@@ -1155,8 +1169,12 @@ AS
         INSERT INTO S_QUERY.Cupon(cupon_fecha, cupon_cantidad, clie_codigo, oferta_codigo)
             VALUES (@cupon_fecha_compra, @cupon_cantidad_compra, @clie_codigo_compra, @oferta_codigo_compra)
 
+		SELECT @Codigo_comprado = SCOPE_IDENTITY()
+
 		UPDATE S_QUERY.Cliente
 		SET clie_saldo -= (SELECT (@cupon_cantidad_compra * oferta_precio) FROM S_QUERY.Oferta WHERE oferta_codigo = @oferta_codigo_compra)
+
+		RETURN @Codigo_comprado
 
     END
 GO

@@ -62,10 +62,16 @@ namespace FrbaOfertas2.ComprarOferta
                 procedure.Parameters.AddWithValue("@clie_codigo_compra", SqlDbType.Int).Value = int.Parse(clienteRegistrado.id);
                 procedure.Parameters.AddWithValue("@oferta_codigo_compra", SqlDbType.Int).Value = int.Parse(ofertaSelected.oferta_codigo);
 
-
+                procedure.Parameters.Add("@ReturnVal", SqlDbType.Int);
+                procedure.Parameters["@ReturnVal"].Direction = ParameterDirection.ReturnValue;
                 procedure.ExecuteNonQuery();
 
+                int codigo_cupon = Convert.ToInt32(procedure.Parameters["@ReturnVal"].Value);
+
+
                 bd.desconectar();
+
+                MessageBox.Show("Compraste el Cupón con codigo: " + codigo_cupon.ToString());
 
                 this.Close();
 

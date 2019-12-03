@@ -21,34 +21,6 @@ D:\UTN\Gestión de Datos\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\Frba
 D:\UTN\Gestión de Datos\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.pdb
 D:\UTN\Gestión de Datos\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.Facturar.ListadoFacturacionGenerada.resources
 D:\UTN\Gestión de Datos\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.ListadoEstadistico.Listados.resources
-C:\Users\Leon\Documents\Facultad\Tercer Año\Gestion de Datos\Repositorio_TP\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\bin\Debug\FrbaOfertas2.exe.config
-C:\Users\Leon\Documents\Facultad\Tercer Año\Gestion de Datos\Repositorio_TP\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.exe
-C:\Users\Leon\Documents\Facultad\Tercer Año\Gestion de Datos\Repositorio_TP\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.pdb
-C:\Users\Leon\Documents\Facultad\Tercer Año\Gestion de Datos\Repositorio_TP\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\bin\Debug\FrbaOfertas2.exe
-C:\Users\Leon\Documents\Facultad\Tercer Año\Gestion de Datos\Repositorio_TP\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\bin\Debug\FrbaOfertas2.pdb
-C:\Users\Leon\Documents\Facultad\Tercer Año\Gestion de Datos\Repositorio_TP\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.csprojResolveAssemblyReference.cache
-C:\Users\Leon\Documents\Facultad\Tercer Año\Gestion de Datos\Repositorio_TP\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.AltaRol_Form.resources
-C:\Users\Leon\Documents\Facultad\Tercer Año\Gestion de Datos\Repositorio_TP\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.AbmRol.ListadoRoles.resources
-C:\Users\Leon\Documents\Facultad\Tercer Año\Gestion de Datos\Repositorio_TP\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.AbmRol.ModificarRol.resources
-C:\Users\Leon\Documents\Facultad\Tercer Año\Gestion de Datos\Repositorio_TP\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.CargaCredito.CargarCredito.resources
-C:\Users\Leon\Documents\Facultad\Tercer Año\Gestion de Datos\Repositorio_TP\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.ComprarOferta.CompraOferta.resources
-C:\Users\Leon\Documents\Facultad\Tercer Año\Gestion de Datos\Repositorio_TP\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.CrearOferta.CreacionOferta.resources
-C:\Users\Leon\Documents\Facultad\Tercer Año\Gestion de Datos\Repositorio_TP\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.EntregaOferta.EntregarOferta.resources
-C:\Users\Leon\Documents\Facultad\Tercer Año\Gestion de Datos\Repositorio_TP\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.Facturar.FacturacionAProveedor.resources
-C:\Users\Leon\Documents\Facultad\Tercer Año\Gestion de Datos\Repositorio_TP\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.Facturar.ListadoFacturacionGenerada.resources
-C:\Users\Leon\Documents\Facultad\Tercer Año\Gestion de Datos\Repositorio_TP\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.ListadoEstadistico.Listados.resources
-C:\Users\Leon\Documents\Facultad\Tercer Año\Gestion de Datos\Repositorio_TP\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.LoginYSeguridad.Login.resources
-C:\Users\Leon\Documents\Facultad\Tercer Año\Gestion de Datos\Repositorio_TP\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.MenuPrincipal.MenuInicio.resources
-C:\Users\Leon\Documents\Facultad\Tercer Año\Gestion de Datos\Repositorio_TP\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.Properties.Resources.resources
-C:\Users\Leon\Documents\Facultad\Tercer Año\Gestion de Datos\Repositorio_TP\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.RegistroUsuario.AbmCliente.AltaCliente.resources
-C:\Users\Leon\Documents\Facultad\Tercer Año\Gestion de Datos\Repositorio_TP\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.RegistroUsuario.AbmProveedor.AltaProveedor.resources
-C:\Users\Leon\Documents\Facultad\Tercer Año\Gestion de Datos\Repositorio_TP\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.RegistrarUsuario.resources
-C:\Users\Leon\Documents\Facultad\Tercer Año\Gestion de Datos\Repositorio_TP\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.csproj.GenerateResource.Cache
-C:\Users\Leon\Documents\Facultad\Tercer Año\Gestion de Datos\Repositorio_TP\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.RegistroUsuario.AbmCliente.ListadoClientes.resources
-C:\Users\Leon\Documents\Facultad\Tercer Año\Gestion de Datos\Repositorio_TP\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.RegistroUsuario.AbmCliente.ModificarCliente.resources
-C:\Users\Leon\Documents\Facultad\Tercer Año\Gestion de Datos\Repositorio_TP\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.RegistroUsuario.AbmProveedor.ListadoProveedores.resources
-C:\Users\Leon\Documents\Facultad\Tercer Año\Gestion de Datos\Repositorio_TP\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.RegistroUsuario.AbmProveedor.ModificarProveedor.resources
-C:\Users\Leon\Documents\Facultad\Tercer Año\Gestion de Datos\Repositorio_TP\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.RegistroUsuario.ListadoSeleccionUsuario.resources
 D:\UTN\Gestión de Datos\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.RegistroUsuario.AbmCliente.ListadoClientes.resources
 D:\UTN\Gestión de Datos\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.RegistroUsuario.AbmCliente.ModificarCliente.resources
 D:\UTN\Gestión de Datos\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.RegistroUsuario.AbmProveedor.ListadoProveedores.resources
@@ -56,5 +28,3 @@ D:\UTN\Gestión de Datos\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\Frba
 D:\UTN\Gestión de Datos\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.RegistroUsuario.ListadoSeleccionUsuario.resources
 D:\UTN\Gestión de Datos\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.AdministracionUsuarios.AdministrarUsuarios.resources
 D:\UTN\Gestión de Datos\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.AdministracionUsuarios.ModificarContrasenia.resources
-C:\Users\Leon\Documents\Facultad\Tercer Año\Gestion de Datos\Repositorio_TP\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.AdministracionUsuarios.AdministrarUsuarios.resources
-C:\Users\Leon\Documents\Facultad\Tercer Año\Gestion de Datos\Repositorio_TP\s_QUERY-TP-GDD\FrbaOfertas2\FrbaOfertas2\obj\Debug\FrbaOfertas2.AdministracionUsuarios.ModificarContrasenia.resources
